@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "make-movies.vpn.fullname" . }}
+  name: vpn
   labels:
-    {{- include "make-movies.labels" . | nindent 4 }}
+    app: vpn
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "make-movies.vpn.selectorLabels" . | nindent 6 }}
+      app: vpn
   template:
     metadata:
       labels:
-        {{- include "make-movies.vpn.selectorLabels" . | nindent 8 }}
+        app: vpn
     spec:
       volumes:
         - name: dev-net-tun
@@ -21,11 +21,11 @@ spec:
             type: CharDevice
         - name: openvpn-conf
           secret:
-            secretName: {{ .Values.vpn.secret }}
+            secretName: openvpn
       containers:
-        - name: "{{ .Chart.Name }}-vpn"
-          image: "{{ .Values.vpn.image.repository }}:{{ .Values.vpn.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.vpn.image.pullPolicy }}
+        - name: vpn
+          image: "ghcr.io/axle-h/make-movies-openvpn:latest"
+          imagePullPolicy: Always
           volumeMounts:
             - name: dev-net-tun
               mountPath: /dev/net/tun
@@ -39,7 +39,6 @@ spec:
           ports:
             - name: socks
               containerPort: 1080
-              protocol: TCP
           livenessProbe:
             exec:
               command:

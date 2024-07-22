@@ -14,9 +14,9 @@ Certified family proof (my family), movie library management on top of [Jellyfin
 
 ## VPN
 
-This app works best with a vpn. You can proxy one on [k3s](https://k3s.io) via [this helm chart](helm/README.md).
+[OpenVPN + Dante VPN proxy](openvpn/README.md)
 
-## Nginx
+## Reverse Proxy
 
 The API + UI work well through a path routed reverse proxy. Example nginx.conf:
 
@@ -34,3 +34,7 @@ server {
     }
 }
 ```
+
+## Kubernetes
+
+Can be deployed fairly easily onto Kubernetes for e.g. [as plain resources](k8s/README.md).

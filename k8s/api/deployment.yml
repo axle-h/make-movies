@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    spec:
+      volumes:
+        - name: library
+          hostPath:
+            path: /mnt/storage/movies
+            type: DirectoryOrCreate
+        - name: downloads
+          hostPath:
+            path: /mnt/storage/downloads
+            type: DirectoryOrCreate
+        - name: data
+          hostPath:
+            path: /var/make-movies
+            type: DirectoryOrCreate
+      restartPolicy: OnFailure
+      containers:
+        - name: api
+          image: ghcr.io/axle-h/make-movies-api:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: library
+              mountPath: /library
+            - name: downloads
+              mountPath: /downloads
+            - name: data
+              mountPath: /data
+          envFrom:
+            - configMapRef:
+                name: make-movies
+          env:
+            - name: Meta__ImagePath
+              value: "/data/images"
+            - name: Library__MovieLibraryPath
+              value: /library
+            - name: Library__DownloadsPath
+              value: /downloads
+            - name: Db__Path
+              value: /data
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: Scrape__ProxyUrl
+              value: "socks5://vpn:1080"
+            - name: Download__Transmission__Url
+              value: http://$(HOST_IP):9091/transmission/
+            - name: Library__Jellyfin__Url
+              value: http://$(HOST_IP):8096
+          ports:
+            - name: http
+              containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http

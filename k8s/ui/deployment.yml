@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: ui
+          image: ghcr.io/axle-h/make-movies-ui:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http

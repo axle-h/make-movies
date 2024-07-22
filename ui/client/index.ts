@@ -1,8 +1,6 @@
 import {createMakeMoviesClient} from "./makeMoviesClient";
 import {FetchRequestAdapter, HttpClient} from "@microsoft/kiota-http-fetchlibrary";
-import {
-    AnonymousAuthenticationProvider
-} from "@microsoft/kiota-abstractions/dist/cjs/src/authentication/anonymousAuthenticationProvider";
+import { AnonymousAuthenticationProvider } from "@microsoft/kiota-abstractions";
 import {MovieRequestBuilderGetQueryParameters} from "./api/v1/movie";
 import {ScrapeRequestBuilderGetQueryParameters} from "./api/v1/scrape";
 import type {DownloadPaginatedData, Movie, MovieSummaryPaginatedData, ScrapePaginatedData} from "./models";

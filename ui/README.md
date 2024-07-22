@@ -14,6 +14,13 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 
+## Docker
+
+```shell
+docker build -t make-movies-ui .
+docker run -it --rm -p 3000:3000 make-movies-ui
+```
+
 ## Deploy
 
 For simplicity, I run this on Ubuntu via systemd.

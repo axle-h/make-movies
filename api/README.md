@@ -16,9 +16,43 @@ dotnet test
 
 ## Run
 
-Requires [.NET 8+](https://dotnet.microsoft.com/en-us/download)
+Assuming you have:
+*  Jellyfin:
+   * Running locally on port 8096 (the default)
+   * With a movie library in location `/mnt/storage/movies`
+*  Transmission:
+   * Running locally on port 9091 (the default)
+   * Configured to download into `/mnt/storage/downloads`
+   * Configured to run a script that will delete a torrent once completed e.g.
+     ```bash
+     #!/bin/bash
+
+     LOGFILE="/mnt/storage/downloads/transmission-complete.log"
+
+     tee -a $LOGFILE <<EOF
+     _____NEW TORRENT_____
+     Version: $TR_APP_VERSION
+     Time: $TR_TIME_LOCALTIME
+     Directory: $TR_TORRENT_DIR
+     Hash: $TR_TORRENT_HASH
+     ID: $TR_TORRENT_ID
+     Name: $TR_TORRENT_NAME
+     User: `whoami`
+     EOF
+
+     transmission-remote -t $TR_TORRENT_ID -r | tee -a $LOGFILE
+     ```
+
+### Dotnet
+
+Requires [.NET 8+](https://dotnet.microsoft.com/en-us/download).
 
 ```bash
+# Create all required directories
+mkdir -p /var/make-movies/images
+mkdir -p /mnt/storage/movies
+mkdir -p /mnt/storage/downloads
+
 # Optional socks proxy for connections to torrent sites (recommended)
 export Scrape__ProxyUrl=socks5://localhost:1080
 
@@ -50,7 +84,26 @@ export Db__Path=/var/make-movies
 dotnet run --project MakeMovies.Api
 ```
 
+### Docker
+
+```shell
+docker build -t make-movies-api .
+docker run -it --rm -p 8080:8080 \
+    --add-host=host.docker.internal:host-gateway \
+    -v library:/library:/mnt/storage/movies \
+    -v downloads:/downloads:/mnt/storage/downloads \
+    -v data:/var/make-movies:/data \
+    -e Meta__Tmdb__AccessToken=my-tmdb-access-token \
+    -e Meta__Omdb__ApiKey=my-omdb-access-token \
+    -e Library__Jellyfin__ApiKey=my-jellyfin-api-key \
+    -e Library__Jellyfin__Url=http://host.docker.internal:8096 \
+    -e Download__Transmission__Url=http://host.docker.internal:9091/transmission/ \
+    make-movies-api
+```
+
 ## Deploy
+
+### Systemd
 
 For simplicity, I run this on Ubuntu via systemd.
 
@@ -101,3 +154,7 @@ For simplicity, I run this on Ubuntu via systemd.
     sudo systemctl start make-movies-api
     ```
 6. Check health with `curl http://localhost:5000/health/ready`
+
+### k3s
+
+See [k3s/README.md](../k8s/README.md)
