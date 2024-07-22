@@ -160,8 +160,8 @@ public class Db : BackgroundService
             var collectionDbPath = fileSystem.Path.Join(dbPath, _filename);
             logger.LogDebug("Dumping json db to disc {File}", collectionDbPath);
         
-            var tmpFile = fileSystem.Path.GetTempFileName();
-            var backupFile = fileSystem.Path.GetTempFileName();
+            var tmpFile = fileSystem.Path.ChangeExtension(collectionDbPath, ".tmp");
+            var backupFile = fileSystem.Path.ChangeExtension(collectionDbPath, ".bak");
             await _lock.WaitAsync(cancellationToken);
             try
             {

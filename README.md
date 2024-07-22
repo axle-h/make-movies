@@ -22,16 +22,19 @@ The API + UI work well through a path routed reverse proxy. Example nginx.conf:
 
 ```
 server {
-	listen 8080;
-	listen [::]:8080;
+  listen 8080;
+  listen [::]:8080;
 
-	location / {
-        proxy_pass http://localhost:3000;
-	}
+  location / {
+    proxy_pass http://localhost:3000;
+  }
 
-	location ~ ^/(api|movie-images)/ /api {
-        proxy_pass http://localhost:5000;
-    }
+  location /api {
+    proxy_pass http://localhost:5000;
+  }
+  location /movie-images {
+    proxy_pass http://localhost:5000;
+  }
 }
 ```
 
