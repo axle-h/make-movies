@@ -11,4 +11,4 @@ spec:
       targetPort: http
       name: http
   selector:
-    name: api
+    app: api

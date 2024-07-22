@@ -35,3 +35,5 @@ msbuild.err
 msbuild.wrn
 
 .idea/
+
+k8s/**/secret.yml

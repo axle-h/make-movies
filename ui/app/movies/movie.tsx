@@ -14,10 +14,12 @@ import {CheckCircleIcon, StarIcon} from "@chakra-ui/icons";
 import {ResponsiveValue} from "@chakra-ui/styled-system";
 import {Property} from "csstype";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? ""
+
 export function MovieImage({ movie, maxW }: { movie: Movie, maxW: string | number | ResponsiveValue<string | number> }) {
     return (<Image
         maxW={maxW}
-        src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/movie/${movie.id}/image`}
+        src={`${BASE_URL}/api/v1/movie/${movie.id}/image`}
         alt={movie.title ?? ''}
         style={{ objectFit: 'cover' }}
     />)

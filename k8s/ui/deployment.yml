@@ -8,8 +8,10 @@ spec:
     matchLabels:
       app: ui
   template:
+    metadata:
+      labels:
+        app: ui
     spec:
-      restartPolicy: OnFailure
       containers:
         - name: ui
           image: ghcr.io/axle-h/make-movies-ui:latest
