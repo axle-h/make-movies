@@ -3,10 +3,11 @@ kind: Ingress
 metadata:
   name: make-movies
   labels:
-    ap: make-movies
+    app: make-movies
 spec:
   rules:
-    - http:
+    - host: "movies.ax-h.com"
+      http:
         paths:
           - path: "/api"
             pathType: Prefix
