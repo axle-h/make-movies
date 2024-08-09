@@ -9,5 +9,9 @@ export async function proxyHandler(request: Request): Promise<Response> {
     const headers = new Headers(requestHeaders)
     headers.delete('cookie')
     headers.delete('host')
-    return await fetch(url.toString(), { ...proxyRequest, headers, redirect: 'manual' })
+
+    const proxyInit: RequestInit = { ...proxyRequest, headers, redirect: 'manual' }
+    console.log(url.toString(), proxyInit)
+
+    return await fetch(url.toString(), proxyInit)
 }
