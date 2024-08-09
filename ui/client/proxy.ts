@@ -5,13 +5,16 @@ export async function proxyHandler(request: Request): Promise<Response> {
 
     url.protocol = apiUrl.protocol
     url.host = apiUrl.host
+    url.port = apiUrl.port
 
     const headers = new Headers(requestHeaders)
     headers.delete('cookie')
     headers.delete('host')
 
     const proxyInit: RequestInit = { ...proxyRequest, headers, redirect: 'manual' }
-    console.log(url.toString(), proxyInit)
+    if (process.env.API_REQUEST_LOGGING === 'true') {
+        console.log(url.toString(), proxyInit)
+    }
 
     return await fetch(url.toString(), proxyInit)
 }
