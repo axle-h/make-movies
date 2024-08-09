@@ -1,6 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: make-money-redirect-http-https@kubernetescrd
   name: make-movies
   labels:
     app: make-movies
@@ -9,20 +13,6 @@ spec:
     - host: "movies.ax-h.com"
       http:
         paths:
-          - path: "/api"
-            pathType: Prefix
-            backend:
-              service:
-                name: api
-                port:
-                  name : http
-          - path: "/movie-images"
-            pathType: Prefix
-            backend:
-              service:
-                name: api
-                port:
-                  name : http
           - path: "/"
             pathType: Prefix
             backend:
@@ -30,3 +20,7 @@ spec:
                 name: ui
                 port:
                   name : http
+  tls:
+    - hosts:
+        - movies.ax-h.com
+      secretName: make-movies-axh-com-tls

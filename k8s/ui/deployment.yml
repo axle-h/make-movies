@@ -16,6 +16,12 @@ spec:
         - name: ui
           image: ghcr.io/axle-h/make-movies-ui:latest
           imagePullPolicy: Always
+          env:
+            - name: API_URL
+              value: "http://api/"
+          envFrom:
+            - configMapRef:
+                name: make-movies-ui
           ports:
             - name: http
               containerPort: 3000

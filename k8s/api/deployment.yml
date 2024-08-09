@@ -38,7 +38,7 @@ spec:
               mountPath: /data
           envFrom:
             - configMapRef:
-                name: make-movies
+                name: make-movies-api
           env:
             - name: Meta__ImagePath
               value: "/data/images"
