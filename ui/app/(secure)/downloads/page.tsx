@@ -12,11 +12,11 @@ import {
 } from "@chakra-ui/react";
 import {useState} from "react";
 import {useClient} from "@/client";
-import {CheckIcon, RepeatIcon} from "@chakra-ui/icons";
-import {Error, Loading, NoData} from "@/app/alert";
-import {Pagination} from "@/app/pagination";
+import {RepeatIcon} from "@chakra-ui/icons";
+import {Error, Loading, NoData} from "@/components/alert";
+import {Pagination} from "@/components/pagination";
 import {Download, DownloadPaginatedData} from "@/client/models";
-import { MovieImage} from "@/app/movies/movie";
+import { MovieImage} from "@/components/movies/movie";
 
 interface ListPagination {
     page: number,

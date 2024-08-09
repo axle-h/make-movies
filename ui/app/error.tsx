@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import {Alert, AlertDescription, AlertIcon, AlertTitle, Button, Container} from "@chakra-ui/react";
 import {Link} from "@chakra-ui/next-js";
 

@@ -2,30 +2,23 @@
 
 import {
     Card,
-    Badge,
     Container,
-    CardBody,
-    Text,
-    Stack,
     Heading,
     Input,
-    Image,
-    Flex,
-    Box,
     InputGroup,
     InputLeftElement,
     LinkBox,
     LinkOverlay
 } from '@chakra-ui/react'
-import {SearchIcon, StarIcon} from '@chakra-ui/icons'
+import {SearchIcon} from '@chakra-ui/icons'
 import { useClient } from '@/client'
 import {Link} from "@chakra-ui/next-js";
 import {useEffect, useState} from "react";
-import useDebounce from "@/app/debounce";
+import useDebounce from "@/components/debounce";
 import { useRouter } from 'next/navigation'
-import {Pagination} from "@/app/pagination";
-import {Error, Loading, NoData} from "@/app/alert";
-import {MovieCardBody, MovieImage} from "@/app/movies/movie";
+import {Pagination} from "@/components/pagination";
+import {Error, Loading, NoData} from "@/components/alert";
+import {MovieCardBody, MovieImage} from "@/components/movies/movie";
 
 function MovieList({ searchTerm, page, updatePage }: { searchTerm: string, page: number, updatePage: (page: number) => void }) {
     const limit = 10;

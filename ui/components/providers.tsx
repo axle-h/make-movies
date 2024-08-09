@@ -15,7 +15,11 @@ const {
   Input,
   Form,
   Tooltip,
-  Progress
+  Progress,
+  Modal,
+  Avatar,
+  Link,
+  CloseButton,
 } = chakraTheme.components
 
 import {theme as chakraTheme} from "@chakra-ui/theme";
@@ -48,7 +52,11 @@ const theme = extendBaseTheme({
     Input,
     Form,
     Tooltip,
-    Progress
+    Progress,
+    Modal,
+    Avatar,
+    Link,
+    CloseButton
   },
 });
 

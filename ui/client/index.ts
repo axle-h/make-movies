@@ -13,7 +13,6 @@ const requestAdapter = new FetchRequestAdapter(
     undefined,
     new HttpClient((req, init) => fetch(req, init))
 )
-requestAdapter.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? ""
 export const apiClient = createMakeMoviesClient(requestAdapter)
 
 interface GetMovieParameters {

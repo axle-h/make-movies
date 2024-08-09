@@ -11,9 +11,9 @@ import {
 import {ArrowBackIcon, DownloadIcon, LockIcon} from "@chakra-ui/icons";
 import { useRouter } from 'next/navigation'
 import {apiClient, useClient} from '@/client'
-import {Error, Loading, NotFound} from "@/app/alert";
+import {Error, Loading, NotFound} from "@/components/alert";
 import {Movie} from "@/client/models";
-import {MovieCardBody, MovieImage} from "@/app/movies/movie";
+import {MovieCardBody, MovieImage} from "@/components/movies/movie";
 
 function MovieCard({ movie }: { movie: Movie }) {
     return (

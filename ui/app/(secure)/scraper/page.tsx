@@ -7,7 +7,6 @@ import {
     Heading,
     Spinner,
     Table,
-    Text,
     Thead,
     Tbody,
     Tr,
@@ -19,10 +18,10 @@ import {
 import {useEffect, useState} from "react";
 import {apiClient, useClient} from '@/client'
 import {ScrapePaginatedData} from "@/client/models";
-import {Pagination} from "@/app/pagination";
-import {BoolIcon} from "@/app/icons";
+import {Pagination} from "@/components/pagination";
+import {BoolIcon} from "@/components/icons";
 import {AddIcon, RepeatIcon} from "@chakra-ui/icons";
-import {NoData, Error, Loading} from "@/app/alert";
+import {NoData, Error, Loading} from "@/components/alert";
 
 interface ListPagination {
     page: number,

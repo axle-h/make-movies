@@ -9,16 +9,6 @@ const nextConfig = {
                 permanent: false,
             },
         ]
-    },
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'http',
-                hostname: 'localhost',
-                port: '5266',
-                pathname: '/api/v1/image/**',
-            },
-        ],
     }
 };
 

@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Providers } from './providers'
-import { fonts } from './fonts'
-import { Nav } from './nav'
-
-const inter = Inter({ subsets: ["latin"] });
+import { Providers } from '@/components/providers'
+import { fonts } from '@/components/fonts'
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Make Movies",
   description: "Family proof movie library management",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -32,10 +29,7 @@ export default function RootLayout({
     </head>
     <body className={fonts.rubik.variable}>
     <Providers>
-      <Nav></Nav>
-      <main>
-        {children}
-      </main>
+      {children}
     </Providers>
     </body>
     </html>
