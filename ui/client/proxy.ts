@@ -1,20 +1,39 @@
-export async function proxyHandler(request: Request): Promise<Response> {
-    const { url: requestUrl, headers: requestHeaders, ...proxyRequest } = request
-    const url = new URL(requestUrl)
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function proxyHandler(request: NextRequest): Promise<NextResponse> {
+    const { nextUrl: requestUrl, headers: requestHeaders, ...proxyRequest } = request
+    const proxyUrl = new URL(requestUrl)
     const apiUrl = new URL(process.env.API_URL || 'http://localhost:5000/')
 
-    url.protocol = apiUrl.protocol
-    url.host = apiUrl.host
-    url.port = apiUrl.port
+    proxyUrl.protocol = apiUrl.protocol
+    proxyUrl.host = apiUrl.host
+    proxyUrl.port = apiUrl.port
 
     const headers = new Headers(requestHeaders)
     headers.delete('cookie')
+    headers.delete('set-cookie')
     headers.delete('host')
 
-    const proxyInit: RequestInit = { ...proxyRequest, headers, redirect: 'manual' }
-    if (process.env.API_REQUEST_LOGGING === 'true') {
-        console.log(url.toString(), proxyInit)
-    }
+    try {
+        const proxyInit: RequestInit = {
+            method: request.method,
+            headers,
+            body: request.body,
+            redirect: 'manual'
+        }
 
-    return await fetch(url.toString(), proxyInit)
+        if (process.env.API_REQUEST_LOGGING === 'true') {
+            console.log(proxyUrl, proxyInit)
+        }
+
+        const response = await fetch(proxyUrl, proxyInit)
+
+        return new NextResponse(response.body, {
+            status: response.status,
+            headers: response.headers,
+        });
+    } catch (error) {
+        console.error('Error forwarding request:', error);
+        return new NextResponse('Error forwarding request', { status: 500 });
+    }
 }
