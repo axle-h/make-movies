@@ -15,10 +15,11 @@ export async function proxyHandler(request: NextRequest): Promise<NextResponse> 
     headers.delete('host')
 
     try {
+        const body = request.body ? await request.arrayBuffer() : null
         const proxyInit: RequestInit = {
             method: request.method,
             headers,
-            body: await request.arrayBuffer(),
+            body,
             redirect: 'manual'
         }
 
