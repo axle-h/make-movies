@@ -18,12 +18,12 @@ export async function proxyHandler(request: NextRequest): Promise<NextResponse> 
         const proxyInit: RequestInit = {
             method: request.method,
             headers,
-            body: request.body,
+            body: await request.arrayBuffer(),
             redirect: 'manual'
         }
 
         if (process.env.API_REQUEST_LOGGING === 'true') {
-            console.log(proxyUrl, proxyInit)
+            console.log(`${request.method.toUpperCase()} ${proxyUrl}`)
         }
 
         const response = await fetch(proxyUrl, proxyInit)
