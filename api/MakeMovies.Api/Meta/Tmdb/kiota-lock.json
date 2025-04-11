@@ -1,9 +1,10 @@
 {
-  "descriptionHash": "1B5425CD952D1CB31D25D1C7633BAD42D8AEE69C3465B9A68D2A1D77E34D415CFEA254781265BB34165A7F7AF4AE7C245C1B88EA5646CCA1F0BC999717AA9AE5",
+  "descriptionHash": "F677C1D00CC226D45A6272B7C207BD3A4A965F5C8547ECD8B87ABBAEB03239A0D4DF76199D2640D4E6FA02CDF2E91D2C9BC00CFB340AF12AD8CE5CF44B58160E",
   "descriptionLocation": "tmdb-api-v3.json",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.16.0",
+  "kiotaVersion": "1.25.1",
   "clientClassName": "TmdbClient",
+  "typeAccessModifier": "Public",
   "clientNamespaceName": "MakeMovies.Api.Meta.Tmdb",
   "language": "CSharp",
   "usesBackingStore": false,
