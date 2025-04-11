@@ -1,65 +1,32 @@
 'use client'
 
-import {ChakraProvider, defineStyleConfig, extendBaseTheme} from '@chakra-ui/react'
+import {
+  createSystem,
+  defaultConfig,
+  ChakraProvider,
+  defineConfig,
+} from '@chakra-ui/react'
+import { ReactNode } from 'react'
+import { ColorModeProvider } from '@/components/ui/color-mode'
 
-const {
-  Badge,
-  Button,
-  Card,
-  Menu,
-  Alert,
-  Container,
-  Spinner,
-  Heading,
-  Table,
-  Input,
-  Form,
-  Tooltip,
-  Progress,
-  Modal,
-  Avatar,
-  Link,
-  CloseButton,
-} = chakraTheme.components
-
-import {theme as chakraTheme} from "@chakra-ui/theme";
-
-const theme = extendBaseTheme({
-  initialColorMode: 'dark',
-  useSystemColorMode: false,
-  fonts: {
-    heading: 'var(--font-rubik)',
-    body: 'var(--font-rubik)',
-  },
-  components: {
-    Badge,
-    Button,
-    Card,
-    Menu,
-    Alert,
-    Container: defineStyleConfig({
-      ...Container,
-      baseStyle: {
-        w: '100%',
-        mx: 'auto',
-        maxW: '100ch',
-        px: '4'
+const system = createSystem(
+    defaultConfig,
+    defineConfig({
+      theme: {
+        tokens: {
+          fonts: {
+            heading: {value: 'var(--font-rubik)'},
+            body: {value: 'var(--font-rubik)'},
+          }
+        }
       }
-    }),
-    Spinner,
-    Heading,
-    Table,
-    Input,
-    Form,
-    Tooltip,
-    Progress,
-    Modal,
-    Avatar,
-    Link,
-    CloseButton
-  },
-});
+    })
+)
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  return <ChakraProvider theme={theme}>{children}</ChakraProvider>
+export function Providers({ children }: { children: ReactNode }) {
+  return (
+      <ChakraProvider value={system}>
+        <ColorModeProvider>{children}</ColorModeProvider>
+      </ChakraProvider>
+  )
 }

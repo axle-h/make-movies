@@ -21,7 +21,12 @@ function paginated(data) {
 }
 
 app.get('/api/v1/movie', (req, res) => {
-    res.json(paginated(movies))
+    const { search } = req.query
+    const filtered = !!search
+        ? movies.filter(movie => movie.title.toLowerCase().includes(search.toLowerCase()))
+        : movies
+
+    res.json(paginated(filtered))
 })
 
 app.get('/api/v1/movie/:id', (req, res) => {

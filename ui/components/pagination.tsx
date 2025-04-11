@@ -1,11 +1,8 @@
 'use client';
 
-import {
-    Flex,
-    Button,
-    Icon
-} from '@chakra-ui/react'
-import {ArrowBackIcon, ArrowForwardIcon} from "@chakra-ui/icons";
+import { Flex } from '@chakra-ui/react'
+import {ArrowBackIcon, ArrowForwardIcon} from "@/components/icons";
+import {Button} from "@/components/ui/button";
 
 export function Pagination({ current, count, onPaginate }: { current: number, count: number, onPaginate: ((page: number) => void) }) {
     const PagButton = (props: { page: number, active?: boolean, disabled?: boolean, children: React.ReactNode }) => {

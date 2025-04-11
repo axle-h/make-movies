@@ -1,25 +1,27 @@
 'use client';
 
 import {
-    Button,
     ButtonGroup,
     Card,
     Center,
     Container,
-    Tooltip, useToast
 } from "@chakra-ui/react";
-import {ArrowBackIcon, DownloadIcon, LockIcon} from "@chakra-ui/icons";
+import {ArrowBackIcon, DownloadIcon, LockIcon} from "@/components/icons";
 import { useRouter } from 'next/navigation'
 import {apiClient, useClient} from '@/client'
-import {Error, Loading, NotFound} from "@/components/alert";
+import {ErrorAlert, Loading, NotFound} from "@/components/alert";
 import {Movie} from "@/client/models";
 import {MovieCardBody, MovieImage} from "@/components/movies/movie";
+import {Button} from "@/components/ui/button";
+import {toaster} from "@/components/ui/toaster";
+import {Tooltip} from "@/components/ui/tooltip";
+import React from "react";
 
 function MovieCard({ movie }: { movie: Movie }) {
     return (
-        <Card direction={{ base: 'column', md: 'row' }}
+        <Card.Root flexDirection={{ base: 'column', md: 'row' }}
               overflow='auto'
-              variant='filled'
+              variant='subtle'
               mb={4}
               bg='transparent'
         >
@@ -28,34 +30,34 @@ function MovieCard({ movie }: { movie: Movie }) {
             </Center>
 
             <MovieCardBody movie={movie} />
-        </Card>
+        </Card.Root>
     )
 }
 
-export default function MoviePage({ params: { id } }: { params: { id: string } }) {
+export default function MoviePage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = React.use(params)
     const router = useRouter()
     const { data: movie, error, isLoading, mutate } = useClient({ api: 'get-movie', id })
-    const toast = useToast()
 
     async function download() {
         try {
             await apiClient.api.v1.movie.byId(id).download.post();
             await mutate();
-            toast({
+            toaster.create({
                 title: 'Success',
                 description: `Downloading ${movie?.title}.`,
-                status: 'success',
+                type: 'success',
                 duration: 5000,
-                isClosable: true,
+                closable: true,
             })
         } catch (e) {
             console.error(e);
-            toast({
+            toaster.create({
                 title: 'Fail',
                 description: `Failed to download ${movie?.title}.`,
-                status: 'error',
+                type: 'error',
                 duration: 5000,
-                isClosable: true,
+                closable: true,
             })
         }
     }
@@ -63,21 +65,22 @@ export default function MoviePage({ params: { id } }: { params: { id: string } }
     const inLibrary = movie?.inLibrary === true
     return (<Container py={4}>
         <ButtonGroup variant='outline' mb={4}>
-            <Button leftIcon={<ArrowBackIcon />} variant='outline' onClick={router.back} mb={4}>
-                Back
+            <Button variant='outline' onClick={router.back}>
+                <ArrowBackIcon /> Back
             </Button>
-            <Tooltip isDisabled={!inLibrary} label='Already downloaded'>
-                <Button leftIcon={inLibrary ? <LockIcon /> : <DownloadIcon />}
-                        colorScheme='green'
-                        isLoading={!movie}
-                        isDisabled={inLibrary}
-                        onClick={download}>Download</Button>
+            <Tooltip disabled={!inLibrary} content='Already downloaded'>
+                <Button colorPalette='green'
+                        loading={!movie}
+                        disabled={inLibrary}
+                        onClick={download}>
+                    {inLibrary ? <LockIcon /> : <DownloadIcon />} Download
+                </Button>
             </Tooltip>
 
         </ButtonGroup>
 
         {isLoading ? <Loading /> :
-            error ? <Error error={error} /> :
+            error ? <ErrorAlert error={error} /> :
                 !movie ? <NotFound entity='movie' id={id} /> :
                     <MovieCard movie={movie} />}
     </Container>)

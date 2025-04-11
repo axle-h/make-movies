@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Providers } from '@/components/providers'
 import { fonts } from '@/components/fonts'
 import React from "react";
+import './global.css'
 
 export const metadata: Metadata = {
   title: "Make Movies",
@@ -14,7 +15,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
     <head>
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1"/>
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=1"/>

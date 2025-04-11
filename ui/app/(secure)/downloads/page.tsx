@@ -1,22 +1,15 @@
 'use client';
 
-import {
-    Badge,
-    Button,
-    ButtonGroup, Card, CardBody,
-    Container,
-    Heading,
-    Progress,
-    Stack,
-    Text
-} from "@chakra-ui/react";
+import { Badge, ButtonGroup, Card, Container, Heading, Stack, Text } from "@chakra-ui/react";
 import {useState} from "react";
 import {useClient} from "@/client";
-import {RepeatIcon} from "@chakra-ui/icons";
-import {Error, Loading, NoData} from "@/components/alert";
+import {RefreshIcon} from "@/components/icons";
+import {ErrorAlert, Loading, NoData} from "@/components/alert";
 import {Pagination} from "@/components/pagination";
 import {Download, DownloadPaginatedData} from "@/client/models";
 import { MovieImage} from "@/components/movies/movie";
+import {Button} from "@/components/ui/button";
+import {Progress} from "@/components/progress";
 
 interface ListPagination {
     page: number,
@@ -26,7 +19,9 @@ interface ListPagination {
 function DownloadControls({ onRefresh }: { onRefresh: (() => Promise<any>) }) {
     return (
         <ButtonGroup variant='outline' mb={4}>
-            <Button leftIcon={<RepeatIcon />} onClick={onRefresh}>Refresh</Button>
+            <Button onClick={onRefresh}>
+                <RefreshIcon /> Refresh
+            </Button>
         </ButtonGroup>
     )
 }
@@ -37,10 +32,10 @@ function DownloadStatus({ download }: { download: Download }) {
         : null;
 
     const progressBar = download.complete === true
-        ? <Progress size='sm' value={100} colorScheme='green' />
+        ? <Progress size='sm' value={100} colorPalette='green' />
         : percentDone
             ? <Progress value={percentDone} size='sm' />
-            : <Progress size='sm' isIndeterminate />
+            : <Progress size='sm' value={null} />
 
     return (
         <Stack>
@@ -53,7 +48,7 @@ function DownloadStatus({ download }: { download: Download }) {
     )
 }
 
-function Eta({ value }: { value: string | undefined }) {
+function Eta({ value }: { value?: string | null }) {
     if (!value) return <></>
     const match = value.match(/(\d{2}):(\d{2}):(\d{2})/)
     if (!match) {
@@ -86,24 +81,24 @@ function DownloadList({ downloads }: { downloads?: DownloadPaginatedData }) {
             const title = match ? match[1] : download.name;
             const year = match ? parseInt(match[2]) : null
             return (
-                <Card key={download.id}
-                      direction='row'
+                <Card.Root key={download.id}
+                      flexDirection='row'
                       overflow='hidden'
                       variant='outline'
                       height={{ base: 180, sm: 230 }}
                       my={3}
                 >
                     <MovieImage movie={{ id: download.movieId, title }} maxW={200} />
-                    <CardBody>
+                    <Card.Body>
                         <Heading size='md' mb={4}>
                             <Text mr={2} style={{display: 'inline'}}>
                                 {title}
                             </Text>
-                            { year ? <Badge colorScheme='purple'>{year}</Badge> : <></> }
+                            { year ? <Badge colorPalette='purple'>{year}</Badge> : <></> }
                         </Heading>
                         <DownloadStatus download={download} />
-                    </CardBody>
-                </Card>
+                    </Card.Body>
+                </Card.Root>
             )
         })
     return <>{cards}</>
@@ -131,7 +126,7 @@ export default function DownloadsHome() {
 
         {
             isLoading ? <Loading />
-                : error ? <Error error={error} />
+                : error ? <ErrorAlert error={error} />
                     : <DownloadList downloads={downloads} />
         }
         {

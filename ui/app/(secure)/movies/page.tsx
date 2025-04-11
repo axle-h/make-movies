@@ -6,18 +6,17 @@ import {
     Heading,
     Input,
     InputGroup,
-    InputLeftElement,
     LinkBox,
     LinkOverlay
 } from '@chakra-ui/react'
-import {SearchIcon} from '@chakra-ui/icons'
+import {SearchIcon} from '@/components/icons'
 import { useClient } from '@/client'
-import {Link} from "@chakra-ui/next-js";
-import {useEffect, useState} from "react";
+import {Link} from "@/components/link";
+import React, {useEffect, useState} from "react";
 import useDebounce from "@/components/debounce";
 import { useRouter } from 'next/navigation'
 import {Pagination} from "@/components/pagination";
-import {Error, Loading, NoData} from "@/components/alert";
+import {ErrorAlert, Loading, NoData} from "@/components/alert";
 import {MovieCardBody, MovieImage} from "@/components/movies/movie";
 
 function MovieList({ searchTerm, page, updatePage }: { searchTerm: string, page: number, updatePage: (page: number) => void }) {
@@ -41,7 +40,7 @@ function MovieList({ searchTerm, page, updatePage }: { searchTerm: string, page:
     }
 
     if (error) {
-        return <Error error={error} />
+        return <ErrorAlert error={error} />
     }
 
     if (!movies?.data?.length) {
@@ -50,11 +49,10 @@ function MovieList({ searchTerm, page, updatePage }: { searchTerm: string, page:
 
     const cards = movies.data
         .map(movie => (
-            <LinkBox as={Card}
+            <LinkBox as={Card.Root}
                 key={movie.id}
-                direction='row'
+                flexDirection="row"
                 overflow='hidden'
-                variant='outline'
                 height={{ base: 180, sm: 230 }}
                 my={3}
             >
@@ -71,13 +69,14 @@ function MovieList({ searchTerm, page, updatePage }: { searchTerm: string, page:
     </>)
 }
 
-export default function MoviesHome({ searchParams }: { searchParams: { search?: string, page?: string } }) {
+export default function MoviesHome({ searchParams }: { searchParams: Promise<{ search?: string, page?: string }> }) {
+    const params = React.use(searchParams)
     const router = useRouter()
-    const [searchTerm, setSearchTerm] = useState(searchParams.search ?? '')
-    const currentPage = Number(searchParams?.page) || 1;
+    const [searchTerm, setSearchTerm] = useState(params.search || '')
+    const currentPage = Number(params.page) || 1;
 
     function navigate({ nextPage, nextSearchTerm }: { nextPage?: number, nextSearchTerm?: string }) {
-        router.replace(`?search=${nextSearchTerm || searchTerm}&page=${nextPage || currentPage}`)
+        router.replace(`?search=${nextSearchTerm}&page=${nextPage || currentPage}`)
     }
 
     const handleSearch = useDebounce(
@@ -86,10 +85,7 @@ export default function MoviesHome({ searchParams }: { searchParams: { search?: 
 
     return (<Container py={4}>
         <Heading mb={4}>Movies</Heading>
-        <InputGroup size='lg' mb={4}>
-            <InputLeftElement pointerEvents='none'>
-                <SearchIcon color='gray.300' />
-            </InputLeftElement>
+        <InputGroup mb={4} startAddon={<SearchIcon color='gray.300' pointerEvents='none' />}>
             <Input placeholder='Search movies'
                    value={searchTerm}
                    onChange={(event) => {
@@ -97,11 +93,12 @@ export default function MoviesHome({ searchParams }: { searchParams: { search?: 
                        setSearchTerm(value)
                        // Debounce the search callback
                        handleSearch(value)
-                   }}/>
+                   }}
+                   size='lg' />
         </InputGroup>
 
         <MovieList
-            searchTerm={searchParams.search ?? ''}
+            searchTerm={params.search ?? ''}
             page={currentPage}
             updatePage={(nextPage) => navigate({nextPage})} />
     </Container>);

@@ -1,27 +1,20 @@
 'use client';
 
 import {
-    Button,
     ButtonGroup,
     Container,
     Heading,
     Spinner,
     Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
-    TableContainer,
-    useToast,
 } from '@chakra-ui/react'
 import {useEffect, useState} from "react";
 import {apiClient, useClient} from '@/client'
 import {ScrapePaginatedData} from "@/client/models";
 import {Pagination} from "@/components/pagination";
-import {BoolIcon} from "@/components/icons";
-import {AddIcon, RepeatIcon} from "@chakra-ui/icons";
-import {NoData, Error, Loading} from "@/components/alert";
+import {BoolIcon, AddIcon, RefreshIcon} from "@/components/icons";
+import {NoData, ErrorAlert, Loading} from "@/components/alert";
+import {Button} from "@/components/ui/button";
+import {toaster} from "@/components/ui/toaster";
 
 interface ListPagination {
     page: number,
@@ -31,8 +24,8 @@ interface ListPagination {
 function ScrapeControls({ onRefresh, onNew }: { onRefresh: (() => Promise<any>), onNew: (() => Promise<any>) }) {
     return (
         <ButtonGroup variant='outline' mb={4}>
-            <Button colorScheme='blue' leftIcon={<AddIcon />} onClick={onNew}>New</Button>
-            <Button leftIcon={<RepeatIcon />} onClick={onRefresh}>Refresh</Button>
+            <Button colorPalette='blue' onClick={onNew}><AddIcon /> New</Button>
+            <Button onClick={onRefresh}><RefreshIcon /> Refresh</Button>
         </ButtonGroup>
     )
 }
@@ -47,32 +40,30 @@ function ScrapeList({ scrapes }: { scrapes?: ScrapePaginatedData }) {
     }
 
     const rows = scrapes.data.map(s =>
-        (<Tr key={s.id}>
-            <Td>{dateFormatter.format(s.startDate ?? new Date())}</Td>
-            <Td>{ s.success !== undefined
-                ? <BoolIcon value={s.success} />
-                : <Spinner /> }</Td>
-            <Td>{numberFormatter.format(s.movieCount ?? 0)}</Td>
-            <Td>{numberFormatter.format(s.torrentCount ?? 0)}</Td>
-        </Tr>))
+        (<Table.Row key={s.id}>
+            <Table.Cell>{dateFormatter.format(s.startDate ?? new Date())}</Table.Cell>
+            <Table.Cell>{ s.success !== undefined
+                ? <BoolIcon value={s.success || false} />
+                : <Spinner /> }</Table.Cell>
+            <Table.Cell>{numberFormatter.format(s.movieCount ?? 0)}</Table.Cell>
+            <Table.Cell>{numberFormatter.format(s.torrentCount ?? 0)}</Table.Cell>
+        </Table.Row>))
 
-    return (<>
-        <TableContainer>
-            <Table variant='simple'>
-                <Thead>
-                    <Tr>
-                        <Th>Start date</Th>
-                        <Th>Status</Th>
-                        <Th>Movies</Th>
-                        <Th>Torrents</Th>
-                    </Tr>
-                </Thead>
-                <Tbody>
-                    {rows}
-                </Tbody>
-            </Table>
-        </TableContainer>
-    </>);
+    return (
+        <Table.Root variant='line'>
+            <Table.Header>
+                <Table.Row>
+                    <Table.ColumnHeader>Start date</Table.ColumnHeader>
+                    <Table.ColumnHeader>Status</Table.ColumnHeader>
+                    <Table.ColumnHeader>Movies</Table.ColumnHeader>
+                    <Table.ColumnHeader>Torrents</Table.ColumnHeader>
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+                {rows}
+            </Table.Body>
+        </Table.Root>
+    );
 }
 
 export default function ScraperHome() {
@@ -82,7 +73,6 @@ export default function ScraperHome() {
         api: 'list-scrapes',
         ...pagination
     })
-    const toast = useToast()
 
     useEffect(() => {
         if (scrapes?.count) {
@@ -103,21 +93,21 @@ export default function ScraperHome() {
         try {
             await apiClient.api.v1.scrape.post()
             await mutate()
-            toast({
+            toaster.create({
                 title: 'Success',
                 description: "New scrape started.",
-                status: 'success',
+                type: 'success',
                 duration: 5000,
-                isClosable: true,
+                closable: true,
             })
         } catch (e) {
             console.error(e);
-            toast({
+            toaster.create({
                 title: 'Fail',
                 description: "Failed to create new scrape.",
-                status: 'error',
+                type: 'error',
                 duration: 5000,
-                isClosable: true,
+                closable: true,
             })
         }
     }
@@ -130,7 +120,7 @@ export default function ScraperHome() {
         />
         {
             isLoading ? <Loading />
-                : error ? <Error error={error} />
+                : error ? <ErrorAlert error={error} />
                 : <ScrapeList scrapes={scrapes} />
         }
         {

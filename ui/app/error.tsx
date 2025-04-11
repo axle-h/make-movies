@@ -1,21 +1,25 @@
 'use client'
 
-import {Alert, AlertDescription, AlertIcon, AlertTitle, Button, Container} from "@chakra-ui/react";
-import {Link} from "@chakra-ui/next-js";
+import {LeftAccentAlert} from "@/components/alert";
+import {Alert, Box} from "@chakra-ui/react";
+import {Link} from "@/components/link";
+import {useEffect} from "react";
 
-export default function Error({ error, reset }: {
+export default function ErrorPage({ error, reset }: {
     error: Error & { digest?: string }
     reset: () => void
 }) {
-    return (
-        <Container py={4}>
-            <Alert status='error'>
-                <AlertIcon />
-                <AlertTitle>Something went wrong</AlertTitle>
-                <AlertDescription>
-                    Go back <Link href="/">home</Link>
-                </AlertDescription>
-            </Alert>
-        </Container>
-    )
+    useEffect(() => {
+        console.error(error)
+    }, [error])
+
+    return (<LeftAccentAlert status='error'>
+        <Alert.Indicator />
+        <Box>
+            <Alert.Title style={{ textTransform: 'capitalize' }}>Something went wrong</Alert.Title>
+            <Alert.Description>
+                Go back <Link href="/">home</Link>
+            </Alert.Description>
+        </Box>
+    </LeftAccentAlert>)
 }

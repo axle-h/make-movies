@@ -2,95 +2,168 @@
 
 import {
     Box,
-    Button,
+    Drawer,
     Flex,
     HStack,
-    Image,
     IconButton,
-    Stack,
-    useColorMode,
-    useColorModeValue,
-    useDisclosure,
+    Portal,
     Menu,
-    MenuButton,
-    Avatar,
-    MenuList,
-    AlertDialog,
-    AlertDialogOverlay,
-    AlertDialogContent,
-    AlertDialogHeader, AlertDialogBody, AlertDialogFooter, MenuItem,
+    Dialog,
+    Text,
+    FlexProps,
+    IconProps,
+    BoxProps, CloseButton, Container
 } from '@chakra-ui/react'
-import {Link} from '@chakra-ui/next-js'
-import {CloseIcon, HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
+import {useColorMode} from "@/components/ui/color-mode"
+import {Link} from '@/components/link'
+import {AppIcon, AppName, MovieIcon, CloudIcon, DownloadIcon, MenuIcon, MoonIcon, SunIcon} from '@/components/icons'
 import {usePathname, useRouter} from "next/navigation";
 import {Session} from "next-auth";
 import React, {useState} from "react";
 import {LogoutIcon} from "@/components/icons";
+import {Button} from "@/components/ui/button";
+import {Avatar} from "@/components/ui/avatar";
 
-const NavLink = ({name, href, onClick}: { name: string, href: string, onClick: () => void }) => {
+interface NavItemProps extends FlexProps {
+    NavIcon: React.ComponentType<IconProps>
+    href: string
+    children: React.ReactNode
+}
+
+interface SidebarProps extends BoxProps {
+    onClose: () => void
+}
+
+function SidebarContent({ onClose, ...rest }: SidebarProps) {
     const pathName = usePathname()
-    const bgColor = useColorModeValue('gray.300', 'gray.700')
+
+    function NavItem({ NavIcon, href, children, ...rest }: NavItemProps) {
+        const current = pathName.startsWith(href)
+        return (
+            <Link
+                href={href}
+                style={{ textDecoration: 'none' }}
+                _focus={{ boxShadow: 'none' }}
+                w="100%"
+            >
+                <Flex
+                    align="center"
+                    p="4"
+                    mx="4"
+                    my="1"
+                    borderRadius="lg"
+                    role="group"
+                    cursor="pointer"
+                    _hover={{
+                        bg: 'gray.600',
+                        color: 'white',
+                    }}
+                    bg={current ? 'gray.300' : undefined}
+                    _dark={{
+                        bg: current ? 'gray.700' : undefined
+                    }}
+                    onClick={onClose}
+                    {...rest}
+                    w="100%"
+                >
+                    <NavIcon
+                        mr="4"
+                        fontSize="16"
+                        _groupHover={{
+                            color: 'white',
+                        }}
+                    />
+                    {children}
+                </Flex>
+            </Link>
+        )
+    }
+
     return (
-        <Link
-            px={2}
-            py={1}
-            rounded={'md'}
-            _hover={{
-                textDecoration: 'none',
-                bg: bgColor,
+        <Box
+            transition="3s ease"
+            bg='white'
+            borderRight="1px"
+            borderRightColor='gray.200'
+            w={{ base: 'full', md: 60 }}
+            pos="fixed"
+            h="full"
+            _dark={{
+                bg: 'gray.900',
+                borderRightColor: 'gray.700'
             }}
-            bg={pathName === href ? bgColor : undefined}
-            href={href}
-            onClick={onClick}>
-            {name}
-        </Link>
+            {...rest}>
+
+            <Flex h="20" alignItems="center" mx="8" justifyContent={{ base: 'space-between', md: 'center' }}>
+                <Flex alignItems="center">
+                    <AppIcon />
+                    <AppName />
+                </Flex>
+                <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+            </Flex>
+
+            <NavItem NavIcon={MovieIcon} href="/movies">
+                Movies
+            </NavItem>
+
+            <NavItem NavIcon={DownloadIcon} href="/downloads">
+                Downloads
+            </NavItem>
+
+            <NavItem NavIcon={CloudIcon} href="/scraper">
+                Scraper
+            </NavItem>
+        </Box>
     )
 }
 
-function LogoutAlert({ onClose, isOpen }: { onClose(): void, isOpen: boolean }) {
+function LogoutButton() {
     const router = useRouter()
     const [isLoading, setLoading] = useState(false)
-    const cancelRef = React.useRef()
 
     return (
-        <AlertDialog
-            isOpen={isOpen}
-            leastDestructiveRef={cancelRef as any}
-            onClose={onClose}
-        >
-            <AlertDialogOverlay>
-                <AlertDialogContent>
-                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                        Logout
-                    </AlertDialogHeader>
+        <Dialog.Root role="alertdialog">
+            <Dialog.Trigger asChild>
+                <Button variant="plain">
+                    <LogoutIcon /> Logout
+                </Button>
+            </Dialog.Trigger>
+            <Dialog.Content>
+                <Dialog.Header>
+                    <Dialog.Title fontSize='lg' fontWeight='bold'>Logout</Dialog.Title>
+                </Dialog.Header>
 
-                    <AlertDialogBody>
+                <Dialog.Body>
+                    <Text>
                         Are you sure you want to logout?
-                    </AlertDialogBody>
+                    </Text>
+                </Dialog.Body>
 
-                    <AlertDialogFooter>
-                        <Button ref={cancelRef as any} onClick={onClose}>
+                <Dialog.Footer>
+                    <Dialog.ActionTrigger asChild>
+                        <Button>
                             Cancel
                         </Button>
-                        <Button colorScheme='red'
-                                isLoading={isLoading}
-                                onClick={() => {
-                                    setLoading(true)
-                                    router.replace('/logout');
-                                }}
-                                ml={3}>
-                            Logout
-                        </Button>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialogOverlay>
-        </AlertDialog>
+                    </Dialog.ActionTrigger>
+                    <Button colorPalette="red"
+                            loading={isLoading}
+                            loadingText="Logging out..."
+                            onClick={() => {
+                                setLoading(true)
+                                router.replace('/logout');
+                            }}
+                            ml={3}>
+                        <LogoutIcon />
+                        Logout
+                    </Button>
+                </Dialog.Footer>
+                <Dialog.CloseTrigger />
+            </Dialog.Content>
+        </Dialog.Root>
     )
 }
 
 function UserMenu({ session }: { session: Session }) {
-    const logoutDisclosure = useDisclosure()
-
     if (!session.user) {
         return <></>
     }
@@ -108,79 +181,124 @@ function UserMenu({ session }: { session: Session }) {
     }
 
     return (
-        <>
-            <Menu>
-                <MenuButton
-                    as={Button}
+        <Menu.Root>
+            <Menu.Trigger asChild>
+                <Button
                     rounded={'full'}
-                    variant={'link'}
+                    variant={'plain'}
                     cursor={'pointer'}
                     minW={0}>
-                    <Avatar size={'sm'} name={displayName} />
-                </MenuButton>
-                <MenuList>
-                    <MenuItem icon={<LogoutIcon />} onClick={logoutDisclosure.onOpen}>Logout</MenuItem>
-                </MenuList>
-            </Menu>
-            <LogoutAlert {...logoutDisclosure} />
-        </>
+                    <Avatar size={'sm'} name={displayName} colorPalette={"blue"} />
+                </Button>
+            </Menu.Trigger>
+            <Menu.Positioner>
+                <Menu.Content>
+                    <Menu.Item value="logout" asChild>
+                        <LogoutButton />
+                    </Menu.Item>
+                </Menu.Content>
+            </Menu.Positioner>
+        </Menu.Root>
     )
 }
 
-export function Nav({ session }: { session: Session | null }) {
-    const {colorMode, toggleColorMode} = useColorMode()
-    const {isOpen, onOpen, onClose} = useDisclosure()
+export interface MobileNavProps extends FlexProps {
+    session?: Session | null
+    onOpen?(): void
+}
 
-    const navLinks = !!session ? (<>
-        <NavLink name='Movies' href='/movies' onClick={onClose} />
-        <NavLink name='Scraper' href='/scraper' onClick={onClose} />
-        <NavLink name='Downloads' href='/downloads' onClick={onClose} />
-    </>) : <></>
+
+export function MobileNav({ onOpen, session, ...rest }: MobileNavProps) {
+    const { colorMode, toggleColorMode } = useColorMode()
+    return (
+        <Flex
+            px={4}
+            height="20"
+            alignItems="center"
+            bg='white'
+            borderBottomWidth="1px"
+            borderBottomColor='gray.200'
+            justifyContent='space-between'
+            _dark={{
+                bg: 'gray.900',
+                borderBottomColor: 'gray.700'
+            }}
+            {...rest}>
+
+            {!!onOpen
+                ? (
+                    <>
+                        <IconButton
+                            display={{ base: 'flex', md: 'none' }}
+                            onClick={onOpen}
+                            variant="ghost"
+                            aria-label="open menu"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <AppIcon display={{ base: 'flex', md: 'none' }} />
+                    </>
+                )
+                : (
+                    <>
+                        <Box />
+                        <Flex alignItems="center">
+                            <AppIcon />
+                            <AppName />
+                        </Flex>
+                    </>
+                )}
+
+            <HStack gap={{ base: '1', md: '3' }}>
+                {!!session ? <UserMenu session={session} /> : <></>}
+
+                <IconButton
+                    onClick={toggleColorMode}
+                    variant="ghost"
+                    aria-label="change colour mode"
+                >
+                    {colorMode === 'light' ? <MoonIcon  /> : <SunIcon />}
+                </IconButton>
+            </HStack>
+        </Flex>
+    )
+}
+
+export function SecureNav({ children, session }: { children: React.ReactNode, session: Session }) {
+    const [open, setOpen] = useState(false)
+    const onClose = () => setOpen(false)
 
     return (
-        <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4} boxShadow="md">
-            <Flex height="20" alignItems="center" justifyContent="space-between">
-                <IconButton
-                    size="md"
-                    variant="ghost"
-                    icon={isOpen ? <CloseIcon/> : <HamburgerIcon/>}
-                    aria-label="Open Menu"
-                    display={{md: 'none'}}
-                    onClick={isOpen ? onClose : onOpen}
-                />
+        <Box minH="100dvh">
+            <SidebarContent onClose={onClose} display={{ base: 'none', md: 'block' }} />
 
-                <HStack spacing={8} alignItems={'center'}>
-                    <Box>
-                        <Link href='/'>
-                            <Image src='/icon.png' boxSize='40px' objectFit='cover' alt='make-movies'  />
-                        </Link>
-                    </Box>
-                    <HStack as={'nav'} spacing={4} display={{base: 'none', md: 'flex'}}>
-                        {navLinks}
-                    </HStack>
-                </HStack>
+            <Drawer.Root
+                open={open}
+                onOpenChange={(e) => setOpen(e.open)}
+                placement="start"
+                size="full"
+            >
+                <Portal>
+                    <Drawer.Positioner>
+                        <Drawer.Content>
+                            <SidebarContent onClose={onClose} />
+                        </Drawer.Content>
+                    </Drawer.Positioner>
+                </Portal>
+            </Drawer.Root>
 
+            <MobileNav
+                ml={{ base: 0, md: 60 }}
+                justifyContent={{ base: 'space-between', md: 'flex-end' }}
+                onOpen={() => setOpen(true)}
+                session={session}
+            />
 
-                <Flex alignItems={'center'}>
-                    <HStack spacing={{ base: '1', md: '3' }}>
-                        {!!session ? <UserMenu session={session} /> : <></>}
-                        <IconButton
-                            variant="ghost"
-                            onClick={toggleColorMode}
-                            aria-label="change colour mode"
-                            icon={colorMode === 'light' ? <MoonIcon  /> : <SunIcon />}
-                        />
-                    </HStack>
-                </Flex>
-            </Flex>
-
-            {isOpen ? (
-                <Box pb={4} display={{md: 'none'}}>
-                    <Stack as={'nav'} spacing={4}>
-                        {navLinks}
-                    </Stack>
-                </Box>
-            ) : null}
+            <Box ml={{ base: 0, md: 60 }}>
+                <Container maxW='1200px' p={4}>
+                    {children}
+                </Container>
+            </Box>
         </Box>
     )
 }

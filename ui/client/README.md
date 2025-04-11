@@ -2,6 +2,12 @@
 
 Client generated with [Kiota](https://learn.microsoft.com/en-us/openapi/kiota).
 
+Install kiota:
+
+```bash
+dotnet tool install --global Microsoft.OpenApi.Kiota
+```
+
 Start the API locally then:
 
 ```bash

@@ -2,58 +2,62 @@ import {Movie} from "@/client/models";
 import {
     Badge,
     Box,
-    CardBody,
+    Card,
     Flex,
-    Heading,
+    FlexProps,
     Image,
-    Stack,
+    ImageProps, Stack,
     Text,
-    Tooltip
+    TextProps
 } from "@chakra-ui/react";
-import {CheckCircleIcon, StarIcon} from "@chakra-ui/icons";
-import {ResponsiveValue} from "@chakra-ui/styled-system";
-import {Property} from "csstype";
+import {CheckCircleIcon, StarIcon} from "@/components/icons";
+import {Tooltip} from "@/components/ui/tooltip";
 
-export function MovieImage({ movie, maxW }: { movie: Movie, maxW: string | number | ResponsiveValue<string | number> }) {
+export function MovieImage({ movie, ...props }: { movie: Movie } & ImageProps) {
     return (<Image
-        maxW={maxW}
         src={`/api/v1/movie/${movie.id}/image`}
         alt={movie.title ?? ''}
         style={{ objectFit: 'cover' }}
+        {...props}
     />)
 }
 
-export function MovieCardBody({ movie, descriptionLines, displayDescription }: { movie: Movie, descriptionLines?: ResponsiveValue<number>, displayDescription?: ResponsiveValue<Property.Display> }) {
-    return (<Stack>
-        <CardBody>
-            <Heading size='md'>
-                {movie.inLibrary ? <Tooltip label='Already downloaded'><CheckCircleIcon color='green' mr={2} /></Tooltip> : <></>}
+export interface MovieCardBodyProps {
+    movie: Movie
+    descriptionLines?: TextProps['lineClamp']
+    displayDescription?: FlexProps['display']
+}
+
+export function MovieCardBody({ movie, descriptionLines, displayDescription }: MovieCardBodyProps) {
+    return (
+        <Card.Body>
+            <Card.Title>
+                {movie.inLibrary ? <Tooltip content='Already downloaded'><CheckCircleIcon color='green' mr={2} /></Tooltip> : <></>}
 
                 <Text mr={2} style={{display: 'inline'}}>
                     {movie.title}
                 </Text>
 
-                <Badge colorScheme='purple'>{movie.year}</Badge>
-            </Heading>
+                <Badge colorPalette='purple'>{movie.year}</Badge>
+            </Card.Title>
 
-            <Text py={2}>
-                {movie.genres
-                    ?.toSorted((g1, g2) => g1.localeCompare(g2))
-                    ?.map(g => <Badge mr='1' key={g} colorScheme='blue'>{g}</Badge>)}
-            </Text>
-
-            <Flex>
-                <Box as={StarIcon} color="orange.400" />
-                <Text ml={1} fontSize="sm">
-                    <b>{movie.rating}</b>
+            <Stack gap={1} mb={3}>
+                <Text py={2}>
+                    {movie.genres
+                        ?.toSorted((g1, g2) => g1.localeCompare(g2))
+                        ?.map(g => <Badge mr='1' key={g} colorPalette='blue'>{g}</Badge>)}
                 </Text>
-            </Flex>
 
-            <Flex display={displayDescription}>
-                <Text my={2} noOfLines={descriptionLines}>
-                    {movie.description}
-                </Text>
-            </Flex>
-        </CardBody>
-    </Stack>)
+                <Flex>
+                    <Box as={StarIcon} color="orange.400" />
+                    <Text ml={1} fontSize="sm">
+                        <b>{movie.rating}</b>
+                    </Text>
+                </Flex>
+            </Stack>
+
+            <Card.Description display={displayDescription} lineClamp={descriptionLines}>
+                {movie.description}
+            </Card.Description>
+        </Card.Body>)
 }
