@@ -15,7 +15,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={fonts.rubik.variable} suppressHydrationWarning>
       <head>
         <link
           rel="apple-touch-icon"
@@ -46,7 +46,7 @@ export default async function RootLayout({
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body className={fonts.rubik.variable}>
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>
