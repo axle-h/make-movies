@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "openapi-generator": "openapi-generator-cli generate"
+    "lint": "next lint"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.15.1",
@@ -18,18 +17,17 @@
     "next": "^15.3.0",
     "next-auth": "^5.0.0-beta.19",
     "next-themes": "^0.4.6",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-icons": "^5.5.0",
     "swr": "^2.3.3"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.18.4",
     "@types/node": "^22.14.0",
-    "@types/react": "^18.3.20",
-    "@types/react-dom": "^18.3.6",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "^14.2.28",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
+    "eslint": "^9.24.0",
+    "eslint-config-next": "^15.3.0",
     "typescript": "^5.8.3"
   }
 }
