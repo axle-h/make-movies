@@ -35,15 +35,16 @@ public static class WireMockExtensions
             ?? throw new Exception($"cannot find resource {resourceName}");
     
     
-    public static WireMockAssertions Should(this IWireMockServer instance) => new(instance);
+    public static WireMockAssertions Should(this IWireMockServer instance) => new(AssertionChain.GetOrCreate(), instance);
 }
 
-public class WireMockAssertions(IWireMockServer subject)
+public class WireMockAssertions(AssertionChain chain, IWireMockServer subject)
 {
+    
     public AndConstraint<WireMockAssertions> HaveCalledMapping(Guid mappingUuid, string because = "",
         params object[] becauseArgs)
     {
-        Execute.Assertion
+        chain
             .BecauseOf(because, becauseArgs)
             .Given(() => subject.LogEntries.Select(x => x.MappingGuid))
             .ForCondition(executedUuids => executedUuids.Contains(mappingUuid))
