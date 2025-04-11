@@ -165,14 +165,14 @@ function LogoutButton() {
                 <Button>Cancel</Button>
               </Dialog.ActionTrigger>
               <Button
-                  colorPalette="red"
-                  loading={isLoading}
-                  loadingText="Logging out..."
-                  onClick={() => {
-                    setLoading(true);
-                    router.replace("/logout");
-                  }}
-                  ml={3}
+                colorPalette="red"
+                loading={isLoading}
+                loadingText="Logging out..."
+                onClick={() => {
+                  setLoading(true);
+                  router.replace("/logout");
+                }}
+                ml={3}
               >
                 <LogoutIcon />
                 Logout
