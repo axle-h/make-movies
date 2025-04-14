@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
-import { Alert, Box, Center, Spinner } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { Alert, Box, Center, Spinner } from '@chakra-ui/react'
+import { useEffect } from 'react'
 
-type AlertProps = Alert.RootProps;
+type AlertProps = Alert.RootProps
 
 export function LeftAccentAlert(props: AlertProps) {
   return (
@@ -13,15 +13,15 @@ export function LeftAccentAlert(props: AlertProps) {
       borderStartWidth="3px"
       borderStartColor="colorPalette.600"
     />
-  );
+  )
 }
 
 export function ErrorAlert({
   error,
-  title = "Something went wrong",
+  title = 'Something went wrong',
   ...props
 }: AlertProps & { error: any; title?: string }) {
-  useEffect(() => console.log(error), [error]);
+  useEffect(() => console.log(error), [error])
   return (
     <LeftAccentAlert {...props} status="error">
       <Alert.Indicator />
@@ -30,7 +30,7 @@ export function ErrorAlert({
         <Alert.Description>{error.toString()}</Alert.Description>
       </Box>
     </LeftAccentAlert>
-  );
+  )
 }
 
 export function Loading() {
@@ -38,7 +38,7 @@ export function Loading() {
     <Center py={4}>
       <Spinner />
     </Center>
-  );
+  )
 }
 
 export function NotFound({ entity, id }: { entity: string; id: string }) {
@@ -46,7 +46,7 @@ export function NotFound({ entity, id }: { entity: string; id: string }) {
     <LeftAccentAlert status="error">
       <Alert.Indicator />
       <Box>
-        <Alert.Title style={{ textTransform: "capitalize" }}>
+        <Alert.Title style={{ textTransform: 'capitalize' }}>
           {entity} not found
         </Alert.Title>
         <Alert.Description>
@@ -54,7 +54,7 @@ export function NotFound({ entity, id }: { entity: string; id: string }) {
         </Alert.Description>
       </Box>
     </LeftAccentAlert>
-  );
+  )
 }
 
 export function NoData() {
@@ -63,5 +63,5 @@ export function NoData() {
       <Alert.Indicator />
       <Alert.Title>No data</Alert.Title>
     </LeftAccentAlert>
-  );
+  )
 }

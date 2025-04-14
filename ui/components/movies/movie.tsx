@@ -1,4 +1,4 @@
-import { Movie } from "@/client/models";
+import { Movie } from '@/client/models'
 import {
   Badge,
   Box,
@@ -10,25 +10,25 @@ import {
   Stack,
   Text,
   TextProps,
-} from "@chakra-ui/react";
-import { CheckCircleIcon, StarIcon } from "@/components/icons";
-import { Tooltip } from "@/components/ui/tooltip";
+} from '@chakra-ui/react'
+import { CheckCircleIcon, StarIcon } from '@/components/icons'
+import { Tooltip } from '@/components/ui/tooltip'
 
 export function MovieImage({ movie, ...props }: { movie: Movie } & ImageProps) {
   return (
     <Image
       src={`/api/v1/movie/${movie.id}/image`}
-      alt={movie.title ?? ""}
-      style={{ objectFit: "cover" }}
+      alt={movie.title ?? ''}
+      style={{ objectFit: 'cover' }}
       {...props}
     />
-  );
+  )
 }
 
 export interface MovieCardBodyProps {
-  movie: Movie;
-  descriptionLines?: TextProps["lineClamp"];
-  displayDescription?: FlexProps["display"];
+  movie: Movie
+  descriptionLines?: TextProps['lineClamp']
+  displayDescription?: FlexProps['display']
 }
 
 export function MovieCardBody({
@@ -47,7 +47,7 @@ export function MovieCardBody({
           <></>
         )}
 
-        <Text mr={2} style={{ display: "inline" }}>
+        <Text mr={2} style={{ display: 'inline' }}>
           {movie.title}
         </Text>
 
@@ -80,5 +80,5 @@ export function MovieCardBody({
         {movie.description}
       </Card.Description>
     </Card.Body>
-  );
+  )
 }

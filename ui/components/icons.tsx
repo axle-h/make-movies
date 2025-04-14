@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   FiArrowLeft,
@@ -21,11 +21,11 @@ import {
   FiStar,
   FiSun,
   FiX,
-} from "react-icons/fi";
-import { IconType } from "react-icons";
-import { Box, BoxProps, IconProps, Text } from "@chakra-ui/react";
-import { Icon } from "@chakra-ui/react";
-import NextImage from "next/image";
+} from 'react-icons/fi'
+import { IconType } from 'react-icons'
+import { Box, BoxProps, IconProps, Text } from '@chakra-ui/react'
+import { Icon } from '@chakra-ui/react'
+import NextImage from 'next/image'
 
 function toChakraIcon(IconType: IconType) {
   return function ChakraIcon(props: IconProps) {
@@ -33,8 +33,8 @@ function toChakraIcon(IconType: IconType) {
       <Icon {...props}>
         <IconType />
       </Icon>
-    );
-  };
+    )
+  }
 }
 
 export function AppIcon(props: BoxProps) {
@@ -48,7 +48,7 @@ export function AppIcon(props: BoxProps) {
         unoptimized
       />
     </Box>
-  );
+  )
 }
 
 export function AppName() {
@@ -56,30 +56,30 @@ export function AppName() {
     <Text ml={1}>
       <b>MAKE</b> Movies
     </Text>
-  );
+  )
 }
 
-export const AddIcon = toChakraIcon(FiPlus);
-export const MenuIcon = toChakraIcon(FiMenu);
-export const SunIcon = toChakraIcon(FiSun);
-export const MoonIcon = toChakraIcon(FiMoon);
-export const ArrowBackIcon = toChakraIcon(FiArrowLeft);
-export const ArrowForwardIcon = toChakraIcon(FiArrowRight);
-export const CheckIcon = toChakraIcon(FiCheck);
-export const CloseIcon = toChakraIcon(FiX);
-export const HomeIcon = toChakraIcon(FiHome);
-export const LoginIcon = toChakraIcon(FiLogIn);
-export const LogoutIcon = toChakraIcon(FiLogOut);
-export const CheckCircleIcon = toChakraIcon(FiCheckCircle);
-export const StarIcon = toChakraIcon(FiStar);
-export const ExternalLinkIcon = toChakraIcon(FiExternalLink);
-export const RefreshIcon = toChakraIcon(FiRefreshCw);
-export const DownloadIcon = toChakraIcon(FiDownload);
-export const LockIcon = toChakraIcon(FiLock);
-export const SearchIcon = toChakraIcon(FiSearch);
-export const MovieIcon = toChakraIcon(FiFilm);
-export const CloudIcon = toChakraIcon(FiCloud);
+export const AddIcon = toChakraIcon(FiPlus)
+export const MenuIcon = toChakraIcon(FiMenu)
+export const SunIcon = toChakraIcon(FiSun)
+export const MoonIcon = toChakraIcon(FiMoon)
+export const ArrowBackIcon = toChakraIcon(FiArrowLeft)
+export const ArrowForwardIcon = toChakraIcon(FiArrowRight)
+export const CheckIcon = toChakraIcon(FiCheck)
+export const CloseIcon = toChakraIcon(FiX)
+export const HomeIcon = toChakraIcon(FiHome)
+export const LoginIcon = toChakraIcon(FiLogIn)
+export const LogoutIcon = toChakraIcon(FiLogOut)
+export const CheckCircleIcon = toChakraIcon(FiCheckCircle)
+export const StarIcon = toChakraIcon(FiStar)
+export const ExternalLinkIcon = toChakraIcon(FiExternalLink)
+export const RefreshIcon = toChakraIcon(FiRefreshCw)
+export const DownloadIcon = toChakraIcon(FiDownload)
+export const LockIcon = toChakraIcon(FiLock)
+export const SearchIcon = toChakraIcon(FiSearch)
+export const MovieIcon = toChakraIcon(FiFilm)
+export const CloudIcon = toChakraIcon(FiCloud)
 
 export function BoolIcon({ value }: { value: boolean }) {
-  return value ? <CheckIcon color="green" /> : <CloseIcon color="red" />;
+  return value ? <CheckIcon color="green" /> : <CloseIcon color="red" />
 }

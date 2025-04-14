@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Badge,
@@ -8,20 +8,20 @@ import {
   Heading,
   Stack,
   Text,
-} from "@chakra-ui/react";
-import { useState } from "react";
-import { useClient } from "@/client";
-import { RefreshIcon } from "@/components/icons";
-import { ErrorAlert, Loading, NoData } from "@/components/alert";
-import { Pagination } from "@/components/pagination";
-import { Download, DownloadPaginatedData } from "@/client/models";
-import { MovieImage } from "@/components/movies/movie";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/progress";
+} from '@chakra-ui/react'
+import { useState } from 'react'
+import { useClient } from '@/client'
+import { RefreshIcon } from '@/components/icons'
+import { ErrorAlert, Loading, NoData } from '@/components/alert'
+import { Pagination } from '@/components/pagination'
+import { Download, DownloadPaginatedData } from '@/client/models'
+import { MovieImage } from '@/components/movies/movie'
+import { Button } from '@/components/ui/button'
+import { Progress } from '@/components/progress'
 
 interface ListPagination {
-  page: number;
-  limit: number;
+  page: number
+  limit: number
 }
 
 function DownloadControls({ onRefresh }: { onRefresh: () => Promise<any> }) {
@@ -31,14 +31,14 @@ function DownloadControls({ onRefresh }: { onRefresh: () => Promise<any> }) {
         <RefreshIcon /> Refresh
       </Button>
     </ButtonGroup>
-  );
+  )
 }
 
 function DownloadStatus({ download }: { download: Download }) {
   const percentDone = download.stats?.percentDone
     ? Math.round((download.stats.percentDone * 100 + Number.EPSILON) * 100) /
       100
-    : null;
+    : null
 
   const progressBar =
     download.complete === true ? (
@@ -47,56 +47,56 @@ function DownloadStatus({ download }: { download: Download }) {
       <Progress value={percentDone} size="sm" />
     ) : (
       <Progress size="sm" value={null} />
-    );
+    )
 
   return (
     <Stack>
       {progressBar}
       <Text fontSize="xs" as="i">
         {download.complete
-          ? "Downloaded"
+          ? 'Downloaded'
           : percentDone
             ? `${percentDone}%`
-            : ""}
+            : ''}
         <Eta value={download.stats?.eta} />
       </Text>
     </Stack>
-  );
+  )
 }
 
 function Eta({ value }: { value?: string | null }) {
-  if (!value) return <></>;
-  const match = value.match(/(\d{2}):(\d{2}):(\d{2})/);
+  if (!value) return <></>
+  const match = value.match(/(\d{2}):(\d{2}):(\d{2})/)
   if (!match) {
-    return <></>;
+    return <></>
   }
 
-  const str = ["hr", "min", "sec"]
+  const str = ['hr', 'min', 'sec']
     .map((name, index) => {
-      const componentValue = parseInt(match[index + 1]);
+      const componentValue = parseInt(match[index + 1])
       if (componentValue === 1) {
-        return `1 ${name}`;
+        return `1 ${name}`
       } else if (componentValue > 0) {
-        return `${componentValue} ${name}s`;
+        return `${componentValue} ${name}s`
       }
     })
-    .join(" ");
+    .join(' ')
 
-  return str.length > 0 ? <> - eta {str}</> : <></>;
+  return str.length > 0 ? <> - eta {str}</> : <></>
 }
 
 function DownloadList({ downloads }: { downloads?: DownloadPaginatedData }) {
   if (!downloads?.data?.length) {
-    return <NoData />;
+    return <NoData />
   }
 
   const cards = downloads.data.map((download) => {
     if (!download.name) {
-      return <></>;
+      return <></>
     }
-    const match = download.name.match(/^(.+) \((\d{4})\)$/);
-    const title = match ? match[1] : download.name;
-    const year = match ? parseInt(match[2]) : null;
+    const match = download.name.match(/^(.+) \((\d{4})\)$/)
+    const title = match ? match[1] : download.name
+    const year = match ? parseInt(match[2]) : null
     return (
       <Card.Root
         key={download.id}
@@ -109,7 +109,7 @@ function DownloadList({ downloads }: { downloads?: DownloadPaginatedData }) {
         <MovieImage movie={{ id: download.movieId, title }} maxW={200} />
         <Card.Body>
           <Heading size="md" mb={4}>
-            <Text mr={2} style={{ display: "inline" }}>
+            <Text mr={2} style={{ display: 'inline' }}>
               {title}
             </Text>
             {year ? <Badge colorPalette="purple">{year}</Badge> : <></>}
@@ -117,32 +117,32 @@ function DownloadList({ downloads }: { downloads?: DownloadPaginatedData }) {
           <DownloadStatus download={download} />
         </Card.Body>
       </Card.Root>
-    );
-  });
-  return <>{cards}</>;
+    )
+  })
+  return <>{cards}</>
 }
 
 export default function DownloadsHome() {
-  const [pageCount, updatePageCount] = useState<number | null>(null);
+  const [pageCount, updatePageCount] = useState<number | null>(null)
   const [pagination, updatePagination] = useState<ListPagination>({
     page: 1,
     limit: 10,
-  });
+  })
   const {
     data: downloads,
     error,
     isLoading,
     mutate,
   } = useClient({
-    api: "list-downloads",
+    api: 'list-downloads',
     ...pagination,
-  });
+  })
 
   async function refresh() {
     if (pagination.page > 1) {
-      updatePagination({ ...pagination, page: 1 });
+      updatePagination({ ...pagination, page: 1 })
     } else {
-      await mutate();
+      await mutate()
     }
   }
 
@@ -168,5 +168,5 @@ export default function DownloadsHome() {
         <></>
       )}
     </Container>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Box,
@@ -15,9 +15,9 @@ import {
   BoxProps,
   CloseButton,
   Container,
-} from "@chakra-ui/react";
-import { useColorMode } from "@/components/ui/color-mode";
-import { Link } from "@/components/link";
+} from '@chakra-ui/react'
+import { useColorMode } from '@/components/ui/color-mode'
+import { Link } from '@/components/link'
 import {
   AppIcon,
   AppName,
@@ -27,34 +27,34 @@ import {
   MenuIcon,
   MoonIcon,
   SunIcon,
-} from "@/components/icons";
-import { usePathname, useRouter } from "next/navigation";
-import { Session } from "next-auth";
-import React, { useState } from "react";
-import { LogoutIcon } from "@/components/icons";
-import { Button } from "@/components/ui/button";
-import { Avatar } from "@/components/ui/avatar";
+} from '@/components/icons'
+import { usePathname, useRouter } from 'next/navigation'
+import { Session } from 'next-auth'
+import React, { useState } from 'react'
+import { LogoutIcon } from '@/components/icons'
+import { Button } from '@/components/ui/button'
+import { Avatar } from '@/components/ui/avatar'
 
 interface NavItemProps extends FlexProps {
-  NavIcon: React.ComponentType<IconProps>;
-  href: string;
-  children: React.ReactNode;
+  NavIcon: React.ComponentType<IconProps>
+  href: string
+  children: React.ReactNode
 }
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void;
+  onClose: () => void
 }
 
 function SidebarContent({ onClose, ...rest }: SidebarProps) {
-  const pathName = usePathname();
+  const pathName = usePathname()
 
   function NavItem({ NavIcon, href, children, ...rest }: NavItemProps) {
-    const current = pathName.startsWith(href);
+    const current = pathName.startsWith(href)
     return (
       <Link
         href={href}
-        style={{ textDecoration: "none" }}
-        _focus={{ boxShadow: "none" }}
+        style={{ textDecoration: 'none' }}
+        _focus={{ boxShadow: 'none' }}
         w="100%"
       >
         <Flex
@@ -66,12 +66,12 @@ function SidebarContent({ onClose, ...rest }: SidebarProps) {
           role="group"
           cursor="pointer"
           _hover={{
-            bg: "gray.600",
-            color: "white",
+            bg: 'gray.600',
+            color: 'white',
           }}
-          bg={current ? "gray.300" : undefined}
+          bg={current ? 'gray.300' : undefined}
           _dark={{
-            bg: current ? "gray.700" : undefined,
+            bg: current ? 'gray.700' : undefined,
           }}
           onClick={onClose}
           {...rest}
@@ -81,13 +81,13 @@ function SidebarContent({ onClose, ...rest }: SidebarProps) {
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: "white",
+              color: 'white',
             }}
           />
           {children}
         </Flex>
       </Link>
-    );
+    )
   }
 
   return (
@@ -96,12 +96,12 @@ function SidebarContent({ onClose, ...rest }: SidebarProps) {
       bg="white"
       borderRight="1px"
       borderRightColor="gray.200"
-      w={{ base: "full", md: 60 }}
+      w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
       _dark={{
-        bg: "gray.900",
-        borderRightColor: "gray.700",
+        bg: 'gray.900',
+        borderRightColor: 'gray.700',
       }}
       {...rest}
     >
@@ -109,13 +109,13 @@ function SidebarContent({ onClose, ...rest }: SidebarProps) {
         h="20"
         alignItems="center"
         mx="8"
-        justifyContent={{ base: "space-between", md: "center" }}
+        justifyContent={{ base: 'space-between', md: 'center' }}
       >
         <Flex alignItems="center">
           <AppIcon />
           <AppName />
         </Flex>
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
 
       <NavItem NavIcon={MovieIcon} href="/movies">
@@ -130,12 +130,12 @@ function SidebarContent({ onClose, ...rest }: SidebarProps) {
         Scraper
       </NavItem>
     </Box>
-  );
+  )
 }
 
 function LogoutButton() {
-  const router = useRouter();
-  const [isLoading, setLoading] = useState(false);
+  const router = useRouter()
+  const [isLoading, setLoading] = useState(false)
 
   return (
     <Dialog.Root role="alertdialog">
@@ -169,8 +169,8 @@ function LogoutButton() {
                 loading={isLoading}
                 loadingText="Logging out..."
                 onClick={() => {
-                  setLoading(true);
-                  router.replace("/logout");
+                  setLoading(true)
+                  router.replace('/logout')
                 }}
                 ml={3}
               >
@@ -183,31 +183,31 @@ function LogoutButton() {
         </Dialog.Positioner>
       </Portal>
     </Dialog.Root>
-  );
+  )
 }
 
 function UserMenu({ session }: { session: Session }) {
   if (!session.user) {
-    return <></>;
+    return <></>
   }
 
-  let displayName = "";
-  if ("given_name" in session.user) {
-    displayName += session.user.given_name + " ";
+  let displayName = ''
+  if ('given_name' in session.user) {
+    displayName += session.user.given_name + ' '
   }
-  if ("family_name" in session.user) {
-    displayName += session.user.family_name;
+  if ('family_name' in session.user) {
+    displayName += session.user.family_name
   }
 
   if (!displayName) {
-    displayName = session.user.name || "";
+    displayName = session.user.name || ''
   }
 
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <Button rounded={"full"} variant={"plain"} cursor={"pointer"} minW={0}>
-          <Avatar size={"sm"} name={displayName} colorPalette={"blue"} />
+        <Button rounded={'full'} variant={'plain'} cursor={'pointer'} minW={0}>
+          <Avatar size={'sm'} name={displayName} colorPalette={'blue'} />
         </Button>
       </Menu.Trigger>
       <Menu.Positioner>
@@ -218,16 +218,16 @@ function UserMenu({ session }: { session: Session }) {
         </Menu.Content>
       </Menu.Positioner>
     </Menu.Root>
-  );
+  )
 }
 
 export interface MobileNavProps extends FlexProps {
-  session?: Session | null;
-  onOpen?(): void;
+  session?: Session | null
+  onOpen?(): void
 }
 
 export function MobileNav({ onOpen, session, ...rest }: MobileNavProps) {
-  const { colorMode, toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode()
   return (
     <Flex
       px={4}
@@ -238,22 +238,22 @@ export function MobileNav({ onOpen, session, ...rest }: MobileNavProps) {
       borderBottomColor="gray.200"
       justifyContent="space-between"
       _dark={{
-        bg: "gray.900",
-        borderBottomColor: "gray.700",
+        bg: 'gray.900',
+        borderBottomColor: 'gray.700',
       }}
       {...rest}
     >
       {!!onOpen ? (
         <>
           <IconButton
-            display={{ base: "flex", md: "none" }}
+            display={{ base: 'flex', md: 'none' }}
             onClick={onOpen}
             variant="ghost"
             aria-label="open menu"
           >
             <MenuIcon />
           </IconButton>
-          <AppIcon display={{ base: "flex", md: "none" }} />
+          <AppIcon display={{ base: 'flex', md: 'none' }} />
         </>
       ) : (
         <>
@@ -265,7 +265,7 @@ export function MobileNav({ onOpen, session, ...rest }: MobileNavProps) {
         </>
       )}
 
-      <HStack gap={{ base: "1", md: "3" }}>
+      <HStack gap={{ base: '1', md: '3' }}>
         {!!session ? <UserMenu session={session} /> : <></>}
 
         <IconButton
@@ -273,28 +273,28 @@ export function MobileNav({ onOpen, session, ...rest }: MobileNavProps) {
           variant="ghost"
           aria-label="change colour mode"
         >
-          {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
         </IconButton>
       </HStack>
     </Flex>
-  );
+  )
 }
 
 export function SecureNav({
   children,
   session,
 }: {
-  children: React.ReactNode;
-  session: Session;
+  children: React.ReactNode
+  session: Session
 }) {
-  const [open, setOpen] = useState(false);
-  const onClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const onClose = () => setOpen(false)
 
   return (
     <Box minH="100dvh">
       <SidebarContent
         onClose={onClose}
-        display={{ base: "none", md: "block" }}
+        display={{ base: 'none', md: 'block' }}
       />
 
       <Drawer.Root
@@ -314,7 +314,7 @@ export function SecureNav({
 
       <MobileNav
         ml={{ base: 0, md: 60 }}
-        justifyContent={{ base: "space-between", md: "flex-end" }}
+        justifyContent={{ base: 'space-between', md: 'flex-end' }}
         onOpen={() => setOpen(true)}
         session={session}
       />
@@ -325,5 +325,5 @@ export function SecureNav({
         </Container>
       </Box>
     </Box>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   ButtonGroup,
@@ -6,27 +6,27 @@ import {
   Heading,
   Spinner,
   Table,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { apiClient, useClient } from "@/client";
-import { ScrapePaginatedData } from "@/client/models";
-import { Pagination } from "@/components/pagination";
-import { BoolIcon, AddIcon, RefreshIcon } from "@/components/icons";
-import { NoData, ErrorAlert, Loading } from "@/components/alert";
-import { Button } from "@/components/ui/button";
-import { toaster } from "@/components/ui/toaster";
+} from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { apiClient, useClient } from '@/client'
+import { ScrapePaginatedData } from '@/client/models'
+import { Pagination } from '@/components/pagination'
+import { BoolIcon, AddIcon, RefreshIcon } from '@/components/icons'
+import { NoData, ErrorAlert, Loading } from '@/components/alert'
+import { Button } from '@/components/ui/button'
+import { toaster } from '@/components/ui/toaster'
 
 interface ListPagination {
-  page: number;
-  limit: number;
+  page: number
+  limit: number
 }
 
 function ScrapeControls({
   onRefresh,
   onNew,
 }: {
-  onRefresh: () => Promise<any>;
-  onNew: () => Promise<any>;
+  onRefresh: () => Promise<any>
+  onNew: () => Promise<any>
 }) {
   return (
     <ButtonGroup variant="outline" mb={4}>
@@ -37,21 +37,21 @@ function ScrapeControls({
         <RefreshIcon /> Refresh
       </Button>
     </ButtonGroup>
-  );
+  )
 }
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  day: "2-digit",
-  month: "short",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-});
-const numberFormatter = new Intl.NumberFormat("en-US");
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+})
+const numberFormatter = new Intl.NumberFormat('en-US')
 
 function ScrapeList({ scrapes }: { scrapes?: ScrapePaginatedData }) {
   if (!scrapes?.data?.length) {
-    return <NoData />;
+    return <NoData />
   }
 
   const rows = scrapes.data.map((s) => (
@@ -67,7 +67,7 @@ function ScrapeList({ scrapes }: { scrapes?: ScrapePaginatedData }) {
       <Table.Cell>{numberFormatter.format(s.movieCount ?? 0)}</Table.Cell>
       <Table.Cell>{numberFormatter.format(s.torrentCount ?? 0)}</Table.Cell>
     </Table.Row>
-  ));
+  ))
 
   return (
     <Table.Root variant="line">
@@ -81,59 +81,59 @@ function ScrapeList({ scrapes }: { scrapes?: ScrapePaginatedData }) {
       </Table.Header>
       <Table.Body>{rows}</Table.Body>
     </Table.Root>
-  );
+  )
 }
 
 export default function ScraperHome() {
-  const [pageCount, updatePageCount] = useState<number | null>(null);
+  const [pageCount, updatePageCount] = useState<number | null>(null)
   const [pagination, updatePagination] = useState<ListPagination>({
     page: 1,
     limit: 10,
-  });
+  })
   const {
     data: scrapes,
     error,
     isLoading,
     mutate,
   } = useClient({
-    api: "list-scrapes",
+    api: 'list-scrapes',
     ...pagination,
-  });
+  })
 
   useEffect(() => {
     if (scrapes?.count) {
-      updatePageCount(Math.ceil(scrapes.count / pagination.limit));
+      updatePageCount(Math.ceil(scrapes.count / pagination.limit))
     }
-  }, [scrapes?.count, pagination.limit]);
+  }, [scrapes?.count, pagination.limit])
 
   async function refresh() {
     if (pagination.page > 1) {
-      updatePagination({ ...pagination, page: 1 });
+      updatePagination({ ...pagination, page: 1 })
     } else {
-      await mutate();
+      await mutate()
     }
   }
 
   async function newScrape() {
     try {
-      await apiClient.api.v1.scrape.post();
-      await mutate();
+      await apiClient.api.v1.scrape.post()
+      await mutate()
       toaster.create({
-        title: "Success",
-        description: "New scrape started.",
-        type: "success",
+        title: 'Success',
+        description: 'New scrape started.',
+        type: 'success',
         duration: 5000,
         closable: true,
-      });
+      })
     } catch (e) {
-      console.error(e);
+      console.error(e)
       toaster.create({
-        title: "Fail",
-        description: "Failed to create new scrape.",
-        type: "error",
+        title: 'Fail',
+        description: 'Failed to create new scrape.',
+        type: 'error',
         duration: 5000,
         closable: true,
-      });
+      })
     }
   }
 
@@ -158,5 +158,5 @@ export default function ScraperHome() {
         <></>
       )}
     </Container>
-  );
+  )
 }
