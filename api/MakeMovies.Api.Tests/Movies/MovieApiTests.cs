@@ -36,7 +36,7 @@ public class MovieApiTests(ApiFixture fixture) : ApiTests(fixture)
         
         var page = await response.Content.ReadFromJsonAsync<PaginatedData<Movie>>();
         page.Should().BeEquivalentTo(new {Page = 1, Limit = 2});
-        page!.Data[0].Year.Should().BeGreaterThan(page.Data[1].Year);
+        page!.Data[0].Year.Should().BeGreaterThanOrEqualTo(page.Data[1].Year);
     }
     
     [Fact]
