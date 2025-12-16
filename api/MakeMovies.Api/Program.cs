@@ -1,6 +1,7 @@
 using System.IO.Abstractions;
 using System.Net;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MakeMovies.Api;
 using MakeMovies.Api.Downloads;
@@ -16,8 +17,7 @@ using MakeMovies.Api.Scrapes;
 using MakeMovies.Api.Scrapes.Yts;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,8 +62,8 @@ builder.Services.AddSwaggerGen(c => {
     c.CustomSchemaIds(type => type.DefaultSchemaIdSelector());
     c.MapType<TimeSpan>(() => new OpenApiSchema
     {
-        Type = "string",
-        Example = new OpenApiString("12:15:01")
+        Type = JsonSchemaType.String,
+        Example = JsonValue.Create("12:15:01")
     });
     c.DescribeAllParametersInCamelCase();
 });
