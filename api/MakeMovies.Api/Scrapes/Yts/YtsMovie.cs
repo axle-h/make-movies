@@ -60,7 +60,7 @@ public record YtsMovie(
 /// </summary>
 /// <param name="Url">
 ///     URL of the .torrent file on YTS e.g.
-///     "https://yts.mx/torrent/download/4221BA07DFAB47E0F5B54ADB2935EEA405E48D12".
+///     "https://yts.lt/torrent/download/4221BA07DFAB47E0F5B54ADB2935EEA405E48D12".
 /// </param>
 /// <param name="Hash">
 ///     BitTorrent info-hash of the torrent file. Used for magnet URI's.

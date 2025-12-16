@@ -8,7 +8,7 @@
     "movies": [
       {
         "id": 3926,
-        "url": "https:\/\/yts.mx\/movies\/toy-story-1995",
+        "url": "https:\/\/yts.lt\/movies\/toy-story-1995",
         "imdb_code": "tt0114709",
         "title": "Toy Story",
         "title_english": "Toy Story",
@@ -31,15 +31,15 @@
         "yt_trailer_code": "b_Wwb4H0oxQ",
         "language": "en",
         "mpa_rating": "",
-        "background_image": "https:\/\/yts.mx\/assets\/images\/movies\/Toy_Story_1995\/background.jpg",
-        "background_image_original": "https:\/\/yts.mx\/assets\/images\/movies\/Toy_Story_1995\/background.jpg",
-        "small_cover_image": "https:\/\/yts.mx\/assets\/images\/movies\/Toy_Story_1995\/small-cover.jpg",
-        "medium_cover_image": "https:\/\/yts.mx\/assets\/images\/movies\/Toy_Story_1995\/medium-cover.jpg",
-        "large_cover_image": "https:\/\/yts.mx\/assets\/images\/movies\/Toy_Story_1995\/large-cover.jpg",
+        "background_image": "https:\/\/yts.lt\/assets\/images\/movies\/Toy_Story_1995\/background.jpg",
+        "background_image_original": "https:\/\/yts.lt\/assets\/images\/movies\/Toy_Story_1995\/background.jpg",
+        "small_cover_image": "https:\/\/yts.lt\/assets\/images\/movies\/Toy_Story_1995\/small-cover.jpg",
+        "medium_cover_image": "https:\/\/yts.lt\/assets\/images\/movies\/Toy_Story_1995\/medium-cover.jpg",
+        "large_cover_image": "https:\/\/yts.lt\/assets\/images\/movies\/Toy_Story_1995\/large-cover.jpg",
         "state": "ok",
         "torrents": [
           {
-            "url": "https:\/\/yts.mx\/torrent\/download\/AA023EF402D739D400ADB05D6765B362853A3990",
+            "url": "https:\/\/yts.lt\/torrent\/download\/AA023EF402D739D400ADB05D6765B362853A3990",
             "hash": "AA023EF402D739D400ADB05D6765B362853A3990",
             "quality": "3D",
             "type": "bluray",
@@ -55,7 +55,7 @@
             "date_uploaded_unix": 1446434887
           },
           {
-            "url": "https:\/\/yts.mx\/torrent\/download\/71C36367F0416D36DC1B7712C3F662EBA65203B6",
+            "url": "https:\/\/yts.lt\/torrent\/download\/71C36367F0416D36DC1B7712C3F662EBA65203B6",
             "hash": "71C36367F0416D36DC1B7712C3F662EBA65203B6",
             "quality": "720p",
             "type": "bluray",
@@ -71,7 +71,7 @@
             "date_uploaded_unix": 1446345871
           },
           {
-            "url": "https:\/\/yts.mx\/torrent\/download\/AEE2BCB4DA9A5650941C64B127F491683C273D86",
+            "url": "https:\/\/yts.lt\/torrent\/download\/AEE2BCB4DA9A5650941C64B127F491683C273D86",
             "hash": "AEE2BCB4DA9A5650941C64B127F491683C273D86",
             "quality": "1080p",
             "type": "bluray",
@@ -87,7 +87,7 @@
             "date_uploaded_unix": 1446345874
           },
           {
-            "url": "https:\/\/yts.mx\/torrent\/download\/B2AF99B855E901EDECB97061EA1EAA794B8DFDFA",
+            "url": "https:\/\/yts.lt\/torrent\/download\/B2AF99B855E901EDECB97061EA1EAA794B8DFDFA",
             "hash": "B2AF99B855E901EDECB97061EA1EAA794B8DFDFA",
             "quality": "2160p",
             "type": "bluray",
@@ -108,7 +108,7 @@
       },
       {
         "id": 1632,
-        "url": "https:\/\/yts.mx\/movies\/interstellar-2014",
+        "url": "https:\/\/yts.lt\/movies\/interstellar-2014",
         "imdb_code": "tt0816692",
         "title": "Interstellar",
         "title_english": "Interstellar",
@@ -130,15 +130,15 @@
         "yt_trailer_code": "0vxOhd4qlnA",
         "language": "en",
         "mpa_rating": "PG-13",
-        "background_image": "https:\/\/yts.mx\/assets\/images\/movies\/interstellar_2014\/background.jpg",
-        "background_image_original": "https:\/\/yts.mx\/assets\/images\/movies\/interstellar_2014\/background.jpg",
-        "small_cover_image": "https:\/\/yts.mx\/assets\/images\/movies\/interstellar_2014\/small-cover.jpg",
-        "medium_cover_image": "https:\/\/yts.mx\/assets\/images\/movies\/interstellar_2014\/medium-cover.jpg",
-        "large_cover_image": "https:\/\/yts.mx\/assets\/images\/movies\/interstellar_2014\/large-cover.jpg",
+        "background_image": "https:\/\/yts.lt\/assets\/images\/movies\/interstellar_2014\/background.jpg",
+        "background_image_original": "https:\/\/yts.lt\/assets\/images\/movies\/interstellar_2014\/background.jpg",
+        "small_cover_image": "https:\/\/yts.lt\/assets\/images\/movies\/interstellar_2014\/small-cover.jpg",
+        "medium_cover_image": "https:\/\/yts.lt\/assets\/images\/movies\/interstellar_2014\/medium-cover.jpg",
+        "large_cover_image": "https:\/\/yts.lt\/assets\/images\/movies\/interstellar_2014\/large-cover.jpg",
         "state": "ok",
         "torrents": [
           {
-            "url": "https:\/\/yts.mx\/torrent\/download\/6E88B3F25BA49D483D740A652BF013C341BC5373",
+            "url": "https:\/\/yts.lt\/torrent\/download\/6E88B3F25BA49D483D740A652BF013C341BC5373",
             "hash": "6E88B3F25BA49D483D740A652BF013C341BC5373",
             "quality": "720p",
             "type": "bluray",
@@ -154,7 +154,7 @@
             "date_uploaded_unix": 1446333486
           },
           {
-            "url": "https:\/\/yts.mx\/torrent\/download\/89599BF4DC369A3A8ECA26411C5CCF922D78B486",
+            "url": "https:\/\/yts.lt\/torrent\/download\/89599BF4DC369A3A8ECA26411C5CCF922D78B486",
             "hash": "89599BF4DC369A3A8ECA26411C5CCF922D78B486",
             "quality": "1080p",
             "type": "bluray",
@@ -170,7 +170,7 @@
             "date_uploaded_unix": 1446333487
           },
           {
-            "url": "https:\/\/yts.mx\/torrent\/download\/FA9773B96054338D1F1C10F2A4D2D9BD5A578B92",
+            "url": "https:\/\/yts.lt\/torrent\/download\/FA9773B96054338D1F1C10F2A4D2D9BD5A578B92",
             "hash": "FA9773B96054338D1F1C10F2A4D2D9BD5A578B92",
             "quality": "2160p",
             "type": "bluray",
