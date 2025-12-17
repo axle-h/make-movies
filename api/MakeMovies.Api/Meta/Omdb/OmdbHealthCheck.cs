@@ -8,8 +8,10 @@ public class OmdbHealthCheck(OmdbClient client) : IHealthCheck
     {
         try
         {
-            await client.GetByImdbCodeAsync("tt0816692", cancellationToken);
-            return HealthCheckResult.Healthy();
+            var movie = await client.GetByImdbCodeAsync("tt0816692", cancellationToken);
+            return movie is null
+                ? HealthCheckResult.Unhealthy("no movie found")
+                : HealthCheckResult.Healthy();
         }
         catch (Exception e)
         {
