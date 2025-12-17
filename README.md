@@ -14,7 +14,7 @@ Certified family proof (my family), movie library management on top of [Jellyfin
 
 ## VPN
 
-[OpenVPN + Dante VPN proxy](openvpn/README.md)
+[tor proxy](vpn/README.md)
 
 ## Reverse Proxy
 

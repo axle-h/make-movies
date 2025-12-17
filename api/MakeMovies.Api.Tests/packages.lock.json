@@ -50,12 +50,6 @@
           "TestableIO.System.IO.Abstractions.TestingHelpers": "22.1.0"
         }
       },
-      "System.Text.Json": {
-        "type": "Direct",
-        "requested": "[10.0.1, )",
-        "resolved": "10.0.1",
-        "contentHash": "EsgwDgU1PFqhrFA9l5n+RBu76wFhNGCEwu8ITrBNhjPP3MxLyklroU5GIF8o6JYpYg6T4KD/VICfMdgPAvNp5g=="
-      },
       "WireMock.Net": {
         "type": "Direct",
         "requested": "[1.19.0, )",
@@ -679,14 +673,6 @@
         "type": "Transitive",
         "resolved": "0.7.0",
         "contentHash": "PfDwSKmStUbl8aD6bCKL9tQG4s+EoyCM9lFHVAMyOd3qcb0aDejthswlcQSS/I9FHpOJbAZ9ru3m7gQcexjVKA=="
-      },
-      "JsonFlatFileDataStore": {
-        "type": "Transitive",
-        "resolved": "2.4.2",
-        "contentHash": "ZIKZnikOkgQZoFSg1cPK0sOA3M00rZG9vgWDhxN0SOxYI86emcIbS1YezcyqtFM+hvh8YgDidrcpEO8/PAU9Dg==",
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.2"
-        }
       },
       "MetadataReferenceService.Abstractions": {
         "type": "Transitive",
@@ -1605,7 +1591,6 @@
         "type": "Project",
         "dependencies": {
           "FuzzySharp": "[2.0.2, )",
-          "JsonFlatFileDataStore": "[2.4.2, )",
           "Microsoft.AspNetCore.OpenApi": "[10.0.1, )",
           "Microsoft.Extensions.Hosting.Systemd": "[10.0.1, )",
           "Microsoft.Kiota.Abstractions": "[1.21.0, )",

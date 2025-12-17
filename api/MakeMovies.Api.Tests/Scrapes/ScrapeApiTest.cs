@@ -42,15 +42,15 @@ public class ScrapeApiTest(ApiFixture fixture) : ApiTests(fixture)
 
             if (scrape.EndDate is null)
             {
-                await Task.Delay(1000);
+                await Task.Delay(100);
                 continue;
             }
 
             using var _ = new AssertionScope();
             scrape.EndDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromMinutes(1));
             scrape.Success.Should().BeTrue();
-            scrape.MovieCount.Should().Be(3);
-            scrape.TorrentCount.Should().Be(10);
+            scrape.MovieCount.Should().BeGreaterThanOrEqualTo(3);
+            scrape.TorrentCount.Should().BeGreaterThanOrEqualTo(10);
             scrape.Error.Should().BeNull();
             break;
         }

@@ -5,7 +5,7 @@ namespace MakeMovies.Api.Scrapes;
 [ApiController]
 [Route("api/v1/scrape")]
 [Produces("application/json")]
-public class ScrapeController(IScrapeService service) : ControllerBase
+public class ScrapeController(IScrapeService service, ILogger<ScrapeController> logger) : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]

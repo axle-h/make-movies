@@ -14,31 +14,13 @@ spec:
       labels:
         app: vpn
     spec:
-      volumes:
-        - name: dev-net-tun
-          hostPath:
-            path: /dev/net/tun
-            type: CharDevice
-        - name: openvpn-conf
-          secret:
-            secretName: openvpn
       containers:
         - name: vpn
-          image: "ghcr.io/axle-h/make-movies-openvpn:latest"
+          image: "ghcr.io/axle-h/make-movies-vpn:latest"
           imagePullPolicy: Always
-          volumeMounts:
-            - name: dev-net-tun
-              mountPath: /dev/net/tun
-            - name: openvpn-conf
-              mountPath: /etc/openvpn/client
-              readOnly: true
-          securityContext:
-            privileged: true
-            capabilities:
-                add: ["NET_ADMIN"]
           ports:
             - name: socks
-              containerPort: 1080
+              containerPort: 9050
           livenessProbe:
             exec:
               command:
@@ -46,7 +28,7 @@ spec:
               - --fail
               - -s
               - --socks5-hostname
-              - localhost:1080
+              - localhost:9050
               - ipinfo.io/ip
             periodSeconds: 3600 # uses internet IO
           startupProbe:

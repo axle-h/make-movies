@@ -29,20 +29,22 @@ public class ScrapeService(
 
         var scrape = await scrapeRepository.NewAsync(cancellationToken);
 
-        var _ = Task.Run( () => RunScrapeAsync(scrape), CancellationToken.None);
+        _ = Task.Run( () => RunScrapeAsync(scrape), CancellationToken.None);
 
         return scrape;
     }
 
     private async Task RunScrapeAsync(Scrape scrape)
     {
+        logger.LogInformation("scrape started");
+        
         await _semaphore.WaitAsync();
         try
         {
             var movies = MergeWithLibraryAsync(scraper.ScrapeMoviesAsync());
             var stats = await movieRepository.WriteScrapedAsync(movies);
             scrape = scrape with { Success = true, EndDate = DateTime.UtcNow, MovieCount = stats.Movies, TorrentCount = stats.Torrents };
-            logger.LogInformation("scrape complete");
+            logger.LogInformation("scrape complete, scraped {Movies} movies and {Torrents} torrents", stats.Movies, stats.Torrents);
         }
         catch (Exception e)
         {

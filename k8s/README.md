@@ -8,10 +8,6 @@ First, add your keys to `api/configmap.yml`.
 # Create the namespace
 kubectl create namespace make-movies
 
-# Create a secret for OpenVPN from local openvpn.conf (I'm using ProtonVPN free tier)
-kubectl -n make-movies create secret generic openvpn \
-    --from-file=openvpn.conf=./openvpn.conf
-
 # Create VPN resources
 kubectl -n make-movies apply -f ./vpn
 

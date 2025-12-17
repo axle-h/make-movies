@@ -53,7 +53,7 @@ spec:
                 fieldRef:
                   fieldPath: status.hostIP
             - name: Scrape__ProxyUrl
-              value: "socks5://vpn:1080"
+              value: "socks5://vpn:9050"
             - name: Download__Transmission__Url
               value: http://$(HOST_IP):9091/transmission/
             - name: Library__Jellyfin__Url

@@ -54,7 +54,7 @@ mkdir -p /mnt/storage/movies
 mkdir -p /mnt/storage/downloads
 
 # Optional socks proxy for connections to torrent sites (recommended)
-export Scrape__ProxyUrl=socks5://localhost:1080
+export Scrape__ProxyUrl=socks5://localhost:9050
 
 # Path to a writeable folder for caching movie image files
 export Meta__ImagePath=/var/make-movies/images
@@ -136,7 +136,7 @@ For simplicity, I run this on Ubuntu via systemd.
 3. Create data directories: `mkdir -p /var/make-movies/images`
 4. Configure via environment variables in `/var/make-movies/.env` e.g.
     ```ini
-    Scrape__ProxyUrl=socks5://localhost:1080
+    Scrape__ProxyUrl=socks5://localhost:9050
     Meta__ImagePath=/var/make-movies/images
     Meta__Tmdb__AccessToken=my-tmdb-access-token
     Meta__Omdb__ApiKey=my-omdb-access-token
