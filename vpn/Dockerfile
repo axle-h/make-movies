@@ -8,9 +8,9 @@ RUN apk -U upgrade && \
 COPY --chown=tor:root torrc /etc/tor/
 
 HEALTHCHECK --timeout=20s --start-period=300s \
-    CMD curl --fail --socks5 localhost:9150 'https://api.ipify.org?format=json' || exit 1
+    CMD curl --fail --socks5 localhost:9050 'https://api.ipify.org?format=json' || exit 1
 
 USER tor
-EXPOSE 8853/udp 9150/tcp
+EXPOSE 8853/udp 9050/tcp
 
 CMD ["/usr/bin/tor", "-f", "/etc/tor/torrc"]

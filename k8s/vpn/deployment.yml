@@ -30,7 +30,7 @@ spec:
               - --socks5-hostname
               - localhost:9050
               - ipinfo.io/ip
-            periodSeconds: 3600 # uses internet IO
+            periodSeconds: 60
           startupProbe:
             tcpSocket:
               port: socks
