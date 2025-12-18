@@ -106,7 +106,16 @@ export default function MoviesHome({
     nextPage?: number
     nextSearchTerm?: string
   }) {
-    router.replace(`?search=${nextSearchTerm}&page=${nextPage || currentPage}`)
+    const search = nextSearchTerm ?? params.search ?? ''
+    const page = nextPage ?? currentPage
+    const queryParams = new URLSearchParams()
+
+    if (search) {
+      queryParams.set('search', search)
+    }
+    queryParams.set('page', String(page))
+
+    router.replace(`?${queryParams.toString()}`)
   }
 
   const handleSearch = useDebounce(

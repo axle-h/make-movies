@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.mjs",
   "engines": {
-    "node": "20"
+    "node": "24"
   },
   "scripts": {
-    "start": "node --no-warnings=ExperimentalWarning index.mjs"
+    "start": "node index.mjs"
   },
   "author": "",
   "license": "ISC",

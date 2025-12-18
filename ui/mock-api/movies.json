@@ -89,5 +89,659 @@
       }
     ],
     "inLibrary": true
+  },
+  {
+    "id": "yts_1001",
+    "imdbCode": "tt0111161",
+    "title": "The Shawshank Redemption",
+    "searchableTitle": "the shawshank redemption",
+    "language": "en",
+    "year": 1994,
+    "rating": 9.3,
+    "runtime": "02:22:00",
+    "summary": "Chronicles the experiences of a formerly successful banker as a prisoner in the gloomy jailhouse of Shawshank after being found guilty of a crime he did not commit. The film portrays the man's unique way of dealing with his new, torturous life; along the way he befriends a number of fellow prisoners, most notably a wise long-term inmate named Red.",
+    "description": "Chronicles the experiences of a formerly successful banker as a prisoner in the gloomy jailhouse of Shawshank after being found guilty of a crime he did not commit. The film portrays the man's unique way of dealing with his new, torturous life; along the way he befriends a number of fellow prisoners, most notably a wise long-term inmate named Red.",
+    "genres": ["drama"],
+    "youTubeTrailerCode": "6hB3S9bIaco",
+    "dateCreated": "2015-10-30T12:15:00Z",
+    "torrents": [
+      {
+        "hash": "A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 950000000,
+        "dateCreated": "2015-10-30T12:15:00Z"
+      },
+      {
+        "hash": "B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2100000000,
+        "dateCreated": "2015-10-30T12:15:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1002",
+    "imdbCode": "tt0068646",
+    "title": "The Godfather",
+    "searchableTitle": "the godfather",
+    "language": "en",
+    "year": 1972,
+    "rating": 9.2,
+    "runtime": "02:55:00",
+    "summary": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+    "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+    "genres": ["crime", "drama"],
+    "youTubeTrailerCode": "sY1S34973zA",
+    "dateCreated": "2015-10-29T14:30:00Z",
+    "torrents": [
+      {
+        "hash": "C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1150000000,
+        "dateCreated": "2015-10-29T14:30:00Z"
+      },
+      {
+        "hash": "D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2450000000,
+        "dateCreated": "2015-10-29T14:30:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1003",
+    "imdbCode": "tt0468569",
+    "title": "The Dark Knight",
+    "searchableTitle": "the dark knight",
+    "language": "en",
+    "year": 2008,
+    "rating": 9.0,
+    "runtime": "02:32:00",
+    "summary": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+    "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+    "genres": ["action", "crime", "drama", "thriller"],
+    "youTubeTrailerCode": "EXeTwQWrcwY",
+    "dateCreated": "2015-10-28T16:45:00Z",
+    "torrents": [
+      {
+        "hash": "E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1050000000,
+        "dateCreated": "2015-10-28T16:45:00Z"
+      },
+      {
+        "hash": "F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2300000000,
+        "dateCreated": "2015-10-28T16:45:05Z"
+      },
+      {
+        "hash": "A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6",
+        "quality": "2160p",
+        "type": "bluray",
+        "sizeBytes": 7500000000,
+        "dateCreated": "2021-06-15T10:00:00Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1004",
+    "imdbCode": "tt0109830",
+    "title": "Forrest Gump",
+    "searchableTitle": "forrest gump",
+    "language": "en",
+    "year": 1994,
+    "rating": 8.8,
+    "runtime": "02:22:00",
+    "summary": "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.",
+    "description": "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.",
+    "genres": ["drama", "romance"],
+    "youTubeTrailerCode": "bLvqoHBptjg",
+    "dateCreated": "2015-10-27T09:20:00Z",
+    "torrents": [
+      {
+        "hash": "B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 980000000,
+        "dateCreated": "2015-10-27T09:20:00Z"
+      },
+      {
+        "hash": "C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2200000000,
+        "dateCreated": "2015-10-27T09:20:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1005",
+    "imdbCode": "tt0137523",
+    "title": "Fight Club",
+    "searchableTitle": "fight club",
+    "language": "en",
+    "year": 1999,
+    "rating": 8.8,
+    "runtime": "02:19:00",
+    "summary": "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
+    "description": "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into much more.",
+    "genres": ["drama"],
+    "youTubeTrailerCode": "qtRKdVHc-cE",
+    "dateCreated": "2015-10-26T11:10:00Z",
+    "torrents": [
+      {
+        "hash": "D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 920000000,
+        "dateCreated": "2015-10-26T11:10:00Z"
+      },
+      {
+        "hash": "E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2050000000,
+        "dateCreated": "2015-10-26T11:10:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1006",
+    "imdbCode": "tt0133093",
+    "title": "The Matrix",
+    "searchableTitle": "the matrix",
+    "language": "en",
+    "year": 1999,
+    "rating": 8.7,
+    "runtime": "02:16:00",
+    "summary": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+    "description": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+    "genres": ["action", "sci-fi"],
+    "youTubeTrailerCode": "vKQi3bBA1y8",
+    "dateCreated": "2015-10-25T13:25:00Z",
+    "torrents": [
+      {
+        "hash": "F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 900000000,
+        "dateCreated": "2015-10-25T13:25:00Z"
+      },
+      {
+        "hash": "A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2000000000,
+        "dateCreated": "2015-10-25T13:25:05Z"
+      },
+      {
+        "hash": "B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C3",
+        "quality": "2160p",
+        "type": "bluray",
+        "sizeBytes": 6800000000,
+        "dateCreated": "2021-04-10T14:20:00Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1007",
+    "imdbCode": "tt0120737",
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "searchableTitle": "the lord of the rings the fellowship of the ring",
+    "language": "en",
+    "year": 2001,
+    "rating": 8.8,
+    "runtime": "02:58:00",
+    "summary": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+    "description": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+    "genres": ["action", "adventure", "drama", "fantasy"],
+    "youTubeTrailerCode": "V75dMMIW2B4",
+    "dateCreated": "2015-10-24T15:40:00Z",
+    "torrents": [
+      {
+        "hash": "C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C3D4",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1200000000,
+        "dateCreated": "2015-10-24T15:40:00Z"
+      },
+      {
+        "hash": "D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2600000000,
+        "dateCreated": "2015-10-24T15:40:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1008",
+    "imdbCode": "tt0167260",
+    "title": "The Lord of the Rings: The Return of the King",
+    "searchableTitle": "the lord of the rings the return of the king",
+    "language": "en",
+    "year": 2003,
+    "rating": 9.0,
+    "runtime": "03:21:00",
+    "summary": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+    "description": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+    "genres": ["action", "adventure", "drama", "fantasy"],
+    "youTubeTrailerCode": "r7Dtn5uGp6E",
+    "dateCreated": "2015-10-23T17:55:00Z",
+    "torrents": [
+      {
+        "hash": "E7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1350000000,
+        "dateCreated": "2015-10-23T17:55:00Z"
+      },
+      {
+        "hash": "F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2900000000,
+        "dateCreated": "2015-10-23T17:55:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1009",
+    "imdbCode": "tt0110912",
+    "title": "Pulp Fiction",
+    "searchableTitle": "pulp fiction",
+    "language": "en",
+    "year": 1994,
+    "rating": 8.9,
+    "runtime": "02:34:00",
+    "summary": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+    "description": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+    "genres": ["crime", "drama"],
+    "youTubeTrailerCode": "s7EdQ4FqbhY",
+    "dateCreated": "2015-10-22T10:30:00Z",
+    "torrents": [
+      {
+        "hash": "A9B0C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1020000000,
+        "dateCreated": "2015-10-22T10:30:00Z"
+      },
+      {
+        "hash": "B0C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2250000000,
+        "dateCreated": "2015-10-22T10:30:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1010",
+    "imdbCode": "tt2614776",
+    "title": "City of God",
+    "searchableTitle": "city of god",
+    "language": "pt",
+    "year": 2002,
+    "rating": 8.6,
+    "runtime": "02:10:00",
+    "summary": "In the slums of Rio, two kids' paths diverge as one struggles to become a photographer and the other a kingpin.",
+    "description": "In the slums of Rio, two kids' paths diverge as one struggles to become a photographer and the other a kingpin.",
+    "genres": ["crime", "drama"],
+    "youTubeTrailerCode": "dcUOO4Itgmw",
+    "dateCreated": "2015-10-21T12:45:00Z",
+    "torrents": [
+      {
+        "hash": "C1D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 880000000,
+        "dateCreated": "2015-10-21T12:45:00Z"
+      },
+      {
+        "hash": "D2E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0E1",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 1950000000,
+        "dateCreated": "2015-10-21T12:45:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1011",
+    "imdbCode": "tt0120815",
+    "title": "Saving Private Ryan",
+    "searchableTitle": "saving private ryan",
+    "language": "en",
+    "year": 1998,
+    "rating": 8.6,
+    "runtime": "02:49:00",
+    "summary": "Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.",
+    "description": "Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.",
+    "genres": ["drama", "war"],
+    "youTubeTrailerCode": "9CiW_DgxCnQ",
+    "dateCreated": "2015-10-20T14:00:00Z",
+    "torrents": [
+      {
+        "hash": "E3F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1150000000,
+        "dateCreated": "2015-10-20T14:00:00Z"
+      },
+      {
+        "hash": "F4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2A3",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2500000000,
+        "dateCreated": "2015-10-20T14:00:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1012",
+    "imdbCode": "tt0253474",
+    "title": "The Pianist",
+    "searchableTitle": "the pianist",
+    "language": "en",
+    "year": 2002,
+    "rating": 8.5,
+    "runtime": "02:30:00",
+    "summary": "A Polish Jewish musician struggles to survive the destruction of the Warsaw ghetto of World War II.",
+    "description": "A Polish Jewish musician struggles to survive the destruction of the Warsaw ghetto of World War II.",
+    "genres": ["biography", "drama", "music", "war"],
+    "youTubeTrailerCode": "BFwGqLa_oAo",
+    "dateCreated": "2015-10-19T16:15:00Z",
+    "torrents": [
+      {
+        "hash": "A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2A3B4",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1000000000,
+        "dateCreated": "2015-10-19T16:15:00Z"
+      },
+      {
+        "hash": "B6C7D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2200000000,
+        "dateCreated": "2015-10-19T16:15:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1013",
+    "imdbCode": "tt0167261",
+    "title": "The Lord of the Rings: The Two Towers",
+    "searchableTitle": "the lord of the rings the two towers",
+    "language": "en",
+    "year": 2002,
+    "rating": 8.7,
+    "runtime": "02:59:00",
+    "summary": "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.",
+    "description": "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.",
+    "genres": ["action", "adventure", "drama", "fantasy"],
+    "youTubeTrailerCode": "LbfMDwc4azU",
+    "dateCreated": "2015-10-18T18:30:00Z",
+    "torrents": [
+      {
+        "hash": "C7D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 1250000000,
+        "dateCreated": "2015-10-18T18:30:00Z"
+      },
+      {
+        "hash": "D8E9F0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2700000000,
+        "dateCreated": "2015-10-18T18:30:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1014",
+    "imdbCode": "tt0118799",
+    "title": "Life Is Beautiful",
+    "searchableTitle": "life is beautiful",
+    "language": "it",
+    "year": 1997,
+    "rating": 8.6,
+    "runtime": "01:56:00",
+    "summary": "When an open-minded Jewish waiter and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.",
+    "description": "When an open-minded Jewish waiter and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.",
+    "genres": ["comedy", "drama", "romance", "war"],
+    "youTubeTrailerCode": "pAYEQP8gx3w",
+    "dateCreated": "2015-10-17T09:45:00Z",
+    "torrents": [
+      {
+        "hash": "E9F0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 820000000,
+        "dateCreated": "2015-10-17T09:45:00Z"
+      },
+      {
+        "hash": "F0A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 1800000000,
+        "dateCreated": "2015-10-17T09:45:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1015",
+    "imdbCode": "tt0816711",
+    "title": "World War Z",
+    "searchableTitle": "world war z",
+    "language": "en",
+    "year": 2013,
+    "rating": 7.0,
+    "runtime": "01:56:00",
+    "summary": "Former United Nations employee Gerry Lane traverses the world in a race against time to stop a zombie pandemic that is toppling armies and governments and threatens to destroy humanity itself.",
+    "description": "Former United Nations employee Gerry Lane traverses the world in a race against time to stop a zombie pandemic that is toppling armies and governments and threatens to destroy humanity itself.",
+    "genres": ["action", "adventure", "horror", "sci-fi"],
+    "youTubeTrailerCode": "Md6Dvxdr0AQ",
+    "dateCreated": "2015-10-16T11:00:00Z",
+    "torrents": [
+      {
+        "hash": "A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B1",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 850000000,
+        "dateCreated": "2015-10-16T11:00:00Z"
+      },
+      {
+        "hash": "B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C2",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 1850000000,
+        "dateCreated": "2015-10-16T11:00:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1016",
+    "imdbCode": "tt0372784",
+    "title": "Batman Begins",
+    "searchableTitle": "batman begins",
+    "language": "en",
+    "year": 2005,
+    "rating": 8.2,
+    "runtime": "02:20:00",
+    "summary": "After training with his mentor, Batman begins his fight to free crime-ridden Gotham City from corruption.",
+    "description": "After training with his mentor, Batman begins his fight to free crime-ridden Gotham City from corruption.",
+    "genres": ["action", "crime", "drama"],
+    "youTubeTrailerCode": "neY2xVmOfUM",
+    "dateCreated": "2015-10-15T13:15:00Z",
+    "torrents": [
+      {
+        "hash": "C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D3",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 950000000,
+        "dateCreated": "2015-10-15T13:15:00Z"
+      },
+      {
+        "hash": "D4E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E4",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2100000000,
+        "dateCreated": "2015-10-15T13:15:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1017",
+    "imdbCode": "tt0103064",
+    "title": "Terminator 2: Judgment Day",
+    "searchableTitle": "terminator 2 judgment day",
+    "language": "en",
+    "year": 1991,
+    "rating": 8.6,
+    "runtime": "02:17:00",
+    "summary": "A cyborg, identical to the one who failed to kill Sarah Connor, must now protect her teenage son, John Connor, from a more advanced and powerful cyborg.",
+    "description": "A cyborg, identical to the one who failed to kill Sarah Connor, must now protect her teenage son, John Connor, from a more advanced and powerful cyborg.",
+    "genres": ["action", "sci-fi"],
+    "youTubeTrailerCode": "CRRlbK5w8AE",
+    "dateCreated": "2015-10-14T15:30:00Z",
+    "torrents": [
+      {
+        "hash": "E5F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F5",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 920000000,
+        "dateCreated": "2015-10-14T15:30:00Z"
+      },
+      {
+        "hash": "F6A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A6",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2050000000,
+        "dateCreated": "2015-10-14T15:30:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1018",
+    "imdbCode": "tt0095327",
+    "title": "Grave of the Fireflies",
+    "searchableTitle": "grave of the fireflies",
+    "language": "ja",
+    "year": 1988,
+    "rating": 8.5,
+    "runtime": "01:29:00",
+    "summary": "A young boy and his little sister struggle to survive in Japan during World War II.",
+    "description": "A young boy and his little sister struggle to survive in Japan during World War II.",
+    "genres": ["animation", "drama", "war"],
+    "youTubeTrailerCode": "4vPeTSRd580",
+    "dateCreated": "2015-10-13T17:45:00Z",
+    "torrents": [
+      {
+        "hash": "A7B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B7",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 680000000,
+        "dateCreated": "2015-10-13T17:45:00Z"
+      },
+      {
+        "hash": "B8C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C8",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 1500000000,
+        "dateCreated": "2015-10-13T17:45:05Z"
+      }
+    ],
+    "inLibrary": true
+  },
+  {
+    "id": "yts_1019",
+    "imdbCode": "tt0114369",
+    "title": "Se7en",
+    "searchableTitle": "se7en",
+    "language": "en",
+    "year": 1995,
+    "rating": 8.6,
+    "runtime": "02:07:00",
+    "summary": "Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his motives.",
+    "description": "Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his motives.",
+    "genres": ["crime", "drama", "mystery", "thriller"],
+    "youTubeTrailerCode": "znmZoVkCjpI",
+    "dateCreated": "2015-10-12T10:00:00Z",
+    "torrents": [
+      {
+        "hash": "C9D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D9",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 890000000,
+        "dateCreated": "2015-10-12T10:00:00Z"
+      },
+      {
+        "hash": "D0E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E0",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 1950000000,
+        "dateCreated": "2015-10-12T10:00:05Z"
+      }
+    ],
+    "inLibrary": false
+  },
+  {
+    "id": "yts_1020",
+    "imdbCode": "tt0104257",
+    "title": "A Few Good Men",
+    "searchableTitle": "a few good men",
+    "language": "en",
+    "year": 1992,
+    "rating": 7.7,
+    "runtime": "02:18:00",
+    "summary": "Military lawyer Lieutenant Daniel Kaffee defends Marines accused of murder. They contend they were acting under orders.",
+    "description": "Military lawyer Lieutenant Daniel Kaffee defends Marines accused of murder. They contend they were acting under orders.",
+    "genres": ["drama", "thriller"],
+    "youTubeTrailerCode": "ub4J2n8x3CE",
+    "dateCreated": "2015-10-11T12:15:00Z",
+    "torrents": [
+      {
+        "hash": "E1F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F1",
+        "quality": "720p",
+        "type": "bluray",
+        "sizeBytes": 940000000,
+        "dateCreated": "2015-10-11T12:15:00Z"
+      },
+      {
+        "hash": "F2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D8E9F0A2",
+        "quality": "1080p",
+        "type": "bluray",
+        "sizeBytes": 2080000000,
+        "dateCreated": "2015-10-11T12:15:05Z"
+      }
+    ],
+    "inLibrary": true
   }
 ]
