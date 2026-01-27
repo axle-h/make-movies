@@ -14,7 +14,7 @@
     "@microsoft/kiota-abstractions": "^1.0.0-preview.57",
     "@microsoft/kiota-http-fetchlibrary": "^1.0.0-preview.56",
     "@microsoft/kiota-serialization-json": "^1.0.0-preview.57",
-    "next": "16.0.10",
+    "next": "16.1.5",
     "next-auth": "^5.0.0-beta.19",
     "next-themes": "^0.4.6",
     "react": "19.2.3",
