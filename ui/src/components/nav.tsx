@@ -26,7 +26,7 @@ import {
   MoonIcon,
   SunIcon,
 } from '@/components/icons'
-import { useLocation } from 'react-router'
+import { useLocation } from '@tanstack/react-router'
 import React, { useState } from 'react'
 import { displayName, UserInfo, useUser } from '@/client/user'
 import { LogoutIcon } from '@/components/icons'

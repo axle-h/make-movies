@@ -6,6 +6,7 @@ import {
   Table,
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
 import { apiClient, useClient } from '@/client'
 import { ScrapePaginatedData } from '@/client/models'
 import { Pagination } from '@/components/pagination'
@@ -82,7 +83,11 @@ function ScrapeList({ scrapes }: { scrapes?: ScrapePaginatedData }) {
   )
 }
 
-export default function ScraperHome() {
+export const Route = createFileRoute('/scraper')({
+  component: ScraperHome,
+})
+
+function ScraperHome() {
   const [pagination, updatePagination] = useState<ListPagination>({
     page: 1,
     limit: 10,

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import { fileURLToPath, URL } from 'node:url'
 
 // Everything the api owns. The callback paths matter: miss them and an oidc login
@@ -17,7 +18,11 @@ const apiPaths = [
 const apiUrl = process.env.API_URL || 'http://localhost:5266'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    // Generates src/routeTree.gen.ts from src/routes. Must come before the react plugin.
+    tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+    react(),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

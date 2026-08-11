@@ -1,6 +1,6 @@
 import { ButtonGroup, Card, Center, Container } from '@chakra-ui/react'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { ArrowBackIcon, DownloadIcon, LockIcon } from '@/components/icons'
-import { useNavigate, useParams } from 'react-router'
 import { apiClient, useClient } from '@/client'
 import { ErrorAlert, Loading, NotFound } from '@/components/alert'
 import { Movie } from '@/client/models'
@@ -8,6 +8,10 @@ import { MovieCardBody, MovieImage } from '@/components/movies/movie'
 import { Button } from '@/components/ui/button'
 import { toaster } from '@/components/ui/toaster'
 import { Tooltip } from '@/components/ui/tooltip'
+
+export const Route = createFileRoute('/movies/$id')({
+  component: MoviePage,
+})
 
 function MovieCard({ movie }: { movie: Movie }) {
   return (
@@ -27,19 +31,19 @@ function MovieCard({ movie }: { movie: Movie }) {
   )
 }
 
-export default function MoviePage() {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
+function MoviePage() {
+  const { id } = Route.useParams()
+  const router = useRouter()
   const {
     data: movie,
     error,
     isLoading,
     mutate,
-  } = useClient({ api: 'get-movie', id: id! })
+  } = useClient({ api: 'get-movie', id })
 
   async function download() {
     try {
-      await apiClient.api.v1.movie.byId(id!).download.post()
+      await apiClient.api.v1.movie.byId(id).download.post()
       await mutate()
       toaster.create({
         title: 'Success',
@@ -64,7 +68,7 @@ export default function MoviePage() {
   return (
     <Container py={4}>
       <ButtonGroup variant="outline" mb={4}>
-        <Button variant="outline" onClick={() => navigate(-1)}>
+        <Button variant="outline" onClick={() => router.history.back()}>
           <ArrowBackIcon /> Back
         </Button>
         <Tooltip disabled={!inLibrary} content="Already downloaded">
@@ -84,7 +88,7 @@ export default function MoviePage() {
       ) : error ? (
         <ErrorAlert error={error} />
       ) : !movie ? (
-        <NotFound entity="movie" id={id!} />
+        <NotFound entity="movie" id={id} />
       ) : (
         <MovieCard movie={movie} />
       )}

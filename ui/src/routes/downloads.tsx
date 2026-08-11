@@ -8,6 +8,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
 import { useClient } from '@/client'
 import { RefreshIcon } from '@/components/icons'
 import { ErrorAlert, Loading, NoData } from '@/components/alert'
@@ -120,7 +121,11 @@ function DownloadList({ downloads }: { downloads?: DownloadPaginatedData }) {
   return <>{cards}</>
 }
 
-export default function DownloadsHome() {
+export const Route = createFileRoute('/downloads')({
+  component: DownloadsHome,
+})
+
+function DownloadsHome() {
   const [pagination, updatePagination] = useState<ListPagination>({
     page: 1,
     limit: 10,

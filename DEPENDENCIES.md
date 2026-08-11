@@ -57,6 +57,13 @@ this API is JSON only. See `ui/src/client/README.md`. Do not hand-edit the
 generated code — `index.ts` and `user.ts` are hand written and sit alongside it
 deliberately.
 
+### `ui/src/routeTree.gen.ts` is generated but committed
+
+The TanStack Router vite plugin generates it from `ui/src/routes`. It is committed rather than
+gitignored because `pnpm build` runs `tsc --noEmit` before `vite build`, so on a clean clone the
+typecheck would run before anything had generated it. Both `pnpm dev` and `pnpm build`
+regenerate it; do not hand edit it.
+
 ### pnpm blocks package build scripts
 
 `esbuild` has a postinstall that pnpm refuses to run unless it is allowlisted.

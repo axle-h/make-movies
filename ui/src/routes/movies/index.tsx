@@ -7,15 +7,34 @@ import {
   LinkBox,
   LinkOverlay,
 } from '@chakra-ui/react'
+import { createFileRoute } from '@tanstack/react-router'
 import { SearchIcon } from '@/components/icons'
 import { useClient } from '@/client'
 import { Link } from '@/components/link'
 import { useState } from 'react'
 import useDebounce from '@/components/debounce'
-import { useSearchParams } from 'react-router'
 import { Pagination } from '@/components/pagination'
 import { ErrorAlert, Loading, NoData } from '@/components/alert'
 import { MovieCardBody, MovieImage } from '@/components/movies/movie'
+
+// Both optional so that a plain link to /movies does not have to supply them. Undefined
+// is dropped from the query string, which keeps the urls the same as they were: page is
+// always present, search only when there is one.
+interface MoviesSearch {
+  search?: string
+  page?: number
+}
+
+export const Route = createFileRoute('/movies/')({
+  validateSearch: (input: Record<string, unknown>): MoviesSearch => ({
+    search:
+      typeof input.search === 'string' && input.search
+        ? input.search
+        : undefined,
+    page: Number(input.page) || 1,
+  }),
+  component: MoviesHome,
+})
 
 function MovieList({
   searchTerm,
@@ -82,34 +101,17 @@ function MovieList({
   )
 }
 
-export default function MoviesHome() {
-  const [params, setParams] = useSearchParams()
-  const search = params.get('search') ?? ''
-  const currentPage = Number(params.get('page')) || 1
-
+function MoviesHome() {
+  const { search = '', page = 1 } = Route.useSearch()
+  const navigate = Route.useNavigate()
   const [searchTerm, setSearchTerm] = useState(search)
 
-  function navigate({
-    nextPage,
-    nextSearchTerm,
-  }: {
-    nextPage?: number
-    nextSearchTerm?: string
-  }) {
-    const nextSearch = nextSearchTerm ?? search
-    const page = nextPage ?? currentPage
-    const queryParams = new URLSearchParams()
-
-    if (nextSearch) {
-      queryParams.set('search', nextSearch)
-    }
-    queryParams.set('page', String(page))
-
-    setParams(queryParams, { replace: true })
-  }
-
   const handleSearch = useDebounce(
-    (nextSearchTerm: string) => navigate({ nextSearchTerm, nextPage: 1 }),
+    (nextSearch: string) =>
+      navigate({
+        search: { search: nextSearch || undefined, page: 1 },
+        replace: true,
+      }),
     500
   )
 
@@ -135,8 +137,13 @@ export default function MoviesHome() {
 
       <MovieList
         searchTerm={search}
-        page={currentPage}
-        updatePage={(nextPage) => navigate({ nextPage })}
+        page={page}
+        updatePage={(nextPage) =>
+          navigate({
+            search: (previous) => ({ ...previous, page: nextPage }),
+            replace: true,
+          })
+        }
       />
     </Container>
   )
