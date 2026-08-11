@@ -1,4 +1,4 @@
-FROM alpine:3.23
+FROM alpine:3.24.1
 
 RUN apk -U upgrade && \
     apk -v add tor curl && \
