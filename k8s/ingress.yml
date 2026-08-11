@@ -3,12 +3,12 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.middlewares: make-money-redirect-http-https@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: make-movies-redirect-http-https@kubernetescrd
   name: make-movies
   labels:
     app: make-movies
 spec:
+  ingressClassName: traefik
   rules:
     - host: "movies.ax-h.com"
       http:

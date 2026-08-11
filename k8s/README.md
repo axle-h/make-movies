@@ -21,6 +21,7 @@ kubectl -n make-movies apply -f ./ui
 # Check everything is UP
 kubectl -n make-movies get all
 
-# Create ingress
+# Create the http -> https redirect middleware, then the ingress that references it
+kubectl -n make-movies apply -f ./redirect-http-https.yml
 kubectl -n make-movies apply -f ./ingress.yml
 ```
