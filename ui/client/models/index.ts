@@ -96,6 +96,7 @@ export function createTorrentFromDiscriminatorValue(parseNode: ParseNode | undef
 }
 /**
  * The deserialization information for the current model
+ * @param Download The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -112,6 +113,7 @@ export function deserializeIntoDownload(download: Partial<Download> | undefined 
 }
 /**
  * The deserialization information for the current model
+ * @param DownloadPaginatedData The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -125,13 +127,14 @@ export function deserializeIntoDownloadPaginatedData(downloadPaginatedData: Part
 }
 /**
  * The deserialization information for the current model
+ * @param DownloadStats The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
 export function deserializeIntoDownloadStats(downloadStats: Partial<DownloadStats> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "eta": n => { downloadStats.eta = n.getStringValue(); },
-        "files": n => { downloadStats.files = n.getCollectionOfPrimitiveValues<string>(); },
+        "files": n => { downloadStats.files = n.getCollectionOfPrimitiveValues<string>("string"); },
         "isStalled": n => { downloadStats.isStalled = n.getBooleanValue(); },
         "name": n => { downloadStats.name = n.getStringValue(); },
         "percentDone": n => { downloadStats.percentDone = n.getNumberValue(); },
@@ -139,6 +142,7 @@ export function deserializeIntoDownloadStats(downloadStats: Partial<DownloadStat
 }
 /**
  * The deserialization information for the current model
+ * @param Movie The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -146,7 +150,7 @@ export function deserializeIntoMovie(movie: Partial<Movie> | undefined = {}) : R
     return {
         "dateCreated": n => { movie.dateCreated = n.getDateValue(); },
         "description": n => { movie.description = n.getStringValue(); },
-        "genres": n => { movie.genres = n.getCollectionOfPrimitiveValues<string>(); },
+        "genres": n => { movie.genres = n.getCollectionOfPrimitiveValues<string>("string"); },
         "id": n => { movie.id = n.getStringValue(); },
         "imdbCode": n => { movie.imdbCode = n.getStringValue(); },
         "inLibrary": n => { movie.inLibrary = n.getBooleanValue(); },
@@ -162,6 +166,7 @@ export function deserializeIntoMovie(movie: Partial<Movie> | undefined = {}) : R
 }
 /**
  * The deserialization information for the current model
+ * @param MovieSummary The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -169,11 +174,11 @@ export function deserializeIntoMovieSummary(movieSummary: Partial<MovieSummary> 
     return {
         "dateCreated": n => { movieSummary.dateCreated = n.getDateValue(); },
         "description": n => { movieSummary.description = n.getStringValue(); },
-        "genres": n => { movieSummary.genres = n.getCollectionOfPrimitiveValues<string>(); },
+        "genres": n => { movieSummary.genres = n.getCollectionOfPrimitiveValues<string>("string"); },
         "id": n => { movieSummary.id = n.getStringValue(); },
         "imdbCode": n => { movieSummary.imdbCode = n.getStringValue(); },
         "inLibrary": n => { movieSummary.inLibrary = n.getBooleanValue(); },
-        "quality": n => { movieSummary.quality = n.getCollectionOfPrimitiveValues<string>(); },
+        "quality": n => { movieSummary.quality = n.getCollectionOfPrimitiveValues<string>("string"); },
         "rating": n => { movieSummary.rating = n.getNumberValue(); },
         "runtime": n => { movieSummary.runtime = n.getStringValue(); },
         "title": n => { movieSummary.title = n.getStringValue(); },
@@ -183,6 +188,7 @@ export function deserializeIntoMovieSummary(movieSummary: Partial<MovieSummary> 
 }
 /**
  * The deserialization information for the current model
+ * @param MovieSummaryPaginatedData The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -196,6 +202,7 @@ export function deserializeIntoMovieSummaryPaginatedData(movieSummaryPaginatedDa
 }
 /**
  * The deserialization information for the current model
+ * @param ProblemDetails The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -210,6 +217,7 @@ export function deserializeIntoProblemDetails(problemDetails: Partial<ProblemDet
 }
 /**
  * The deserialization information for the current model
+ * @param Scrape The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -226,6 +234,7 @@ export function deserializeIntoScrape(scrape: Partial<Scrape> | undefined = {}) 
 }
 /**
  * The deserialization information for the current model
+ * @param ScrapePaginatedData The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -239,6 +248,7 @@ export function deserializeIntoScrapePaginatedData(scrapePaginatedData: Partial<
 }
 /**
  * The deserialization information for the current model
+ * @param Torrent The instance to deserialize into.
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
@@ -450,10 +460,6 @@ export interface MovieSummaryPaginatedData extends Parsable {
 }
 export interface ProblemDetails extends AdditionalDataHolder, ApiError, Parsable {
     /**
-     * Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.
-     */
-    additionalData?: Record<string, unknown>;
-    /**
      * The detail property
      */
     detail?: string | null;
@@ -525,161 +531,171 @@ export interface ScrapePaginatedData extends Parsable {
 }
 /**
  * Serializes information the current object
+ * @param Download The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeDownload(writer: SerializationWriter, download: Partial<Download> | undefined | null = {}) : void {
-    if (download) {
-        writer.writeBooleanValue("complete", download.complete);
-        writer.writeStringValue("id", download.id);
-        writer.writeStringValue("movieId", download.movieId);
-        writer.writeStringValue("name", download.name);
-        writer.writeDateValue("startDate", download.startDate);
-        writer.writeObjectValue<DownloadStats>("stats", download.stats, serializeDownloadStats);
-        writer.writeNumberValue("transmissionId", download.transmissionId);
-    }
+export function serializeDownload(writer: SerializationWriter, download: Partial<Download> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!download || isSerializingDerivedType) { return; }
+    writer.writeBooleanValue("complete", download.complete);
+    writer.writeStringValue("id", download.id);
+    writer.writeStringValue("movieId", download.movieId);
+    writer.writeStringValue("name", download.name);
+    writer.writeDateValue("startDate", download.startDate);
+    writer.writeObjectValue<DownloadStats>("stats", download.stats, serializeDownloadStats);
+    writer.writeNumberValue("transmissionId", download.transmissionId);
 }
 /**
  * Serializes information the current object
+ * @param DownloadPaginatedData The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeDownloadPaginatedData(writer: SerializationWriter, downloadPaginatedData: Partial<DownloadPaginatedData> | undefined | null = {}) : void {
-    if (downloadPaginatedData) {
-        writer.writeNumberValue("count", downloadPaginatedData.count);
-        writer.writeCollectionOfObjectValues<Download>("data", downloadPaginatedData.data, serializeDownload);
-        writer.writeNumberValue("limit", downloadPaginatedData.limit);
-        writer.writeNumberValue("page", downloadPaginatedData.page);
-    }
+export function serializeDownloadPaginatedData(writer: SerializationWriter, downloadPaginatedData: Partial<DownloadPaginatedData> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!downloadPaginatedData || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("count", downloadPaginatedData.count);
+    writer.writeCollectionOfObjectValues<Download>("data", downloadPaginatedData.data, serializeDownload);
+    writer.writeNumberValue("limit", downloadPaginatedData.limit);
+    writer.writeNumberValue("page", downloadPaginatedData.page);
 }
 /**
  * Serializes information the current object
+ * @param DownloadStats The instance to serialize from.
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeDownloadStats(writer: SerializationWriter, downloadStats: Partial<DownloadStats> | undefined | null = {}) : void {
-    if (downloadStats) {
-        writer.writeStringValue("eta", downloadStats.eta);
-        writer.writeCollectionOfPrimitiveValues<string>("files", downloadStats.files);
-        writer.writeBooleanValue("isStalled", downloadStats.isStalled);
-        writer.writeStringValue("name", downloadStats.name);
-        writer.writeNumberValue("percentDone", downloadStats.percentDone);
-    }
+export function serializeDownloadStats(writer: SerializationWriter, downloadStats: Partial<DownloadStats> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!downloadStats || isSerializingDerivedType) { return; }
+    writer.writeStringValue("eta", downloadStats.eta);
+    writer.writeCollectionOfPrimitiveValues<string>("files", downloadStats.files);
+    writer.writeBooleanValue("isStalled", downloadStats.isStalled);
+    writer.writeStringValue("name", downloadStats.name);
+    writer.writeNumberValue("percentDone", downloadStats.percentDone);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param Movie The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeMovie(writer: SerializationWriter, movie: Partial<Movie> | undefined | null = {}) : void {
-    if (movie) {
-        writer.writeDateValue("dateCreated", movie.dateCreated);
-        writer.writeStringValue("description", movie.description);
-        writer.writeCollectionOfPrimitiveValues<string>("genres", movie.genres);
-        writer.writeStringValue("id", movie.id);
-        writer.writeStringValue("imdbCode", movie.imdbCode);
-        writer.writeBooleanValue("inLibrary", movie.inLibrary);
-        writer.writeStringValue("language", movie.language);
-        writer.writeNumberValue("rating", movie.rating);
-        writer.writeStringValue("runtime", movie.runtime);
-        writer.writeStringValue("searchableTitle", movie.searchableTitle);
-        writer.writeStringValue("title", movie.title);
-        writer.writeCollectionOfObjectValues<Torrent>("torrents", movie.torrents, serializeTorrent);
-        writer.writeNumberValue("year", movie.year);
-        writer.writeStringValue("youTubeTrailerCode", movie.youTubeTrailerCode);
-    }
+export function serializeMovie(writer: SerializationWriter, movie: Partial<Movie> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!movie || isSerializingDerivedType) { return; }
+    writer.writeDateValue("dateCreated", movie.dateCreated);
+    writer.writeStringValue("description", movie.description);
+    writer.writeCollectionOfPrimitiveValues<string>("genres", movie.genres);
+    writer.writeStringValue("id", movie.id);
+    writer.writeStringValue("imdbCode", movie.imdbCode);
+    writer.writeBooleanValue("inLibrary", movie.inLibrary);
+    writer.writeStringValue("language", movie.language);
+    writer.writeNumberValue("rating", movie.rating);
+    writer.writeStringValue("runtime", movie.runtime);
+    writer.writeStringValue("searchableTitle", movie.searchableTitle);
+    writer.writeStringValue("title", movie.title);
+    writer.writeCollectionOfObjectValues<Torrent>("torrents", movie.torrents, serializeTorrent);
+    writer.writeNumberValue("year", movie.year);
+    writer.writeStringValue("youTubeTrailerCode", movie.youTubeTrailerCode);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param MovieSummary The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeMovieSummary(writer: SerializationWriter, movieSummary: Partial<MovieSummary> | undefined | null = {}) : void {
-    if (movieSummary) {
-        writer.writeDateValue("dateCreated", movieSummary.dateCreated);
-        writer.writeStringValue("description", movieSummary.description);
-        writer.writeCollectionOfPrimitiveValues<string>("genres", movieSummary.genres);
-        writer.writeStringValue("id", movieSummary.id);
-        writer.writeStringValue("imdbCode", movieSummary.imdbCode);
-        writer.writeBooleanValue("inLibrary", movieSummary.inLibrary);
-        writer.writeCollectionOfPrimitiveValues<string>("quality", movieSummary.quality);
-        writer.writeNumberValue("rating", movieSummary.rating);
-        writer.writeStringValue("runtime", movieSummary.runtime);
-        writer.writeStringValue("title", movieSummary.title);
-        writer.writeNumberValue("year", movieSummary.year);
-        writer.writeStringValue("youTubeTrailerCode", movieSummary.youTubeTrailerCode);
-    }
+export function serializeMovieSummary(writer: SerializationWriter, movieSummary: Partial<MovieSummary> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!movieSummary || isSerializingDerivedType) { return; }
+    writer.writeDateValue("dateCreated", movieSummary.dateCreated);
+    writer.writeStringValue("description", movieSummary.description);
+    writer.writeCollectionOfPrimitiveValues<string>("genres", movieSummary.genres);
+    writer.writeStringValue("id", movieSummary.id);
+    writer.writeStringValue("imdbCode", movieSummary.imdbCode);
+    writer.writeBooleanValue("inLibrary", movieSummary.inLibrary);
+    writer.writeCollectionOfPrimitiveValues<string>("quality", movieSummary.quality);
+    writer.writeNumberValue("rating", movieSummary.rating);
+    writer.writeStringValue("runtime", movieSummary.runtime);
+    writer.writeStringValue("title", movieSummary.title);
+    writer.writeNumberValue("year", movieSummary.year);
+    writer.writeStringValue("youTubeTrailerCode", movieSummary.youTubeTrailerCode);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param MovieSummaryPaginatedData The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeMovieSummaryPaginatedData(writer: SerializationWriter, movieSummaryPaginatedData: Partial<MovieSummaryPaginatedData> | undefined | null = {}) : void {
-    if (movieSummaryPaginatedData) {
-        writer.writeNumberValue("count", movieSummaryPaginatedData.count);
-        writer.writeCollectionOfObjectValues<MovieSummary>("data", movieSummaryPaginatedData.data, serializeMovieSummary);
-        writer.writeNumberValue("limit", movieSummaryPaginatedData.limit);
-        writer.writeNumberValue("page", movieSummaryPaginatedData.page);
-    }
+export function serializeMovieSummaryPaginatedData(writer: SerializationWriter, movieSummaryPaginatedData: Partial<MovieSummaryPaginatedData> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!movieSummaryPaginatedData || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("count", movieSummaryPaginatedData.count);
+    writer.writeCollectionOfObjectValues<MovieSummary>("data", movieSummaryPaginatedData.data, serializeMovieSummary);
+    writer.writeNumberValue("limit", movieSummaryPaginatedData.limit);
+    writer.writeNumberValue("page", movieSummaryPaginatedData.page);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param ProblemDetails The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeProblemDetails(writer: SerializationWriter, problemDetails: Partial<ProblemDetails> | undefined | null = {}) : void {
-    if (problemDetails) {
-        writer.writeStringValue("detail", problemDetails.detail);
-        writer.writeStringValue("instance", problemDetails.instance);
-        writer.writeNumberValue("status", problemDetails.status);
-        writer.writeStringValue("title", problemDetails.title);
-        writer.writeStringValue("type", problemDetails.type);
-        writer.writeAdditionalData(problemDetails.additionalData);
-    }
+export function serializeProblemDetails(writer: SerializationWriter, problemDetails: Partial<ProblemDetails> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!problemDetails || isSerializingDerivedType) { return; }
+    writer.writeStringValue("detail", problemDetails.detail);
+    writer.writeStringValue("instance", problemDetails.instance);
+    writer.writeNumberValue("status", problemDetails.status);
+    writer.writeStringValue("title", problemDetails.title);
+    writer.writeStringValue("type", problemDetails.type);
+    writer.writeAdditionalData(problemDetails.additionalData);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param Scrape The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeScrape(writer: SerializationWriter, scrape: Partial<Scrape> | undefined | null = {}) : void {
-    if (scrape) {
-        writer.writeDateValue("endDate", scrape.endDate);
-        writer.writeStringValue("error", scrape.errorEscaped);
-        writer.writeStringValue("id", scrape.id);
-        writer.writeNumberValue("movieCount", scrape.movieCount);
-        writer.writeDateValue("startDate", scrape.startDate);
-        writer.writeBooleanValue("success", scrape.success);
-        writer.writeNumberValue("torrentCount", scrape.torrentCount);
-    }
+export function serializeScrape(writer: SerializationWriter, scrape: Partial<Scrape> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!scrape || isSerializingDerivedType) { return; }
+    writer.writeDateValue("endDate", scrape.endDate);
+    writer.writeStringValue("error", scrape.errorEscaped);
+    writer.writeStringValue("id", scrape.id);
+    writer.writeNumberValue("movieCount", scrape.movieCount);
+    writer.writeDateValue("startDate", scrape.startDate);
+    writer.writeBooleanValue("success", scrape.success);
+    writer.writeNumberValue("torrentCount", scrape.torrentCount);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param ScrapePaginatedData The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeScrapePaginatedData(writer: SerializationWriter, scrapePaginatedData: Partial<ScrapePaginatedData> | undefined | null = {}) : void {
-    if (scrapePaginatedData) {
-        writer.writeNumberValue("count", scrapePaginatedData.count);
-        writer.writeCollectionOfObjectValues<Scrape>("data", scrapePaginatedData.data, serializeScrape);
-        writer.writeNumberValue("limit", scrapePaginatedData.limit);
-        writer.writeNumberValue("page", scrapePaginatedData.page);
-    }
+export function serializeScrapePaginatedData(writer: SerializationWriter, scrapePaginatedData: Partial<ScrapePaginatedData> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!scrapePaginatedData || isSerializingDerivedType) { return; }
+    writer.writeNumberValue("count", scrapePaginatedData.count);
+    writer.writeCollectionOfObjectValues<Scrape>("data", scrapePaginatedData.data, serializeScrape);
+    writer.writeNumberValue("limit", scrapePaginatedData.limit);
+    writer.writeNumberValue("page", scrapePaginatedData.page);
 }
 /**
  * Serializes information the current object
+ * @param isSerializingDerivedType A boolean indicating whether the serialization is for a derived type.
+ * @param Torrent The instance to serialize from.
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeTorrent(writer: SerializationWriter, torrent: Partial<Torrent> | undefined | null = {}) : void {
-    if (torrent) {
-        writer.writeDateValue("dateCreated", torrent.dateCreated);
-        writer.writeStringValue("hash", torrent.hash);
-        writer.writeStringValue("quality", torrent.quality);
-        writer.writeNumberValue("sizeBytes", torrent.sizeBytes);
-        writer.writeStringValue("type", torrent.type);
-    }
+export function serializeTorrent(writer: SerializationWriter, torrent: Partial<Torrent> | undefined | null = {}, isSerializingDerivedType: boolean = false) : void {
+    if (!torrent || isSerializingDerivedType) { return; }
+    writer.writeDateValue("dateCreated", torrent.dateCreated);
+    writer.writeStringValue("hash", torrent.hash);
+    writer.writeStringValue("quality", torrent.quality);
+    writer.writeNumberValue("sizeBytes", torrent.sizeBytes);
+    writer.writeStringValue("type", torrent.type);
 }
 export type SourceMovieField = (typeof SourceMovieFieldObject)[keyof typeof SourceMovieFieldObject];
 export interface Torrent extends Parsable {
