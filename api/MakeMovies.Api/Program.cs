@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using MakeMovies.Api;
+using MakeMovies.Api.Auth;
 using MakeMovies.Api.Downloads;
 using MakeMovies.Api.Downloads.TransmissionRpc;
 using MakeMovies.Api.Health;
@@ -28,6 +29,8 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
     .Enrich.FromLogContext());
 
 builder.Host.UseSystemd();
+
+builder.AddMakeMoviesAuth();
 
 // Health
 builder.Services.AddHealthChecks()
@@ -124,11 +127,38 @@ builder.Services.AddHttpClient<IYtsClient, YtsClient>()
 
 var app = builder.Build();
 
+// Recovers the scheme and host the browser actually used. Must be first.
+app.UseForwardedHeaders();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// The spa shell is the authorization gate, so it must never be reachable as a plain file.
+// Rewriting here sends it to the gated fallback endpoint instead.
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path.Equals("/index.html", StringComparison.OrdinalIgnoreCase))
+    {
+        context.Request.Path = "/";
+    }
+    await next(context);
+});
+
+// Spa assets: hashed bundles, icons, the web manifest. Anonymous by design, the manifest and
+// favicons are fetched without credentials. Note there is deliberately no UseDefaultFiles: it
+// would rewrite / to /index.html and this middleware would then serve it, bypassing the gate.
+app.UseStaticFiles();
+
+// Explicit, because WebApplication otherwise injects UseRouting ahead of all of the above, and
+// the static file middleware skips any request that already has a matched endpoint. Once the spa
+// fallback exists, that is every extensionless path.
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 var imagePath = app.Services.GetRequiredService<IOptions<MetaOptions>>().Value.ImagePath;
 if (!Path.IsPathRooted(imagePath))
@@ -136,18 +166,25 @@ if (!Path.IsPathRooted(imagePath))
     imagePath = Path.Join(Directory.GetCurrentDirectory(), imagePath);
 }
 Directory.CreateDirectory(imagePath);
+
+// Cached posters, gated so that they are not readable by guessing an imdb id.
+app.UseWhen(
+    context => context.Request.Path.StartsWithSegments("/movie-images"),
+    branch => branch.UseMiddleware<RequireAuthorizationMiddleware>());
 app.UseStaticFiles(new StaticFileOptions {
     FileProvider = new PhysicalFileProvider(imagePath),
     RequestPath = "/movie-images"
 });
 
-app.UseCors(policy => policy
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader());
-
 app.MapControllers();
 app.MapProbes();
+
+// The spa fallback pattern is {*path:nonfile}, which would otherwise answer an unmatched api
+// route with the shell and a 200.
+app.MapFallback("/api/{**path}", () => Results.NotFound());
+app.MapFallback("/health/{**path}", () => Results.NotFound());
+
+app.MapFallbackToFile("index.html").RequireAuthorization();
 
 app.Run();
 
