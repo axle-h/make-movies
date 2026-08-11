@@ -36,7 +36,7 @@ public class TransmissionRpcClientTests
             .WithHeaders("X-Transmission-Session-Id", "oT3wE8FuzHZVCqaYBW7Kf3LP2dc6w5XDSPFRdhZaszuipC8a")
             .RespondWithJsonResource("Downloads.TransmissionRpc.torrent_get_all.json");
 
-        var observed = await _client.GetAllTorrentsAsync();
+        var observed = await _client.GetAllTorrentsAsync(TestContext.Current.CancellationToken);
 
         observed.Should().NotBeEmpty();
     }
@@ -48,7 +48,7 @@ public class TransmissionRpcClientTests
         ExpectTransmissionRpc(GetAllTorrentsBody)
             .Respond(HttpStatusCode.Accepted, "application/json", response);
 
-        var act = () => _client.GetAllTorrentsAsync();
+        var act = () => _client.GetAllTorrentsAsync(TestContext.Current.CancellationToken);
         await act.Should().ThrowAsync<Exception>().WithMessage($"transmission rpc {GetAllTorrentsBody} failed with result {response}");
     }
 
@@ -58,7 +58,7 @@ public class TransmissionRpcClientTests
         ExpectTransmissionRpc(GetAllTorrentsBody)
             .RespondWithJsonResource("Downloads.TransmissionRpc.torrent_get_all.json");
 
-        var observed = await _client.GetAllTorrentsAsync();
+        var observed = await _client.GetAllTorrentsAsync(TestContext.Current.CancellationToken);
 
         observed.Should().BeEquivalentTo(new List<TorrentInfo>
         {
@@ -76,7 +76,7 @@ public class TransmissionRpcClientTests
                 @"{""method"":""torrent-get"",""arguments"":{""ids"":[8],""fields"":[""eta"",""files"",""id"",""isStalled"",""name"",""percentDone""]}}")
             .RespondWithJsonResource("Downloads.TransmissionRpc.torrent_get.json");
 
-        var observed = await _client.GetTorrentByIdAsync(8);
+        var observed = await _client.GetTorrentByIdAsync(8, TestContext.Current.CancellationToken);
 
         observed.Should().BeEquivalentTo(new TorrentInfo(8, "ubuntu-21.10-desktop-amd64.iso", 0.0102, false, 7672,
             new List<TorrentFile> {new("ubuntu-21.10-desktop-amd64.iso")}));
@@ -89,7 +89,7 @@ public class TransmissionRpcClientTests
                 @"{""method"":""torrent-add"",""arguments"":{""filename"":""https://releases.ubuntu.com/21.10/ubuntu-21.10-desktop-amd64.iso.torrent""}}")
             .RespondWithJsonResource("Downloads.TransmissionRpc.torrent_add.json");
 
-        var observed = await _client.AddTorrentAsync("https://releases.ubuntu.com/21.10/ubuntu-21.10-desktop-amd64.iso.torrent");
+        var observed = await _client.AddTorrentAsync("https://releases.ubuntu.com/21.10/ubuntu-21.10-desktop-amd64.iso.torrent", TestContext.Current.CancellationToken);
 
         observed.Should().BeEquivalentTo(new NewTorrentInfo(8, "ubuntu-21.10-desktop-amd64.iso",
             "f1fcdc1462d36530f526c1d9402eec9100b7ba18"));
@@ -102,7 +102,7 @@ public class TransmissionRpcClientTests
                 @"{""method"":""torrent-remove"",""arguments"":{""ids"":[8],""delete-local-data"":false}}")
             .Respond(HttpStatusCode.OK, "application/json", @"{""result"":""success"",""arguments"":{}}");
 
-        await _client.RemoveTorrentAsync(8);
+        await _client.RemoveTorrentAsync(8, TestContext.Current.CancellationToken);
         _mockHttp.VerifyNoOutstandingExpectation();
     }
 

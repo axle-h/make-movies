@@ -10,17 +10,17 @@ public class MovieApiTests(ApiFixture fixture) : ApiTests(fixture)
     [Fact]
     public async Task Attempting_to_get_missing_movie()
     {
-        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie/abc123");
+        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie/abc123", TestContext.Current.CancellationToken);
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Fact]
     public async Task Getting_movie()
     {
-        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie/yts_3926");
+        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie/yts_3926", TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
         
-        var movie = await response.Content.ReadFromJsonAsync<Movie>();
+        var movie = await response.Content.ReadFromJsonAsync<Movie>(TestContext.Current.CancellationToken);
 
         using var scope = new AssertionScope();
 
@@ -31,10 +31,10 @@ public class MovieApiTests(ApiFixture fixture) : ApiTests(fixture)
     [Fact]
     public async Task Listing_movies()
     {
-        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie?page=1&limit=2&orderBy=Year&descending=true");
+        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie?page=1&limit=2&orderBy=Year&descending=true", TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
         
-        var page = await response.Content.ReadFromJsonAsync<PaginatedData<Movie>>();
+        var page = await response.Content.ReadFromJsonAsync<PaginatedData<Movie>>(TestContext.Current.CancellationToken);
         page.Should().BeEquivalentTo(new {Page = 1, Limit = 2});
         page!.Data[0].Year.Should().BeGreaterThanOrEqualTo(page.Data[1].Year);
     }
@@ -42,10 +42,10 @@ public class MovieApiTests(ApiFixture fixture) : ApiTests(fixture)
     [Fact]
     public async Task Searching_movies()
     {
-        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie?page=1&limit=10&search=inter");
+        var response = await Fixture.CreateClient().GetAsync("/api/v1/movie?page=1&limit=10&search=inter", TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
         
-        var page = await response.Content.ReadFromJsonAsync<PaginatedData<Movie>>();
+        var page = await response.Content.ReadFromJsonAsync<PaginatedData<Movie>>(TestContext.Current.CancellationToken);
         page.Should().BeEquivalentTo(new {Page = 1, Limit = 10});
         page!.Data[0].Title.Should().Be("Interstellar");
     }

@@ -16,9 +16,9 @@ public class ScrapeApiTest(ApiFixture fixture) : ApiTests(fixture)
             .GivenJellyfinUsers()
             .GivenJellyfinItems();
         
-        var startResponse = await Fixture.CreateClient().PostAsync("/api/v1/scrape", null);
+        var startResponse = await Fixture.CreateClient().PostAsync("/api/v1/scrape", null, TestContext.Current.CancellationToken);
         startResponse.EnsureSuccessStatusCode();
-        var scrape = await startResponse.Content.ReadFromJsonAsync<Scrape>();
+        var scrape = await startResponse.Content.ReadFromJsonAsync<Scrape>(TestContext.Current.CancellationToken);
 
         using (var _ = new AssertionScope())
         {
@@ -34,15 +34,15 @@ public class ScrapeApiTest(ApiFixture fixture) : ApiTests(fixture)
         var scrapeId = scrape.Id;
         while (true)
         {
-            var response = await Fixture.CreateClient().GetAsync("/api/v1/scrape");
+            var response = await Fixture.CreateClient().GetAsync("/api/v1/scrape", TestContext.Current.CancellationToken);
             response.EnsureSuccessStatusCode();
-            var scrapes = await response.Content.ReadFromJsonAsync<PaginatedData<Scrape>>();
+            var scrapes = await response.Content.ReadFromJsonAsync<PaginatedData<Scrape>>(TestContext.Current.CancellationToken);
             scrape = scrapes!.Data.FirstOrDefault(s => s.Id == scrapeId)
                 ?? throw new Exception("current scrape does not exist");
 
             if (scrape.EndDate is null)
             {
-                await Task.Delay(100);
+                await Task.Delay(100, TestContext.Current.CancellationToken);
                 continue;
             }
 

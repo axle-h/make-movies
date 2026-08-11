@@ -14,18 +14,18 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
     [Fact]
     public async Task Attempting_to_download_missing_movie()
     {
-        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/missing/download", null);
+        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/missing/download", null, TestContext.Current.CancellationToken);
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        var body = await response.Content.ReadAsStringAsync();
+        var body = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         body.Should().Contain("cannot find movie with id 'missing'");
     }
     
     [Fact]
     public async Task Attempting_to_download_movie_already_in_library()
     {
-        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/yts_1632/download", null);
+        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/yts_1632/download", null, TestContext.Current.CancellationToken);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var body = await response.Content.ReadAsStringAsync();
+        var body = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         body.Should().Contain("movie with id 'yts_1632' is already downloaded");
     }
     
@@ -33,14 +33,14 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
     public async Task Attempting_to_download_movie_currently_downloading()
     {
         var movie = Fake.Movie with { Id = "downloading_movie" };
-        await Fixture.Db.Movies.UpsertAsync(movie.Id, movie);
+        await Fixture.Db.Movies.UpsertAsync(movie.Id, movie, TestContext.Current.CancellationToken);
         
         var download = Fake.Download with { MovieId = "downloading_movie" };
-        await Fixture.Db.Downloads.UpsertAsync(download.Id, download);
+        await Fixture.Db.Downloads.UpsertAsync(download.Id, download, TestContext.Current.CancellationToken);
         
-        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/downloading_movie/download", null);
+        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/downloading_movie/download", null, TestContext.Current.CancellationToken);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var body = await response.Content.ReadAsStringAsync();
+        var body = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         body.Should().Contain("movie with id 'downloading_movie' is currently downloading");
     }
     
@@ -48,11 +48,11 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
     public async Task Attempting_to_download_movie_without_an_acceptable_torrent()
     {
         var movie = Fake.Movie with { Id = "bad_movie", Torrents = [Fake.Torrent with { Quality = "dog" }] };
-        await Fixture.Db.Movies.UpsertAsync(movie.Id, movie);
+        await Fixture.Db.Movies.UpsertAsync(movie.Id, movie, TestContext.Current.CancellationToken);
         
-        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/bad_movie/download", null);
+        var response = await Fixture.CreateClient().PostAsync("/api/v1/movie/bad_movie/download", null, TestContext.Current.CancellationToken);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var body = await response.Content.ReadAsStringAsync();
+        var body = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
         body.Should().Contain("cannot download movie with id = 'bad_movie', no acceptable torrents available");
     }
     
@@ -60,7 +60,7 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
     public async Task Movie_download_e2e()
     {
         var movie = Fake.Movie with { Id = "download_movie" };
-        await Fixture.Db.Movies.UpsertAsync("download_movie", movie);
+        await Fixture.Db.Movies.UpsertAsync("download_movie", movie, TestContext.Current.CancellationToken);
 
         var addTorrentUuid = Fixture.WireMock
             .GivenTransmissionStatus(123, 0.5, 30)
@@ -70,14 +70,14 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
         
         // 1. start the download
         var startDownloadResponse = await client
-            .PostAsync("/api/v1/movie/download_movie/download", null);
+            .PostAsync("/api/v1/movie/download_movie/download", null, TestContext.Current.CancellationToken);
         startDownloadResponse.EnsureSuccessStatusCode();
         Fixture.WireMock.Should().HaveCalledMapping(addTorrentUuid, "torrent should be added");
 
         // 2. wait until the download progress is updated from transmission
         while (true)
         {
-            await Task.Delay(2000);
+            await Task.Delay(2000, TestContext.Current.CancellationToken);
             var download = await GetDownloadAsync();
 
             if (download.Stats is null)
@@ -97,7 +97,7 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
         Directory.CreateDirectory(movieDownloadDir);
         foreach (var file in TransmissionWireMock.Files)
         {
-            await File.WriteAllTextAsync(Path.Join(downloadDir, file), file);            
+            await File.WriteAllTextAsync(Path.Join(downloadDir, file), file, TestContext.Current.CancellationToken);            
         }
         var updateLibraryUuid = Fixture.WireMock
             .GivenMissingTransmissionStatus(123)
@@ -105,7 +105,7 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
         
         while (true)
         {
-            await Task.Delay(2000);
+            await Task.Delay(2000, TestContext.Current.CancellationToken);
             var download = await GetDownloadAsync();
 
             if (!download.Complete)
@@ -134,10 +134,10 @@ public class DownloadApiTest(ApiFixture fixture) : ApiTests(fixture)
     
     private async Task<Download> GetDownloadAsync()
     {
-        var response = await Fixture.CreateClient().GetAsync("/api/v1/download");
+        var response = await Fixture.CreateClient().GetAsync("/api/v1/download", TestContext.Current.CancellationToken);
         response.EnsureSuccessStatusCode();
 
-        var downloads = await response.Content.ReadFromJsonAsync<PaginatedData<Download>>();
+        var downloads = await response.Content.ReadFromJsonAsync<PaginatedData<Download>>(TestContext.Current.CancellationToken);
         return downloads!.Data.First(d => d.MovieId == "download_movie");
     }
 }

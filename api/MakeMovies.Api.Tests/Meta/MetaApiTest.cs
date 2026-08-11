@@ -14,12 +14,12 @@ public class MetaApiTest(ApiFixture fixture) : ApiTests(fixture)
             .GivenTmdbImage();
 
         Fixture.ClientOptions.AllowAutoRedirect = false;
-        var startResponse = await Fixture.CreateClient().GetAsync("/api/v1/movie/yts_1632/image");
+        var startResponse = await Fixture.CreateClient().GetAsync("/api/v1/movie/yts_1632/image", TestContext.Current.CancellationToken);
 
         startResponse.StatusCode.Should().Be(HttpStatusCode.Redirect);
         startResponse.Headers.Location!.Should().Be(new Uri("/movie-images/tt0816692.jpg", UriKind.Relative));
         
-        var observedBytes = await File.ReadAllBytesAsync(Path.Join(Fixture.TmpPath, "tt0816692.jpg"));
+        var observedBytes = await File.ReadAllBytesAsync(Path.Join(Fixture.TmpPath, "tt0816692.jpg"), TestContext.Current.CancellationToken);
         var expectedBytes = WireMockExtensions.BinaryResource(typeof(MetaApiTest).Namespace + ".Tmdb.tt0816692.jpg");
 
         observedBytes.Should().BeEquivalentTo(expectedBytes);
