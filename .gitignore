@@ -37,3 +37,5 @@ msbuild.wrn
 .idea/
 
 k8s/**/secret.yml
+# the spa is assembled into the api image at build time, never committed
+api/MakeMovies.Api/wwwroot/

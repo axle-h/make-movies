@@ -8,26 +8,12 @@ Last reviewed: 2026-08-11.
 
 ## Held back
 
-### `eslint` pinned to 9.x (latest is 10.x)
-
-ESLint 10 itself is fine — the flat config migration is already done. The
-blocker is downstream of `eslint-config-next`, which depends on
-`eslint-plugin-import`, `eslint-plugin-react` and `eslint-plugin-jsx-a11y`.
-All three still declare `eslint ^9` as their peer, so installing ESLint 10
-resolves with three `ERESOLVE overriding peer dependency` warnings.
-
-9.39.5 is upstream's `maintenance` dist-tag, so this is a supported line, not
-an abandoned one.
-
-**Unblock when:** `eslint-config-next` widens those plugin peers to ESLint 10.
-
 ### `typescript` pinned to 6.x (latest is 7.x)
 
 TypeScript 7 is the Go-native compiler. It deliberately ships **no JavaScript
 compiler API** until 7.1, and that API is what `typescript-eslint` is built
-on. `typescript-eslint` 8.x — a direct dependency of `eslint-config-next` —
-peers `typescript >=4.8.4 <6.1.0`. Installing TS 7 resolves with eight
-`ERESOLVE` warnings and leaves type-aware linting non-functional.
+on. `typescript-eslint` 8.x peers `typescript >=4.8.4 <6.1.0`, so installing
+TS 7 resolves with peer warnings and leaves type-aware linting non-functional.
 
 TS 6.0 is Microsoft's designated bridge release between 5.9 and 7, so we are
 on the right stepping stone rather than sitting still. Note TS 6 defaults
@@ -41,8 +27,11 @@ the TS 7.1 JavaScript API.
 ### `@types/node` tracks the Node major we actually run
 
 Currently the 24.x line. npm `latest` is well ahead (26.x), but the runtime is
-Node 24 — `node:24-alpine` in `ui/Dockerfile` and `container: node:24` in CI —
-which is Active LTS. Bump this only when the runtime major moves.
+Node 24 — `node:24-alpine` in the root `Dockerfile` and `container: node:24` in
+CI — which is Active LTS. Bump this only when the runtime major moves.
+
+Node is only a build-time dependency now: it builds the SPA, it does not run
+anything in production.
 
 ### .NET stays on 10.0
 
@@ -50,17 +39,52 @@ which is Active LTS. Bump this only when the runtime major moves.
 `mcr.microsoft.com/dotnet/{sdk,aspnet}:10.0` tags float, so patches arrive
 without a manifest change.
 
+## Not what the name suggests
+
+### `next-themes` is not a Next.js dependency
+
+It is a standalone React theme provider — context, `localStorage`, a class on
+`<html>` — and is what Chakra v3's own colour mode snippet
+(`ui/src/components/ui/color-mode.tsx`) is built on. It survived the move off
+Next deliberately. Do not remove it as a leftover.
+
 ## Gotchas
 
-### `ui/client/` is generated
+### `ui/src/client/` is generated
 
-Regenerating it needs two post-steps that are easy to miss — installing the
-full set of kiota serializers and stripping ESM `.js` extensions off relative
-imports, which Turbopack cannot resolve. Both are documented in
-`ui/client/README.md`. Do not hand-edit the generated code.
+Regenerating it needs the full set of kiota serializers installed, even though
+this API is JSON only. See `ui/src/client/README.md`. Do not hand-edit the
+generated code — `index.ts` and `user.ts` are hand written and sit alongside it
+deliberately.
+
+### `ui/src/routeTree.gen.ts` is generated but committed
+
+The TanStack Router vite plugin generates it from `ui/src/routes`. It is committed rather than
+gitignored because `pnpm build` runs `tsc --noEmit` before `vite build`, so on a clean clone the
+typecheck would run before anything had generated it. Both `pnpm dev` and `pnpm build`
+regenerate it; do not hand edit it.
+
+### pnpm blocks package build scripts
+
+`esbuild` has a postinstall that pnpm refuses to run unless it is allowlisted.
+pnpm 11 spells this `allowBuilds` in `ui/pnpm-workspace.yaml`, not
+`onlyBuiltDependencies` in `package.json` as pnpm 10 did. Without it `pnpm
+install` fails with `ERR_PNPM_IGNORED_BUILDS`.
 
 ### Lock files are enforced
 
 Both .NET projects set `RestorePackagesWithLockFile`, so any version change
 needs `dotnet restore --force-evaluate` and the regenerated
-`packages.lock.json` committed, otherwise restore fails with NU1004.
+`packages.lock.json` committed, otherwise restore fails with NU1004. Note there
+are **two** lock files: the test project's lists the API's direct packages, so
+adding a package reference to the API invalidates both.
+
+## Resolved
+
+### `eslint` is on 10.x again
+
+The old hold existed because `eslint-config-next` pulled in
+`eslint-plugin-import`, `-react` and `-jsx-a11y`, all of which peered `eslint
+^9`. Dropping Next dropped that whole tree. The flat config now composes
+`@eslint/js`, `typescript-eslint` and `eslint-plugin-react-hooks` directly, all
+of which peer `^10.0.0`.

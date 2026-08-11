@@ -1,9 +1,0 @@
-**/bin/
-**/data/
-**/obj/
-.git/
-appsettings.Development.json
-http-client.env.json
-*.http
-README.md
-redeploy.sh

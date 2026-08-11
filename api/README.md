@@ -45,7 +45,7 @@ Assuming you have:
 
 ### Dotnet
 
-Requires [.NET 8+](https://dotnet.microsoft.com/en-us/download).
+Requires [.NET 10+](https://dotnet.microsoft.com/en-us/download).
 
 ```bash
 # Create all required directories
@@ -78,16 +78,31 @@ export Library__DownloadsPath=/mnt/storage/downloads
 # URL for your Transmission server
 export Download__Transmission__Url=http://localhost:9091/transmission/
 
-# Path to a writeable folder for saving app metadata
+# Path to a writeable folder for saving app metadata. The data protection key ring
+# that encrypts session cookies lives in here too, so it must be persistent.
 export Db__Path=/var/make-movies
+
+# OpenID Connect. The client must be confidential, allow PKCE, and be registered with
+# redirect uri {public url}/signin-oidc and post logout redirect uri
+# {public url}/signout-callback-oidc. A user needs the Auth__Role role, default
+# make-movies. There is no Auth__PublicUrl: the api derives it from the request, so
+# anything in front of it has to forward Host and X-Forwarded-Proto.
+export Auth__Authority=https://sso.ax-h.com/
+export Auth__ClientId=make-movies
+export Auth__ClientSecret=my-client-secret
 
 dotnet run --project MakeMovies.Api
 ```
 
+Set `Auth__Disabled=true` to skip all of that and authenticate every request as a fake
+user. It is honoured in the Development environment only; anywhere else startup fails.
+
 ### Docker
 
+Built from the repository root, because the image contains the UI too.
+
 ```shell
-docker build -t make-movies-api .
+docker build -t make-movies ..
 docker run -it --rm -p 8080:8080 \
     --add-host=host.docker.internal:host-gateway \
     -v library:/library:/mnt/storage/movies \
@@ -98,7 +113,10 @@ docker run -it --rm -p 8080:8080 \
     -e Library__Jellyfin__ApiKey=my-jellyfin-api-key \
     -e Library__Jellyfin__Url=http://host.docker.internal:8096 \
     -e Download__Transmission__Url=http://host.docker.internal:9091/transmission/ \
-    make-movies-api
+    -e Auth__Authority=https://sso.ax-h.com/ \
+    -e Auth__ClientId=make-movies \
+    -e Auth__ClientSecret=my-client-secret \
+    make-movies
 ```
 
 ## Deploy

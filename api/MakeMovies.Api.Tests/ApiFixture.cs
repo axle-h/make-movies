@@ -2,8 +2,10 @@ using System.Reflection;
 using MakeMovies.Api.Downloads;
 using MakeMovies.Api.Tests.Library.Jellyfin;
 using MakeMovies.Api.Tests.Meta.Tmdb;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WireMock.Server;
@@ -65,12 +67,33 @@ public sealed class ApiFixture : WebApplicationFactory<Program>
 
                 ["Download:Transmission:Url"] = $"{WireMock.Urls[0]}/transmission/",
                 ["Download:BackgroundJobPeriod"] = "00:00:01",
-                ["Download:DownloadGracePeriod"] = "00:00:01"
-            })).ConfigureServices(services =>
+                ["Download:DownloadGracePeriod"] = "00:00:01",
+
+                // Never exercised, the test scheme below replaces every authentication default.
+                // These are only here to satisfy AuthOptions.ValidateOnStart.
+                ["Auth:Authority"] = "https://sso.test/",
+                ["Auth:ClientId"] = "make-movies-test",
+                ["Auth:ClientSecret"] = "test-secret"
+            })).ConfigureTestServices(services =>
             {
                 services.Configure<DownloadOptions>(o =>
                 {
                     o.Trackers = new List<string> {"udp://tracker1:1337/announce", "udp://tracker2:1337/announce"};
+                });
+
+                services.AddAuthentication()
+                    .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.SchemeName, _ => { });
+
+                // Every default has to be overridden: the app pins DefaultChallengeScheme and
+                // DefaultForbidScheme, so they do not fall back to DefaultScheme.
+                services.Configure<AuthenticationOptions>(o =>
+                {
+                    o.DefaultScheme = TestAuthHandler.SchemeName;
+                    o.DefaultAuthenticateScheme = TestAuthHandler.SchemeName;
+                    o.DefaultChallengeScheme = TestAuthHandler.SchemeName;
+                    o.DefaultForbidScheme = TestAuthHandler.SchemeName;
+                    o.DefaultSignInScheme = TestAuthHandler.SchemeName;
+                    o.DefaultSignOutScheme = TestAuthHandler.SchemeName;
                 });
             });
     }
