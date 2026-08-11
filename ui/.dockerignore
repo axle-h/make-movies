@@ -1,7 +1,0 @@
-.idea/
-.next/
-node_modules/
-.env.development
-Dockerfile*
-README.md
-redeploy.sh

@@ -2,42 +2,45 @@
   "name": "make-movies-ui",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
     "lint": "eslint ."
   },
   "dependencies": {
     "@chakra-ui/react": "^3.36.1",
     "@emotion/react": "^11.14.0",
+    "@fontsource-variable/rubik": "^5.2.8",
     "@microsoft/kiota-abstractions": "^1.0.0-preview.103",
     "@microsoft/kiota-http-fetchlibrary": "^1.0.0-preview.103",
     "@microsoft/kiota-serialization-form": "^1.0.0-preview.103",
     "@microsoft/kiota-serialization-json": "^1.0.0-preview.103",
     "@microsoft/kiota-serialization-multipart": "^1.0.0-preview.103",
     "@microsoft/kiota-serialization-text": "^1.0.0-preview.103",
-    "next": "16.3.0",
-    "next-auth": "^5.0.0-beta.32",
     "next-themes": "^0.4.6",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-icons": "^5.7.0",
+    "react-router": "^7.10.0",
     "swr": "^2.5.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@types/node": "^24.13.3",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "^5.1.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-react-hooks": "^7.1.0",
+    "globals": "^16.5.0",
     "prettier": "^3.9.6",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.47.0",
+    "vite": "^7.2.0"
   },
-  "overrides": {
-    "@types/react": "19.2.18",
-    "@types/react-dom": "19.2.4"
-  }
+  "packageManager": "pnpm@11.0.8"
 }

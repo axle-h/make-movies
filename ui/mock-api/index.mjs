@@ -22,6 +22,18 @@ function paginated(data) {
   }
 }
 
+// The real api gates the spa shell and serves this off the session cookie. Here it is
+// just a fixed user, so the nav renders the same as it does behind auth.
+app.get('/api/v1/me', (req, res) => {
+  res.json({
+    name: 'Mock User',
+    givenName: 'Mock',
+    familyName: 'User',
+    email: 'mock@localhost',
+    roles: ['make-movies'],
+  })
+})
+
 app.get('/api/v1/movie', (req, res) => {
   const { search, page, limit } = req.query
   const pageNum = parseInt(page || '1', 10)
