@@ -7,7 +7,7 @@ import {
   Spinner,
   Table,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { apiClient, useClient } from '@/client'
 import { ScrapePaginatedData } from '@/client/models'
 import { Pagination } from '@/components/pagination'
@@ -85,7 +85,6 @@ function ScrapeList({ scrapes }: { scrapes?: ScrapePaginatedData }) {
 }
 
 export default function ScraperHome() {
-  const [pageCount, updatePageCount] = useState<number | null>(null)
   const [pagination, updatePagination] = useState<ListPagination>({
     page: 1,
     limit: 10,
@@ -100,11 +99,9 @@ export default function ScraperHome() {
     ...pagination,
   })
 
-  useEffect(() => {
-    if (scrapes?.count) {
-      updatePageCount(Math.ceil(scrapes.count / pagination.limit))
-    }
-  }, [scrapes?.count, pagination.limit])
+  const pageCount = scrapes?.count
+    ? Math.ceil(scrapes.count / pagination.limit)
+    : null
 
   async function refresh() {
     if (pagination.page > 1) {

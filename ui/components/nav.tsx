@@ -39,57 +39,57 @@ interface NavItemProps extends FlexProps {
   NavIcon: React.ComponentType<IconProps>
   href: string
   children: React.ReactNode
+  onClose: () => void
 }
 
 interface SidebarProps extends BoxProps {
   onClose: () => void
 }
 
-function SidebarContent({ onClose, ...rest }: SidebarProps) {
+function NavItem({ NavIcon, href, children, onClose, ...rest }: NavItemProps) {
   const pathName = usePathname()
-
-  function NavItem({ NavIcon, href, children, ...rest }: NavItemProps) {
-    const current = pathName.startsWith(href)
-    return (
-      <Link
-        href={href}
-        style={{ textDecoration: 'none' }}
-        _focus={{ boxShadow: 'none' }}
+  const current = pathName.startsWith(href)
+  return (
+    <Link
+      href={href}
+      style={{ textDecoration: 'none' }}
+      _focus={{ boxShadow: 'none' }}
+      w="100%"
+    >
+      <Flex
+        align="center"
+        p="4"
+        mx="4"
+        my="1"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        _hover={{
+          bg: 'gray.600',
+          color: 'white',
+        }}
+        bg={current ? 'gray.300' : undefined}
+        _dark={{
+          bg: current ? 'gray.700' : undefined,
+        }}
+        onClick={onClose}
+        {...rest}
         w="100%"
       >
-        <Flex
-          align="center"
-          p="4"
-          mx="4"
-          my="1"
-          borderRadius="lg"
-          role="group"
-          cursor="pointer"
-          _hover={{
-            bg: 'gray.600',
+        <NavIcon
+          mr="4"
+          fontSize="16"
+          _groupHover={{
             color: 'white',
           }}
-          bg={current ? 'gray.300' : undefined}
-          _dark={{
-            bg: current ? 'gray.700' : undefined,
-          }}
-          onClick={onClose}
-          {...rest}
-          w="100%"
-        >
-          <NavIcon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-          />
-          {children}
-        </Flex>
-      </Link>
-    )
-  }
+        />
+        {children}
+      </Flex>
+    </Link>
+  )
+}
 
+function SidebarContent({ onClose, ...rest }: SidebarProps) {
   return (
     <Box
       transition="3s ease"
@@ -118,15 +118,15 @@ function SidebarContent({ onClose, ...rest }: SidebarProps) {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
 
-      <NavItem NavIcon={MovieIcon} href="/movies">
+      <NavItem NavIcon={MovieIcon} href="/movies" onClose={onClose}>
         Movies
       </NavItem>
 
-      <NavItem NavIcon={DownloadIcon} href="/downloads">
+      <NavItem NavIcon={DownloadIcon} href="/downloads" onClose={onClose}>
         Downloads
       </NavItem>
 
-      <NavItem NavIcon={CloudIcon} href="/scraper">
+      <NavItem NavIcon={CloudIcon} href="/scraper" onClose={onClose}>
         Scraper
       </NavItem>
     </Box>

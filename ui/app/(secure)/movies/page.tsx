@@ -12,7 +12,7 @@ import {
 import { SearchIcon } from '@/components/icons'
 import { useClient } from '@/client'
 import { Link } from '@/components/link'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useDebounce from '@/components/debounce'
 import { useRouter } from 'next/navigation'
 import { Pagination } from '@/components/pagination'
@@ -29,7 +29,6 @@ function MovieList({
   updatePage: (page: number) => void
 }) {
   const limit = 10
-  const [pageCount, updatePageCount] = useState<number | null>(null)
   const {
     data: movies,
     error,
@@ -41,11 +40,7 @@ function MovieList({
     search: searchTerm,
   })
 
-  useEffect(() => {
-    if (movies?.count) {
-      updatePageCount(Math.ceil(movies.count / limit))
-    }
-  }, [movies?.count, limit])
+  const pageCount = movies?.count ? Math.ceil(movies.count / limit) : null
 
   if (isLoading) {
     return <Loading />
