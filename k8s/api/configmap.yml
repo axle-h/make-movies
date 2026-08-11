@@ -6,3 +6,6 @@ data:
   Meta__Tmdb__AccessToken: my-tmdb-access-token
   Meta__Omdb__ApiKey: my-omdb-access-token
   Library__Jellyfin__ApiKey: my-jellyfin-api-key
+  Auth__Authority: "https://sso.ax-h.com/"
+  Auth__ClientId: "make-movies"
+  Auth__ClientSecret: "{axh-client-secret}"

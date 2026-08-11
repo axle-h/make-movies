@@ -1,64 +1,49 @@
 # Make Movies UI
 
-No frills [Next.js](https://nextjs.org) + [Chakra](https://chakra-ui.com) based UI for movie library maintenance.
+No frills [React](https://react.dev) + [Vite](https://vite.dev) + [Chakra](https://chakra-ui.com)
+based UI for movie library maintenance.
+
+This is a plain static SPA. It is built into the API's `wwwroot` at image build time and served
+from there, so there is no separate UI container and no deploy of its own. See the root
+[Dockerfile](../Dockerfile).
 
 ## Development
 
-Works well with a mock api provided in `./mock-api`.
-
-Then:
+`vite dev` proxies `/api`, `/movie-images`, `/auth` and the OIDC callbacks to the API on
+`http://localhost:5266`. Set `Auth:Disabled` in the API's `appsettings.Development.json` and it
+authenticates a fake user, so no identity provider is needed:
 
 ```bash
-npm run dev
+pnpm install
+pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Docker
+To work on the UI alone, run the mock api in `./mock-api` and point the proxy at it:
 
-```shell
-docker build -t make-movies-ui .
-docker run -it --rm -p 3000:3000 make-movies-ui
+```bash
+API_URL=http://localhost:5000 pnpm dev
 ```
 
-## Deploy
+## Authentication
 
-For simplicity, I run this on Ubuntu via systemd.
+There is no login page. The API gates `index.html` behind the same authorization policy as the
+API endpoints, so an unauthenticated navigation is redirected out to the identity provider and
+comes back signed in — this code only ever runs authenticated.
 
-1. Build and copy an export to a central place (note there is some juggling here, all documented via Next.js).
+Two consequences:
 
-    ```shell
-    npm install
-    npm run build
+- The user is read from `GET /api/v1/me` (`src/client/user.ts`), not from a session prop.
+- A 401 on any API call means the session expired underneath us. The request adapter in
+  `src/client/index.ts` turns that into a navigation to `/auth/login?returnUrl=...`.
 
-    mkdir -p /opt/make-movies/ui
+Logging out is a real navigation to `/auth/logout`, not a fetch, because it has to follow the
+redirect chain out to the identity provider.
 
-    cp -r .next/standalone/* /opt/make-movies/ui
-    cp -r .next/standalone/.next /opt/make-movies/ui/.next
-    cp -r public /opt/make-movies/ui/public
-    cp -r .next/static /opt/make-movies/ui/.next/static
-    ```
-2. Create systemd unit in `/etc/systemd/system/make-movies-ui.service`:
+## Build
 
-    ```ini
-    [Unit]
-    Description=Make movies UI
-    Wants=network-online.target
-    After=network-online.target
-
-    [Service]
-    Type=simple
-    Restart=on-failure
-    WorkingDirectory=/opt/make-movies/ui
-    ExecStart=node /opt/make-movies/ui/server.js
-
-    [Install]
-    WantedBy=default.target
-    ```
-3. Reload systemd, start and enable the service:
-    ```shell
-    sudo systemctl daemon-reload
-    sudo systemctl enable make-movies-ui
-    sudo systemctl start make-movies-ui
-    ```
-4. Browse to [http://localhost:3000](http://localhost:3000)
+```bash
+pnpm build     # tsc --noEmit && vite build, output in ./dist
+pnpm lint
+```
