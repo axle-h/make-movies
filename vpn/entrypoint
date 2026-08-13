@@ -1,0 +1,20 @@
+#!/bin/sh
+# Tor refuses to start on a DataDirectory it does not own, and a fresh bind mount always
+# arrives root owned: a k8s hostPath, or a plain docker run -v. Take ownership here and drop
+# straight back to tor, so the mount just works instead of needing a privileged sidecar to
+# prepare it. Mode 700 because tor also rejects a group or world readable DataDirectory.
+#
+# Guarded on being root so that running the image with an explicit --user still works: in
+# that case the directory is assumed to be set up already and this is a no-op.
+set -eu
+
+DATA_DIR=/var/lib/tor
+
+if [ "$(id -u)" = "0" ]; then
+    chown tor:tor "$DATA_DIR"
+    chmod 700 "$DATA_DIR"
+    # exec twice over, so tor still ends up as pid 1 and receives signals directly.
+    exec su-exec tor "$@"
+fi
+
+exec "$@"

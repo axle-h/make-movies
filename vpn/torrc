@@ -3,3 +3,8 @@ Log notice stdout
 DNSPort 0.0.0.0:8853
 SocksPort 0.0.0.0:9050
 DataDirectory /var/lib/tor
+
+# Health checks read status/circuit-established from here, see tor-health. Loopback only,
+# so it is reachable from inside the pod and nowhere else, and still cookie authenticated.
+ControlPort 127.0.0.1:9051
+CookieAuthentication 1

@@ -1,0 +1,29 @@
+#!/bin/sh
+# Ask tor itself whether it can build circuits, rather than fetching a page through the
+# proxy. An internet round trip is not a health signal: ipinfo.io started answering 403 to
+# exit nodes, which failed the probe forever against a tor that was working perfectly.
+#
+# status/circuit-established is tor's own answer to "am I on the network", so this stays
+# true no matter who decides to block exit traffic next.
+set -eu
+
+COOKIE_FILE=/var/lib/tor/control_auth_cookie
+CONTROL_HOST=127.0.0.1
+CONTROL_PORT=9051
+
+# The cookie is 32 raw bytes, the control protocol wants it hex encoded on one line.
+cookie=$(xxd -p -c 256 "$COOKIE_FILE")
+
+reply=$(
+    printf 'AUTHENTICATE %s\r\nGETINFO status/circuit-established\r\nQUIT\r\n' "$cookie" |
+        nc -w 5 "$CONTROL_HOST" "$CONTROL_PORT"
+)
+
+# 250-status/circuit-established=1 means tor believes it can build circuits. Anything else,
+# including an auth failure or a truncated reply, is unhealthy.
+case "$reply" in
+    *status/circuit-established=1*) exit 0 ;;
+esac
+
+echo "tor is not ready: ${reply:-no reply from the control port}" >&2
+exit 1

@@ -14,6 +14,11 @@ spec:
       labels:
         app: vpn
     spec:
+      volumes:
+        - name: tor-data
+          hostPath:
+            path: /var/make-movies-vpn
+            type: DirectoryOrCreate
       containers:
         - name: vpn
           image: "ghcr.io/axle-h/make-movies-vpn:latest"
@@ -21,18 +26,30 @@ spec:
           ports:
             - name: socks
               containerPort: 9050
+          # Keeps the cached consensus and, more importantly, the guard set across restarts.
+          # Rebuilding guards on every restart is both slow and bad for anonymity. A fresh
+          # hostPath arrives root owned and tor will not start on a DataDirectory it does not
+          # own, so the image entrypoint takes it over and drops back to tor.
+          volumeMounts:
+            - name: tor-data
+              mountPath: /var/lib/tor
+          # tor-health asks tor's own control port whether it can build circuits, so nothing
+          # here depends on a third party site staying happy to serve tor exit traffic. The
+          # previous probe fetched ipinfo.io, which now answers 403 to exit nodes, so it
+          # failed every single time and restarted a healthy tor roughly every three minutes.
+          #
+          # It is a local socket round trip, single digit milliseconds, but set an explicit
+          # timeoutSeconds anyway: it defaults to 1s and that default is what made the old
+          # probe unsurvivable.
+          startupProbe:
+            exec:
+              command: ["/usr/local/bin/tor-health"]
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 60   # up to 5 minutes to bootstrap, it normally takes under 10s
           livenessProbe:
             exec:
-              command:
-              - curl
-              - --fail
-              - -s
-              - --socks5-hostname
-              - localhost:9050
-              - ipinfo.io/ip
+              command: ["/usr/local/bin/tor-health"]
             periodSeconds: 60
-          startupProbe:
-            tcpSocket:
-              port: socks
-            failureThreshold: 10
-            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5    # tor recovers circuits on its own, only restart if it stays down
