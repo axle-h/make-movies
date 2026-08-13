@@ -4,6 +4,10 @@ metadata:
   name: api
 spec:
   replicas: 1
+  # The db is json files on the data hostPath, flushed on a timer. A rolling update would
+  # briefly run two pods against them, so take the old one down first.
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: api
@@ -19,7 +23,7 @@ spec:
             type: DirectoryOrCreate
         - name: downloads
           hostPath:
-            path: /mnt/storage/downloads
+            path: /var/downloads
             type: DirectoryOrCreate
         - name: data
           hostPath:
