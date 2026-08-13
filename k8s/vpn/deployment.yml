@@ -6,6 +6,11 @@ metadata:
     app: vpn
 spec:
   replicas: 1
+  # Tor holds a lock on its DataDirectory, and that is now a hostPath shared by any pod of
+  # this deployment. A rolling update would stand the new pod up while the old one still
+  # holds the lock, so it could never go ready and the rollout would wedge permanently.
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: vpn
