@@ -8,3 +8,15 @@ DataDirectory /var/lib/tor
 # so it is reachable from inside the pod and nowhere else, and still cookie authenticated.
 ControlPort 127.0.0.1:9051
 CookieAuthentication 1
+
+# A proxy with nothing scraping through it is idle, not finished. Tor otherwise decides it
+# has no user after DormantClientTimeout, stops fetching directory info and builds no
+# circuits, which tor-health then reports as unhealthy forever. The liveness probe this
+# replaced fetched a page through the socks port every 60s, which counted as client
+# activity and hid the problem; reading the control port does not, because it is not.
+DormantTimeoutEnabled 0
+
+# The dormant flag lives in the state file, which is now a persistent hostPath, so a tor
+# that fell asleep before the above was set wakes up still dormant on every restart and
+# never recovers on its own.
+DormantCanceledByStartup 1
