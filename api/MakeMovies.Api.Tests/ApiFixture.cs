@@ -27,14 +27,25 @@ public abstract class ApiTests
 [CollectionDefinition("Api")]
 public class ApiFixtureDefinition : ICollectionFixture<ApiFixture>;
 
-public sealed class ApiFixture : WebApplicationFactory<Program>
+public class ApiFixture : WebApplicationFactory<Program>
 {
-    public string TmpPath { get; } = Path.Join(Path.GetTempPath(), $"make-movies-test-{DateTime.UtcNow:yyyy-MM-ddTHH-mm-ss}");
+    public string TmpPath { get; } = Path.Join(Path.GetTempPath(), $"make-movies-test-{DateTime.UtcNow:yyyy-MM-ddTHH-mm-ss}-{Guid.NewGuid():N}");
     
     public WireMockServer WireMock { get; } = WireMockServer.Start();
     
     public Db Db => Services.GetRequiredService<Db>();
     
+    /// <summary>
+    /// Replaces the cookie and oidc schemes with <see cref="TestAuthHandler"/>. Turn this off to
+    /// exercise the real handlers, with the identity provider served by <see cref="WireMock"/>.
+    /// </summary>
+    protected virtual bool UseTestAuth => true;
+
+    /// <summary>
+    /// Layered over the base test configuration, so anything here wins.
+    /// </summary>
+    protected virtual IDictionary<string, string?> Configuration => new Dictionary<string, string?>();
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         Directory.CreateDirectory(TmpPath);
@@ -69,17 +80,22 @@ public sealed class ApiFixture : WebApplicationFactory<Program>
                 ["Download:BackgroundJobPeriod"] = "00:00:01",
                 ["Download:DownloadGracePeriod"] = "00:00:01",
 
-                // Never exercised, the test scheme below replaces every authentication default.
-                // These are only here to satisfy AuthOptions.ValidateOnStart.
+                // Only exercised when UseTestAuth is off, otherwise the test scheme below replaces
+                // every authentication default and these just satisfy AuthOptions.ValidateOnStart.
                 ["Auth:Authority"] = "https://sso.test/",
                 ["Auth:ClientId"] = "make-movies-test",
                 ["Auth:ClientSecret"] = "test-secret"
-            })).ConfigureTestServices(services =>
+            }).AddInMemoryCollection(Configuration)).ConfigureTestServices(services =>
             {
                 services.Configure<DownloadOptions>(o =>
                 {
                     o.Trackers = new List<string> {"udp://tracker1:1337/announce", "udp://tracker2:1337/announce"};
                 });
+
+                if (!UseTestAuth)
+                {
+                    return;
+                }
 
                 services.AddAuthentication()
                     .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestAuthHandler.SchemeName, _ => { });

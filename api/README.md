@@ -83,13 +83,18 @@ export Download__Transmission__Url=http://localhost:9091/transmission/
 export Db__Path=/var/make-movies
 
 # OpenID Connect. The client must be confidential, allow PKCE, and be registered with
-# redirect uri {public url}/signin-oidc and post logout redirect uri
-# {public url}/signout-callback-oidc. A user needs the Auth__Role role, default
+# redirect uri {public url}/signin-oidc. A user needs the Auth__Role role, default
 # make-movies. There is no Auth__PublicUrl: the api derives it from the request, so
 # anything in front of it has to forward Host and X-Forwarded-Proto.
 export Auth__Authority=https://sso.ax-h.com/
 export Auth__ClientId=make-movies
 export Auth__ClientSecret=my-client-secret
+
+# Sign out. A provider with an end_session_endpoint gets rp-initiated logout, so register
+# {public url}/signout-callback-oidc as its post logout redirect uri. One without (Authelia)
+# is sent to this url with ?rd={public url}/logged-out.html. Optional, defaults to
+# {Auth__Authority}logout.
+# export Auth__LogoutUrl=https://sso.ax-h.com/logout
 
 dotnet run --project MakeMovies.Api
 ```

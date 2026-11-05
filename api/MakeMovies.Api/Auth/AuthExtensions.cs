@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
@@ -20,6 +22,7 @@ public static class AuthExtensions
             .Validate(o => o.Disabled || o.Authority is not null, "Auth:Authority is required")
             .Validate(o => o.Disabled || !string.IsNullOrWhiteSpace(o.ClientId), "Auth:ClientId is required")
             .Validate(o => o.Disabled || !string.IsNullOrWhiteSpace(o.ClientSecret), "Auth:ClientSecret is required")
+            .Validate(o => o.Disabled || AuthOptions.IsValidLogoutUrl(o.LogoutUrl), "Auth:LogoutUrl must be an absolute http(s) url")
             .ValidateOnStart();
 
         // Tls is terminated at the ingress. Without this the redirect uri is built from the scheme we
@@ -159,7 +162,7 @@ public static class AuthExtensions
 
         options.ResponseType = OpenIdConnectResponseType.Code;
         options.UsePkce = true;
-        options.SaveTokens = true; // the id token is needed as id_token_hint at sign out
+        options.SaveTokens = false; // nothing reads them back, so keep them out of the cookie
         options.UseTokenLifetime = false; // else the cookie inherits the id token lifetime
         options.GetClaimsFromUserInfoEndpoint = true;
 
@@ -195,15 +198,29 @@ public static class AuthExtensions
             return Task.CompletedTask;
         };
 
+        options.Events.OnRedirectToIdentityProviderForSignOut = context =>
+        {
+            // A standard provider advertises an end session endpoint, leave rp-initiated logout to the handler.
+            if (!string.IsNullOrEmpty(context.ProtocolMessage.IssuerAddress))
+            {
+                return Task.CompletedTask;
+            }
+
+            // Authelia has no end session endpoint, and the handler would throw. Send the browser to
+            // its logout page instead, which ends the sso session and then follows rd. The local
+            // cookie is already gone: the cookie scheme is signed out before this one.
+            var request = context.Request;
+            var signedOut = UriHelper.BuildAbsolute(
+                request.Scheme, request.Host, request.PathBase, context.Options.SignedOutRedirectUri);
+
+            context.Response.Redirect(QueryHelpers.AddQueryString(auth.GetLogoutUrl().AbsoluteUri, "rd", signedOut));
+            context.HandleResponse();
+            return Task.CompletedTask;
+        };
+
         options.Events.OnTicketReceived = context =>
         {
             var properties = context.Properties!;
-
-            // Keep the cookie under 4kb, only the id token is ever used again.
-            var idToken = properties.GetTokenValue(OpenIdConnectParameterNames.IdToken);
-            properties.StoreTokens(idToken is null
-                ? []
-                : [new AuthenticationToken {Name = OpenIdConnectParameterNames.IdToken, Value = idToken}]);
 
             // The implicit challenge from the gated spa fallback carries no properties, so without
             // this we would issue a session cookie and force a login on every browser restart.

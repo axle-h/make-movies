@@ -45,9 +45,9 @@ public class AuthController : ControllerBase
             return LocalRedirect("/");
         }
 
-        // No properties: a redirect uri here would be sent as post_logout_redirect_uri and would
-        // bypass SignedOutRedirectUri. The oidc handler discovers the end session endpoint and
-        // attaches the saved id token as id_token_hint by itself.
+        // No properties: a redirect uri here would bypass SignedOutRedirectUri. The cookie scheme
+        // goes first so the local session is cleared whichever way the oidc scheme then leaves:
+        // rp-initiated logout at the end session endpoint, or Auth:LogoutUrl if there is none.
         return SignOut(
             CookieAuthenticationDefaults.AuthenticationScheme,
             OpenIdConnectDefaults.AuthenticationScheme);

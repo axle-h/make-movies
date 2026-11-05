@@ -67,10 +67,16 @@ client, they changed when auth moved out of the UI and into the API:
 | | |
 |---|---|
 | Redirect uri | `https://movies.ax-h.com/signin-oidc` |
-| Post logout redirect uri | `https://movies.ax-h.com/signout-callback-oidc` |
 
 PKCE must be permitted, and the client needs the `roles` scope. A user needs the
 `make-movies` role, which is `Auth__Role` if you want to change it.
+
+Authelia has no end session endpoint, so sign out clears the local cookie and sends the
+browser to `https://sso.ax-h.com/logout?rd=https://movies.ax-h.com/logged-out.html`.
+Authelia allows that `rd` because it is under `ax-h.com`. Set `Auth__LogoutUrl` to override
+the logout page. A provider that does advertise `end_session_endpoint` gets standard
+rp-initiated logout instead, and needs `https://movies.ax-h.com/signout-callback-oidc`
+registered as a post logout redirect uri.
 
 Note the ingress terminates tls, so the API relies on `X-Forwarded-Proto` from traefik to
 build those uris as https. Traefik sets it by default.
